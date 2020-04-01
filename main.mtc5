@@ -1,0 +1,4 @@
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4.1}A GAM to predict the methylation rate}{\reset@font\mtcSfont 33}{section.4.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1.1}Introduction to GAM models}{\reset@font\mtcSSfont 33}{subsection.4.1.1}}
+{\reset@font\mtcSSfont\mtc@string\contentsline{subsection}{\noexpand \leavevmode \numberline {4.1.2}Reasons to choose a GAM}{\reset@font\mtcSSfont 34}{subsection.4.1.2}}
+{\reset@font\mtcSfont\mtc@string\contentsline{section}{\noexpand \leavevmode \numberline {4.2}Fitting a GAM on methylome data}{\reset@font\mtcSfont 35}{section.4.2}}

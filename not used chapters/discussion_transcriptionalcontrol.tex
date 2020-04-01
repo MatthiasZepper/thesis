@@ -1,0 +1,167 @@
+\chapter{Transcriptional control in mixed-lineage leukemia}
+\label{chap:d:transcriptionalcontrol}
+\minitoc
+
+In the previous chapter, deviant methylation patterns of the \dnmtchip strain and their possible consequences were discussed. Based on the notion that the entirety of expressed genes defines the properties of the cell, a particular emphasis was placed on mechanisms, which would alter the transcriptome. 
+
+How such changes can be identified in measurements of transcript abundance, has already been summarized in \inlinerefpage{chap:r:degenes:basics}.  As explained in aforementioned section, the correct assessment of the variance represents a major obstacle for the determination of differentially expressed genes. 
+
+Although the variance comprises measurement errors and RNA degradation as well, it also reflects the heterogeneity of cells even within well defined populations. Therefore, it seems appropriate to put forward an updated perception of cell types. Subsequently, the phenotype of the \dnmtchip mouse will be reconsidered within this framework.
+
+\section{A rephrased conception of cell types}
+\label{chap:d:transcriptionalcontrol:celltype}
+
+The classical view of hematopoiesis is that of a hierarchy: At the very top resides a self-renewing long-term hematopoietic stem cell (HSC) population\cite{Wilson2007} and gives rise to a progeny of increasingly committed cell types\cite{Reya2001,Lara-Astiaso2014}. Major bifurcations in the hierarchy represent the origins of the hematopoietic lineages, whereas lesser bifurcations are constituted by the more committed progenitor populations. At each divide resides a distinct progenitor cell type, which is characterized by a specific signature of cell surface markers. The progenitor is able to spawn all subordinate cell types indifferently.   
+
+This concept is in perfect agreement with the renowned metaphor of the epigenetic landscape coined by Conrad H. Waddington in 1957\cite{waddington1957}: He used the image of a marble rolling down a slope into one of several branched grooves to illustrate cellular differentiation. The marble, which represents the cell, can retrace one possible trajectory. Ultimately, after the last divide, the cell's fate is set and it has reached its terminally differentiated state 	\reffigure{fig:waddingtonrefined}{, panel~A}. 
+
+ \begin{figure}[tbh]
+ 	\begin{minipage}{0.5\textwidth}
+ 		{\raggedright{\huge\bfseries \color{fbbioblue} A}\hspace{1em}{\Large Classic model}}\vspace{1em}\\
+ 		\begin{center}
+ 			\includegraphics[width=0.9\textwidth]{figures/output/vectors/waddingtonA.png} 
+ 		\end{center}
+ 	\end{minipage}
+ 	\begin{minipage}{0.5\textwidth}
+	 {\raggedright{\huge\bfseries \color{fbbioblue} B}\hspace{1em}{\Large Reprogramming}}\vspace{1em}\\
+	 \begin{center}
+	 	 \includegraphics[width=0.9\textwidth]{figures/output/vectors/waddingtonB.png} 
+	 \end{center}
+ 	\end{minipage} \vspace{3em} \\
+ 	\begin{minipage}{0.5\textwidth}
+ 		{\raggedright{\huge\bfseries \color{fbbioblue} C}\hspace{1em}{\Large Trans-differentiation}}\vspace{1em}\\
+ 		\begin{center}
+ 			\includegraphics[width=0.9\textwidth]{figures/output/vectors/waddingtonC.png} 
+ 		\end{center}
+ 	\end{minipage}
+ 	 	\begin{minipage}{0.5\textwidth}
+ 	 		{\raggedright{\huge\bfseries \color{fbbioblue} D}\hspace{1em}{\Large Primed gradual transitions}}\vspace{1em}\\
+ 	 		\begin{center}
+ 	 			\includegraphics[width=0.9\textwidth]{figures/output/vectors/waddingtonD.png} \vspace{1em}\\
+ 	 		\end{center}
+ 	 	\end{minipage}
+ 	\caption{Schematic visualization of the epigenetic landscape modeled after the original drawing of Conrad H. Waddington. Panel\panellabel{A} depicts the classic unidirectional model as it was initially proposed. The panels\panellabel{B}, \panellabel{C}  and \panellabel{D} illustrate newer findings, which raised issues with the metaphor of a static, downward sloping, dendritic topology.}
+ 	\label{fig:waddingtonrefined}
+ \end{figure}
+
+At this time, it was undoubtedly a visionary concept\citerev{Bard2008}, but unfortunately has to be considered too rigid from today's perspective: 
+
+\begin{itemize}
+	\item Because the marble only rolls downward, the classic model is unidirectional. It does not permit a cell to move back to a less differentiated state or to revisit a superordinate divide and enter an alternative route\reffigure{fig:waddingtonrefined}{, panel~B}. This epigenetic finality of a cell's fate has been refuted by findings such as the successful transfer of somatic nuclei into enucleated unfertilized eggs during cloning\cite{Gurdon1962,Byrne2003,Campbell1996,Wilmut1997}\citerev{Kikyo2000} or the acquisition of self-renewal properties by differentiated cells in cancer \cite{Hermann2007,Schepers2012,Driessens2012}\citerev{Donnenberg2005,Bjerkvig2005,Visvader2012}. Moreover, ectopic expression of the Yamanaka factors induces pluripotency in somatic cells, which can subsequently be differentiated into other somatic cell types \cite{Takahashi2006,Liu2008a}.  
+	 \item The marble can not traverse into another groove without getting back to the superordinate divide. This implies that a differentiated cell can only morph into another cell type by transiently acquiring the properties of their common progenitor\reffigure{fig:waddingtonrefined}{, panel~C}. However,  experiments suggest that cells can take a shortcut and trans-differentiate, at least within the same germ layer\citerev{Graf2011,Ladewig2013}. In hematopoiesis, trans-differentiation occurs when key transcription factors of one lineage are ectopically expressed in another lineage\cite{Feng2008,Kallin2012}. The same may also occur naturally during tumorigenesis as shown by our group\cite{Riemke2016} and others\cite{Feldman2008,Fraser2009,West2013}. 
+	 \item The epigenetic landscape model represents cellular differentiation as serial decisions with stable intermediates. These intermediates correspond to increasingly restricted progenitor cell types having defined characteristics: A stable transcriptome, determined epigenetic marks and a distinct signature of cell surface markers. Yet, single-cell sequencing has revealed that differentiation, at least of hematopoietic cells, is a rather continuous process\cite{Velten2017,Macaulay2016}. Thus, an updated model has to account for gradual transitions between the cell types\reffigure{fig:waddingtonrefined}{, panel~D}.  
+	 \item Furthermore, the classic valley model suggests a blank state at branchings, which means that the decision is just made upon encountering the divide\reffigure{fig:waddingtonrefined}{, panel~A}. However, recent works have elucidated that hematopoietic cell fate choices are primed far before the actual lineage separation takes place\cite{Paul2015,Drissen2016,Buenrostro2018}. These findings are in accordance with the notion that enhancer signatures characterize cell types superiorly and foreshadow future gene expression programs\cite{Lara-Astiaso2014,Arner2015,Corces2016}. Importantly, primed does not mean impossible to revise. It means malleable, but organized in advance of the determination\reffigure{fig:waddingtonrefined}{, panel~D}.
+\end{itemize}
+
+Waddington himself later revised the picture to show that the topology was underpinned by the influence of genes, since he became aware of a gene mutation in Drosophila, which causes the antennas to develop as additional limbs\citerev{Bard2008}. 
+
+Modern takes on the epigenetic landscape have suggested different metaphors such as a pinball machine\cite{Goldberg2007}. Here, the static, ramified topology is replaced by a play field that retains the downward slope, but consists of obstacles, gates, rails, switches, targets and such. This interpretation involves a significant increase in flexibility, a less strict directionality and variable developmental speeds. Yet, the metaphor fails to incorporate priming\reffigure{fig:waddingtonrefined}{, panel~D}, lacks a specific sequential order and introduces a great influence of chance events. Therefore, it might not be the best imagery to reconcile our current understanding of epigenetic mechanisms and cellular differentiation.   
+
+A better suited notion might be 
+
+spacetime
+https://medium.com/starts-with-a-bang/ask-ethan-if-mass-curves-spacetime-how-does-it-un-curve-again-ce51a391cdc4
+
+For hundreds of years prior to Einstein, our best gravitational theory came from Newton. Newton’s concept of the Universe was simple, straightforward, and philosophically dissatisfying to many. He claimed that any two masses in the Universe, no matter where they were located or how far apart they were, would instantaneously attract one another via a mutual force known as gravity. The more massive each mass was, the greater the force, and farther away they were (squared), the lesser the force. This would apply to all objects in the Universe, and Newton’s Law of Universal Gravitation, unlike all the other alternatives put forth, agreed with observations precisely.
+
+But it introduced an idea that many top intellectuals of the day could not accept: the concept of action-at-a-distance. How could two objects located half-a-Universe away suddenly and instantly exert a force on one another? How could they interact from so far away without anything intervening to mediate it? Descartes couldn’t accept it, and instead formulated an alternative where there was a medium that gravity traveled through. Space is filled with a type of matter, he argued, and that as a mass moved through it, it displaced that matter and created vortices: an early version of the aether. This was the earliest in a long line of what would be called mechanical (or kinetic) theories of gravity.
+
+Descartes’ conception, of course, was wrong. Agreement with experiment is what determines the utility of a physical theory, not our predispositions towards certain aesthetic criteria. When General Relativity came along, it changed the picture Newton’s laws had painted for us in some fundamental ways. For example:
+
+Space and time were not absolute and the same everywhere, but were related and behaved differently for observers moving at different speeds and at different locations.
+Gravitation isn’t instantaneous, but only travels at a limiting speed: the speed of light.
+And that gravitation isn’t determined by mass and position directly, but by the curvature of space, which itself is determined by the full suite of matter and energy throughout the Universe.
+Action-at-a-distance was here to stay, but Newton’s “infinite-range force through static space” was replaced by spacetime curvature.
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/vectors/forcefield.pdf} 
+	\caption{Visualization of a cell's development conceptualized as movement within a forcefield. The small gray arrows symbolize the directional force at a given location. Colored lines represent exemplary trajectories through the forcefield, which itself are a representation of the cells developmental capabilities and are shaped by the acting forces. Colored spheres represent cells at positions in the force field, where only small net forces act. These positions allow for very stable intermediate states, which could be considered as cell types.}
+	\label{fig:forcefieldcell}.
+\end{figure}
+ 
+
+\cite{Wilson2004,Klimmeck2012,Cabezas-Wallscheid2013,Cabezas-Wallscheid2014,Klimmeck2014}
+
+hematopoietic stem cells more frequent than previously thought\cite{Lee-Six2018}
+
+Ulirsch2019,Bresnick2019
+
+
+A different transcriptome = different cell type? 
+
+Human Cell Atlas
+
+TRANSCRIPTIONAL NOISE
+
+Transcriptional motifs, stabilizing noise! (FastForward Motif)
+
+
+ Long-term growth in serial xenografts and spheroids was driven by multiple genomic subclones with profoundly differing growth dynamics and hence different quantitative contributions over time. Strikingly, genetic barcoding demonstrated stable functional heterogeneity of CRC TcICs during serial xenografting despite near-complete changes in genomic subclone contribution. This demonstrates that functional heterogeneity is, at least frequently, present within genomic subclones and independent of mutational subclone differences.\cite{Giessler2017}
+
+
+Hematopoietic stem cells (HSC) with self-renewal capacities (red arrows) can be subdivided into long-
+term and short-term HSC and multipotent progenitors (MPP). Differentiation follows two major
+pathways: the lymphoid branch starting with the common lymphoid progenitor (CLP) and the
+myeloerythroid branch developing from the common myeloid progenitor (CMP). Formation of mature
+blood cells is achieved via various lineage specific progenitor stages. NK, natural killer; GMP,
+granulocyte-macrophage precursor; MEP, megakaryocyte-erythrocyte precursor; MkP, megakaryocyte
+precursor; ErP, erythrocyte precursor. Adapted from [Reya, et al., 2001].
+
+
+we synthesize past and present observations in the field of epigenetics to propose a model in which the epigenome can modulate cellular plasticity in development and disease by regulating the effects of noise. In this model, the epigenome facilitates phase transitions in development and reprogramming and mediates canalization, or the ability to produce a consistent phenotypic outcome despite being challenged by variable conditions, during cell fate commitment. After grounding our argument in a discussion of stochastic noise and nongenetic heterogeneity, we explore the hypothesis that distinct chromatin domains, which are known to be dysregulated in disease and remodeled during development, might underlie cellular plasticity more generally. We then present a modern portrayal of Waddington's epigenetic landscape through a mathematical formalism. We speculate that this new framework might impact how we approach disease mechanisms. In particular, it may help to explain the observation that the variability of DNA methylation and gene expression are increased in cancer, thus contributing to tumor cell heterogeneity.
+
+
+
+
+Changes in the biological processes of a cell are typically associated with an adaption on the genetic as well as the proteomic level. Stability, post-translational modification or cellular localization of proteins may change and the transcription of previously unexpressed genes may be initiated, while that of other genes ceases. 
+
+This heterogeneity  even when sampled from a clearly defined cell type. 
+which reflects  ultimately defines the properties of the cell.   
+
+Often hundreds of genetic changes can be observed in parallel owing to the complex regulatory circuitry of genomic pathways as well as the cellular heterogeneity within cell populations.
+
+
+
+
+
+% % % % % % % % % wörtlich aus Talkish % % % % % % bezüglich Effekten von Hypomethylierung bzw. random effects
+Introns are a prevalent feature of eukaryotic genomes, yet their origins and contributions to genome function and evolution remain mysterious. In budding yeast, repression of the highly transcribed intron-containing ribosomal protein genes (RPGs) globally increases splicing of non-RPG transcripts through reduced competition for the spliceosome. We show that under these "hungry spliceosome" conditions, splicing occurs at more than 150 previously unannotated locations we call protointrons that do not overlap known introns. Protointrons use a less constrained set of splice sites and branchpoints than standard introns, including in one case AT-AC in place of GT-AG. Protointrons are not conserved in all closely related species, suggesting that most are not under positive selection and are fated to disappear. Some are found in non-coding RNAs (e. g. CUTs and SUTs), where they may contribute to the creation of new genes. Others are found across boundaries between noncoding and coding sequences, or within coding sequences, where they offer pathways to the creation of new protein variants, or new regulatory controls for existing genes. We define protointrons as (1) nonconserved intron-like sequences that are (2) infrequently spliced, and importantly (3) are not currently understood to contribute to gene expression or regulation in the way that standard introns function. A very few protointrons in S. cerevisiae challenge this classification by their increased splicing frequency and potential function, consistent with the proposed evolutionary process of "intronization", whereby new standard introns are created. This snapshot of intron evolution highlights the important role of the spliceosome in the expansion of transcribed genomic sequence space, providing a pathway for the rare events that may lead to the birth of new eukaryotic genes and the refinement of existing gene function.\cite{Talkish2019}
+% % % % % % % % % % % % % % % % % % % % %5
+
+\section{Importance of transcriptional control for leukemogenesis}
+
+Due to its high similarity, MLL is considered to be the vertebrate homologue of the \emphspecies{Drosophila} positional identity regulator \proteinnamedrosophila{Trithorax}\cite{Gu1992,Tkachuk1992,Djabali1992}
+
+% motification of elongation as a mode of action of MLL-af9
+% wörtlich aus:
+The resulting chimeras are transcriptional regulators that take control of targets normally controlled by MLL with the clustered HOX homeobox genes as prominent examples. Recent studies suggested that MLL fusion partners activate transcription by two different mechanisms. Some of these proteins are themselves chromatin modifiers that introduce histone acetylation whereas other fusion partners can recruit histone methyltransferases. In particular, histone H3 specific methylation at lysine 79 catalyzed by DOT1L has been recognized as a hallmark of chromatin activated by MLL fusion proteins. Interestingly, several frequent MLL fusion partners seem to coordinate DOT1L activity with a protein complex that stimulates the elongation phase of transcription by phosphorylating the carboxy-terminal repeat domain of RNA polymerase II.\cite{Slany2009}
+See also: Many MLL fusion partners modulate elongation \cite{Slany2016}
+
+nice review, mind the CPB recruitment \cite{Muntean2012}
+
+epigenetic therapies for MLL-Af9 \cite{Neff2013}
+
+Elongation factor AF10 may also fuse with CALM instead MLL\cite{Dreyling1998}
+
+lncRNA recruits MLL to Hox gene cluster \cite{Yang2014}
+lncRNA in T-ALL\cite{ThiNgoc2018}
+
+\cite{Huang2014} Polycomb is required for MLL
+
+Especially late-onset leukemia are characterized by the presence of preleukemic hematopoietic stem cells, which have progressively acquired an increasing mutation burden over their lifetime. These cells are not yet leukemic and expansive, but exhibit spurious alterations in their gene expression programs and enhancers. Such genetic regulation patterns mimicking disparate developmental stages, ultimately increase susceptance to uncontrolled cellular expansion and are retained in the descendant leukemic clones, which was revealed by a study in late acute myeloid leukemia (AML)\cite{Corces2016}. 
+
+Although widespread aberrant alternative splicing across tumors has been documented\cite{Kahles2018}, which could potentially be attributable to gene-body hypomethylation\cite{Mendizabal2017}
+
+
+The therapeutic effect of DNA methyltransferase inhibitors (DNMTi) in cancer therapy has been widely attributed to the reversal of focal hypermethylations silencing tumour-suppressor genes\cite{Cai2017}. In a recent article in this journal Brocks et al.\cite{Brocks2017} however emphasized the role of epigenetically repressed cryptic promoters, which may become activated upon treatment and seriously perturb regular splicing. These promoters are referred to as \emph{treatment-induced non-annotated transcription start sites} (TINATs). Here we assess, whether a similar process can be observed, if DNA hypomethylation is induced by genetic DNA (cytosine-5)-methyltransferase~1 (Dnmt1) reduction instead of inhibitor treatment. Furthermore we show that MLL-AF9+ leukemia critically depends on appropriate DNA methylation levels to maintain transcriptional sanity, avoid senescence and ultimately preserve its full self-renewal capability. 
+
+
+
+Transcriptional misregulation comes at a price. See example case of Myc and how survival of the tumor is achieved. ensures that enhanced translation rates are compatible with survival and tumor progression.\cite{Tameire2019}.
+
+NSD3 \cite{Taketani2009,Vougiouklakis2015}
+PWWPdomain\cite{Qin2014}  PWWPdomain of BRPF1 binds \histhirtysixthree \cite{Vezzoli2010}
+PWWP1domain inhibitor by BoehringerIngelheim\cite{Boettcher2019}
+
+Lisenced to elongate in MLL\cite{Mohan2010}

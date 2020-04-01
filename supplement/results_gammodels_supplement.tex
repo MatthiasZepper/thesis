@@ -1,0 +1,45 @@
+\chapter{Modeling the methylation probability} 
+\enlargethispage{\baselineskip}
+\begin{figure}[!htb]
+	\vspace{-3em}
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_points_chr1_v2.pdf}
+	\caption[Modeled methylation within an annotated sample region on chr1]{Another \SI{1d7}{bp} chromosomal example region. Shown with colored lines is the modeled methylation probability, which is displayed on top of the measured methylation rate of single CpGs in a region. Tiles represent the underlying single CpG data to avoid overplotting - dark hues indicate a high CpG-density. Open chromatin ciLAD regions clearly associate with a higher backbone methylation in \dnmtchip \kitpos and also harbor most of the demethylated CpG-Islands.}
+	\label{fig:wgbs_gam_points_chr1.pdf}
+\end{figure}
+
+\setcounter{section}{2}
+\section{Comparison of GAM versus a sliding window approach}
+\label{chap:r:gam:gamvssliding}
+
+Smoothness in areas of low coverage and the possibility to account for specific CpG-Island methylation were the two main reasons to fit a GAM. To illustrate this, we conducted a series of comparisons with \SI{500}{bp} sliding windows. 
+
+\begin{figure}[!ht]
+	\centering \dnmtwt HSC
+	\includegraphics[width=\textwidth,page=1]{figures/output/methylome/wgbs_gam_validation/gam_plots_deviance_vs_coverage.pdf} 
+	\vspace{0.1em} \\ \dnmtwt \kitpos leukemia	\includegraphics[width=\textwidth,page=2]{figures/output/methylome/wgbs_gam_validation/gam_plots_deviance_vs_coverage.pdf}
+	\vspace{0.1em} \\ \dnmtchip \kitpos leukemia \includegraphics[width=\textwidth,page=3]{figures/output/methylome/wgbs_gam_validation/gam_plots_deviance_vs_coverage.pdf}
+	\caption{Comparison of the GAM-predicted methylscore at the center of a \SI{500}{bp} window with the average methylscore of all contained and covered CpGs. If the average methylscore surpasses the model's prediction (set to 0), the y-value of the window is positive, while a negative y indicates areas with less than expected methylation. A color-encoded density scale highlights areas with many individual points.}
+	\label{fig:wgbs_gam_validation1}
+\end{figure}\clearpage
+
+Initially, we compared the average methylscore of measured CpG values within the window to the modeled prediction. For a homogeneous methylome devoid of partial methylation like that of \dnmtwt HSCs, the model was generally representative in case the sections comprised \num{5} or more CpGs and also performed well for the majority of windows with fewer CpGs\reffigure{fig:wgbs_gam_validation1}{, top row}. 
+
+\begin{figure}[!ht]
+	\centering \dnmtwt HSC
+	\includegraphics[width=\textwidth,page=1]{figures/output/methylome/wgbs_gam_validation/gam_plots_diff_vs_cov.pdf} 
+	\vspace{0.1em} \\ \dnmtwt \kitpos leukemia	\includegraphics[width=\textwidth,page=2]{figures/output/methylome/wgbs_gam_validation/gam_plots_diff_vs_cov.pdf}
+	\vspace{0.1em} \\ \dnmtchip \kitpos leukemia \includegraphics[width=\textwidth,page=3]{figures/output/methylome/wgbs_gam_validation/gam_plots_diff_vs_cov.pdf}
+	\caption{Difference of the measured methylscore averages of two adjacent \SI{500}{bp} windows plotted against the average number of CpGs in these windows. If the downstream (3') located window is hypomethylated, the y-value is positive, while a negative y denotes pairs with a hypermethylated downstream window.}
+	\label{fig:wgbs_gam_validation2}
+\end{figure}\clearpage
+
+The deviation of measured and modeled methylation was much greater for leukemia methylomes and decreased only for windows containing more than \num{10} CpGs. In particular cLADs, which comprised many partially methylated CpGs, were difficult to model accurately and their persistency was generally overrated. Contrastingly the methylscore in ciLADs was typically predicted slightly lower than measured, which also held true for fLADs to a lesser extent\reffigure{fig:wgbs_gam_validation1}{, middle and bottom row}. Thus, the model was a reasonable compromise that could do justice to all three categories.
+
+Nevertheless its predictions should be used with caution for small genomic areas due to the model's smoothness, which by far surpassed those of the measured methylation. The latter was illustrated by the disparate average methylation of two subsequent \SI{500}{bp} windows. Usually two adjacent windows merely differed by less than \num{0.1} in HSCs, but often by \num{0.2} or more in leukemia\reffigure{fig:wgbs_gam_validation2}{}. In part these differences were seemingly attributable to low coverage, because they decreased in ciLADs and fLADs for windows comprising $>$\num{10} CpGs. Yet in cLADs methylscore averages of neighboring windows were highly variable regardless of the coverage, arguing for a mostly unordered, partial methylation in leukemia\reffigure{fig:wgbs_gam_validation2}{, center column, middle and bottom row}. 
+
+%\begin{figure}[!ht]
+ %\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam_validation/gam_plots_diff_vs_diff_box.pdf}
+%	\caption{}
+%	\label{fig:wgbs_gam_validation3}
+% \end{figure}

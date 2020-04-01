@@ -1,0 +1,57 @@
+\chapter{Methylome data of MLL-AF9 leukemia}
+\setcounter{section}{-1}
+\section{Whole genome bisulfite sequencing}
+\label{chap:r:wgbs:single_sample_clustering}
+
+\supplebox{This text precedes section 2.1 and provides additional information about the WGBS sequencing as well as the  cross-sample consistency for the replicates}
+
+Previous studies have already addressed the effects of \proteinnamemouse{Dnmt1} reduction in \mllafnine \cite{Broeske2009,Trowbridge2012}, but did not generate genome-wide methylome data such as RRBS or WGBS. To obtain the required amount of genomic DNA for WGBS, we had to broaden the \kit gate in the published flow-cytometry protocol\cite{Krivtsov2006}  slightly: Instead of sorting the 10\% cells with the highest \kit expression (termed \kithi) we resorted to a 20\% cutoff, which is well in agreement with other protocols\cite{Somervaille2006}. Nevertheless we refer to this population as \kitpos to avoid confusion. \mllafnine \dnmtwt \kitpos cells expressed significantly more \proteinnamemouse{Dnmt1} than a \kitlow (10 \% of the cells with the lowest \kit expression) control population, suggesting that \proteinnamemouse{Dnmt1} is particularly expressed in LSC-enriched fractions. Importantly, we also confirmed the expected lower \proteinnamemouse{Dnmt1} expression in both populations from \dnmtchip mice versus the respective wild-type control.
+
+The extracted genomic DNA was sent to our collaborators, the laboratory of Frank Lyko at the German Cancer Research Center (DKFZ) in Heidelberg, where it was further processed, bisulfite-converted and sequenced. The local bioinformatician Günter Raddatz ran the quality checks and aligned the reads to the \mmnine reference genome. We obtained a summary of the data with base\babelhyphen{nobreak}resolution genomic CpG\babelhyphen{nobreak}coordinates, methylation rate (methylscore) and read coverage, which was subsequently used for all further analyses. 
+
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/output/methylome/wgbs_single_sample_clustering/wgbs_single_sample_clustering.pdf} 
+	\caption[Hierarchical clustering of separate WGBS samples]{Hierarchical single-linkage clustering of the separate WGBS samples. The order was based on the Euclidean distance between the respective methylscores of all CpGs, which were covered with >3 reads in all samples (\ensuremath{n=\,}\num{65184}, \SI{0.15}{\percent}).}
+	\label{fig:wgbs:single:sample:clustering}
+\end{figure}
+
+As it was considered to be futile to obtain the required amount of cells to generate WGBS data from normal hematopoietic stem cells at that time (advanced protocols requiring much less input material were not yet available), the generation of healthy controls was omitted. For this reason, we accessed a published dataset of the Goodell laboratory, which comprised meta-samples of hematopoietic stem cells (HSCs) from several pooled mice after secondary transplants\cite{Jeong2014}.
+
+A hierarchical single-linkage clustering of the individual samples 	\reffigure{fig:wgbs:single:sample:clustering}{} showed that our own leukemia specimen clustered away from the healthy hematopoietic stem cells, thus confirming leukemia specific changes to the methylome. Evidently the Kendall rank correlation \reffigure{fig:wgbs:single:sample:corplot}{}corroborated leukemia-specific differences, but also shed light on the relatively poor comparability of the two HSC controls. Among the \mllafnine replicates, the \dnmtwt leukemia showed a high cross-sample consistency, which was to a slightly lesser extent also the case for the \dnmtchip genotype, which may be attributable to variable \proteinnamemouse{Dnmt1}-levels. However, it should not go unnoticed that these calculations could be skewed due to the small number of CpGs with sufficient coverage in all samples (\SI{0.15}{\percent} of \num{43445912} CpGs in the \mmnine reference genome). 
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/output/methylome/wgbs_single_sample_clustering/wgbs_single_sample_corrmatrix_kendall_complete.pdf} 
+	\caption [Correlation matrix for single WGBS samples]{Pairwise Kendall rank correlation coefficients \ensuremath{\tau} of the single WGBS samples. Only complete observations, ie CpGs, which were covered with >3 reads in all samples, were considered for the calculation (\ensuremath{n=\,}\num{65184}, \SI{0.15}{\percent}).}
+	\label{fig:wgbs:single:sample:corplot}
+\end{figure}
+
+\setcounter{section}{2}
+\section{Chromatin-state-dependent demethylation}
+\label{chap:r:wgbs:lad_demethylation}
+
+\supplebox{This text supplements section 2.2 and elaborates on the methylation cayons decribed in HSCs. Later studies clearly showed that the canyons are located in open-chromatin intergenic areas and thus are not related to the compromised regions.}
+\setcounter{subsection}{2}
+\subsection{Canyon methylation in \mllafnine leukemia}
+
+In 2014, the group of Margaret Goodell had characterized a possibly new methylation feature in hematopoietic stem cells and termed it canyons\cite{Jeong2014}. It referred to genomic areas of intermediate size (\SI{20}{\kilo b} - \SI{150}{\kilo b}), which often encompassed several complete genes or at least their promoters and stood out due to almost absent methylation. Jointly with other groups the notion was established that an intricate balance between de novo methylation and active as well as passive DNA-demethylation shapes the canyons and demarcates their limits\cite{Challen2014,Wiehle2016}. Hypermethylation of the canyons can 
+impair leukemogenesis\cite{Schulze2016} and affects pluripotency and differentiation in general\cite{Rulands2018}.
+
+Therefore, we gave consideration to the possibility that malformed canyons might contribute to the self-renewal impairment observed for \dnmtchip \kitpos cells. We looked for eroded borders (due to passive demethylation) or hypermethylation (because of potential increased levels of compensatory de novo methylation) in \dnmtchip without detecting abnormalities\dns. No relevant leukemia-specific aberrations could be found, regardless whether the regular HSC canyons or the enlarged derivatives from \proteinnamemouse{Dnmt3a} hypomorphic mice were used. On average the methylation of some canyons and the CpG-Islands within slightly increased in \dnmtwt leukemia (from \num{0} to $\leq$\num{0.25}), but the vast majority remained fully unmethylated\reffigure{fig:wgbs_sliding_windows8}{}. The intra-leukemia contrast did not point to significant changes in methylation with regard to the canyons.\reffigure{fig:wgbs_sliding_windows9}{}. In summary, we concluded that the deteriorated self-renewal and senescence in \dnmtchip was not related to alterations in the canyons. 
+
+\begin{figure}[!ht]
+	%Canyon CpGs HSCwt vs LSCwt 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows8.pdf} 
+	\caption[Scatterplot of canyon methylation for \dnmtwt HSC vs. LSC contrast]{Solely CpGs located in known methylation canyons from normal, healthy HSCs were mapped either on \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b} steps) or CpG-Islands to generate these scatterplots of average methylscores.}
+	\label{fig:wgbs_sliding_windows8}
+\end{figure}
+
+\begin{figure}[!ht]
+	% Canyon CpGs LSCwt vs LSCcchip 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows9.pdf} 
+	\caption[Scatterplot of intra-leukemia comparison for canyons]{Contrast of \dnmtchip vs. \dnmtwt \kitpos leukemic cells for the same regions and CpGs used above for \autoref{fig:wgbs_sliding_windows8}.}
+	\label{fig:wgbs_sliding_windows9}
+\end{figure}

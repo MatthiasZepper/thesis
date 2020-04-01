@@ -1,0 +1,88 @@
+\select@language {english}
+\addvspace {1em}
+\contentsline {chapter}{\numberline {1}Introduction to enhancers and other cis-regulatory elements}{5}{chapter.1}
+\contentsline {section}{\numberline {1.1}Gene-regulatory genomics}{5}{section.1.1}
+\contentsline {subsection}{\numberline {1.1.1}Classes of cis-regulatory elements}{6}{subsection.1.1.1}
+\contentsline {section}{\numberline {1.2}Characteristics of eukaryotic enhancers}{8}{section.1.2}
+\contentsline {subsection}{\numberline {1.2.1}Mode of action}{8}{subsection.1.2.1}
+\contentsline {subsection}{\numberline {1.2.2}Enhancer states and activation}{9}{subsection.1.2.2}
+\contentsline {subsection}{\numberline {1.2.3}Enhancer RNAs}{10}{subsection.1.2.3}
+\contentsline {section}{\numberline {1.3}Methods for genome-wide identification of enhancers}{11}{section.1.3}
+\contentsline {section}{\numberline {1.4}Enhancer involvement in pathogenesis}{14}{section.1.4}
+\contentsline {subsection}{\numberline {1.4.1}Examples of pathogenic enhancer abnormalities}{14}{subsection.1.4.1}
+\contentsline {subsection}{\numberline {1.4.2}Enhancers contribute to leukemogenesis}{15}{subsection.1.4.2}
+\contentsline {chapter}{\numberline {2}Methylome data of MLL-AF9 leukemia}{17}{chapter.2}
+\contentsline {section}{\numberline {2.0}Whole genome bisulfite sequencing}{17}{section.2.0}
+\contentsline {section}{\numberline {2.3}Chromatin-state-dependent demethylation}{19}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.3}Canyon methylation in MLL-AF9\xspace leukemia}{19}{subsection.2.3.3}
+\contentsline {chapter}{\numberline {3}Specification of the compromised regions}{21}{chapter.3}
+\contentsline {section}{\numberline {3.3}Standard approach failed to discriminate domain borders}{21}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Emulation of the MethylSeekR methodology}{21}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}Improvements to the MethylSeekR methodology}{23}{subsection.3.3.2}
+\contentsline {subsection}{\numberline {3.3.3}Maloperation of both beta-like models}{23}{subsection.3.3.3}
+\contentsline {chapter}{\numberline {4}Modeling the methylation probability}{27}{chapter.4}
+\contentsline {section}{\numberline {4.3}Comparison of GAM versus a sliding window approach}{28}{section.4.3}
+\contentsline {chapter}{\numberline {5}Relationship of chromatin structure and methylation persistency}{31}{chapter.5}
+\contentsline {section}{\numberline {5.1}Categorical methylation persistency}{31}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Methylation in unexpected regions}{32}{subsection.5.1.1}
+\contentsline {section}{\numberline {5.2}Determining factors of methylation persistency}{35}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Underlying DNA sequence}{35}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Chromosomal Insulation and Interaction}{39}{subsection.5.2.2}
+\contentsline {chapter}{\numberline {6}Methylome analysis of matched non-malignant hematopoietic progenitors}{43}{chapter.6}
+\contentsline {section}{\numberline {6.2}Leukemia-related demethylation revisited}{43}{section.6.2}
+\contentsline {section}{\numberline {6.3}Compromised region addendum}{44}{section.6.3}
+\contentsline {chapter}{\numberline {7}Transcriptional analysis}{47}{chapter.7}
+\contentsline {section}{\numberline {7.1}Characterization of Dnmt1-hypomorphic transcription}{47}{section.7.1}
+\contentsline {section}{\numberline {7.2}Genotype validation}{49}{section.7.2}
+\contentsline {subsection}{\numberline {7.2.1}RNA-seq}{49}{subsection.7.2.1}
+\contentsline {subsection}{\numberline {7.2.2}CAGE-seq}{50}{subsection.7.2.2}
+\contentsline {section}{\numberline {7.3}Expression analysis}{51}{section.7.3}
+\contentsline {subsection}{\numberline {7.3.1}Stray transcription of reference transcripts}{51}{subsection.7.3.1}
+\contentsline {chapter}{\numberline {8}Differentially expressed genes}{55}{chapter.8}
+\contentsline {section}{\numberline {8.1}Basics of differential gene expression analysis}{55}{section.8.1}
+\contentsline {section}{\numberline {8.2}Expression changes}{57}{section.8.2}
+\contentsline {section}{\numberline {8.3}Contrast of Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip -/chip}\xspace vs. Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip +/+}\xspace }{59}{section.8.3}
+\contentsline {subsection}{\numberline {8.3.1}Transcripts with hypomethylated promoters}{59}{subsection.8.3.1}
+\contentsline {section}{\numberline {8.4}H3K4me3 buffer domains}{60}{section.8.4}
+\contentsline {chapter}{\numberline {9}Experimental transcriptome}{65}{chapter.9}
+\contentsline {section}{\numberline {9.1}Assembly of non-reference transcripts}{65}{section.9.1}
+\contentsline {section}{\numberline {9.2}Expression of non-reference transcripts}{68}{section.9.2}
+\contentsline {section}{\numberline {9.3}Methylation of non-reference transcripts}{69}{section.9.3}
+\contentsline {section}{\numberline {9.4}Isolated transcriptional initiation events}{71}{section.9.4}
+\contentsline {chapter}{\numberline {10}Enhancer calling and classification}{77}{chapter.10}
+\contentsline {section}{\numberline {10.1}CAGE-seq derived enhancers}{77}{section.10.1}
+\contentsline {section}{\numberline {10.2}Enhancer intersection}{79}{section.10.2}
+\contentsline {section}{\numberline {10.3}Enhancer clustering}{81}{section.10.3}
+\contentsline {subsection}{\numberline {10.3.1}Major cluster assignment by k-means}{81}{subsection.10.3.1}
+\contentsline {section}{\numberline {10.4}Additional plots for clades enriched for CAGE-enhancers}{84}{section.10.4}
+\contentsline {section}{\numberline {10.5}ATAC-seq for enhancers in MLL-AF9\xspace leukemia}{85}{section.10.5}
+\contentsline {chapter}{\numberline {11}Enhancer motifs and regulation}{91}{chapter.11}
+\contentsline {section}{\numberline {11.1}Methylation of enhancers and their motifs}{91}{section.11.1}
+\contentsline {subsection}{\numberline {11.1.1}Methylation mapping at isolated motifs}{91}{subsection.11.1.1}
+\contentsline {chapter}{\numberline {12}Enhancer target genes}{97}{chapter.12}
+\contentsline {section}{\numberline {12.1}Assignment of enhancer target promoters}{97}{section.12.1}
+\contentsline {section}{\numberline {12.2}Targeted genes and biological implications}{101}{section.12.2}
+\contentsline {subsection}{\numberline {12.2.1}Exemplary single enhancer-promoter connections}{101}{subsection.12.2.1}
+\contentsline {paragraph}{Irf2bp2:}{101}{subsection.12.2.1}
+\contentsline {paragraph}{Pten:}{101}{subsection.12.2.1}
+\contentsline {paragraph}{Fosl2 / Spred1:}{102}{subsection.12.2.1}
+\contentsline {subsection}{\numberline {12.2.2}Selected loci featuring an interplay of multiple enhancers}{102}{subsection.12.2.2}
+\contentsline {paragraph}{Irf2bp2:}{103}{figure.caption.65}
+\contentsline {paragraph}{Rhog/Nup98:}{105}{figure.caption.66}
+\contentsline {paragraph}{Ikzf2:}{108}{figure.caption.68}
+\contentsline {subsection}{\numberline {12.2.3}Preliminary CRISPR-dCas9 experiments}{110}{subsection.12.2.3}
+\contentsline {section}{\numberline {12.3}Assessment of Mll2 target genes}{111}{section.12.3}
+\contentsline {chapter}{\numberline {13}Tables of differentially expressed genes}{115}{chapter.13}
+\contentsline {section}{\numberline {13.1}RNA-seq Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip -/chip}\xspace vs. Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip +/+}\xspace }{115}{section.13.1}
+\contentsline {section}{\numberline {13.2}Altered KEGG pathways in Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip -/chip}\xspace }{118}{section.13.2}
+\contentsline {section}{\numberline {13.3}Upregulated genes, hypomethylated promoter in Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip -/chip}\xspace }{124}{section.13.3}
+\contentsline {section}{\numberline {13.4}Genes covered by H3K4me3\xspace buffer domain}{125}{section.13.4}
+\contentsline {chapter}{\numberline {14}Supplementary tables for enhancer chapters}{131}{chapter.14}
+\contentsline {section}{\numberline {14.1}Clade testing for accumulation of CAGE-enhancers}{131}{section.14.1}
+\contentsline {section}{\numberline {14.2}Top 100 enhancer promoter interactions}{136}{section.14.2}
+\contentsline {section}{\numberline {14.3}Top 100 genes by enhancer enrichment}{141}{section.14.3}
+\contentsline {section}{\numberline {14.4}Cloned sgRNAs for CRISPRi experiments}{144}{section.14.4}
+\contentsline {section}{\numberline {14.5}Transcripts responding to Mll2 deletion mediated putatively by enhancer(s)}{145}{section.14.5}
+\contentsline {chapter}{Bibliography}{147}{section*.74}
+\vspace \smallskipamount 
+\contentsline {subparagraph}{}{168}{chapter*.75}

@@ -1,0 +1,44 @@
+ % for some reason the line spacing in the minitoc is too large due to the two line chapter title.
+% UPDATE: Was coincidental. The amount of text was just in a range that would cause the section to start on the next page.
+\chapter{Methylome analysis of matched non-malignant hematopoietic progenitors}
+\renewcommand{\arraystretch}{0.8}
+\label{chap:r:wgbs_chip_hsc}
+\minitoc
+\renewcommand{\arraystretch}{1.4}
+
+In the previous chapters our efforts to characterize specific methylome aberrations, which confer a cell-autonomous self-renewal deficit on \dnmtchip \kitpos leukemia, were detailed out. However, an essential cue was missing, as we did not have matched WGBS data from healthy \dnmtchip or \dnmtwt hematopoietic stem/progenitor cell (HSPC) to compare the leukemia data to.
+
+Since we had ascertained disordered lymphoid lineage development\cite{Broeske2009}, it seemed likely that hypomethylation in part occurred already in the non-transformed HSPCs and was not strictly limited to the period after leukemic induction by \mllafnine transformation\dissrefpage{chap:d:methylation:shaping}. Therefore, it was highly desirable to separate the preexisting \dnmtchip methylome alterations from those inflicted after transformation of HSPCs with \mllafninegfp e.g. due to the much faster cell cycling and rapid expansion. 
+
+
+\section{WGBS data of the MPP hierarchy}
+\label{chap:r:wgbs_chip_hsc:mpp}
+
+For the longest time of the project, we could not generate WGBS data because the state of the technology did not allow profiling of such small populations. Finally, a cooperation with Daniel Lipka provided us access to his tagmentation-based whole genome bisulfite sequencing (TWGBS) method\cite{Lipka2014} and permitted us to investigate even the earliest stages of hematopoietic development with some of the rarest populations of the hierarchy. Early stem and multipotent progenitor cells were separated by the canonical six surface makers (Sca1, c-Kit, CD135, CD48, CD150, and CD34)\cite{Wilson2007} into the four early populations HSC and MPP1 to MPP3.
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_healthy/wgbs_healthy_cchip1.pdf} 
+	\caption{Scatterplot of the global methylation levels in the early hematopoietic hierarchy in \dnmtwt and \dnmtchip mouse strains. All CpGs have been mapped on \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b}) and the difference between the wild-type and hypomorphic hematopoietic stem/progenitor cells (HSPC) is visualized as dotplot. A black arrow indicates relatively persistent regions with roughly \SI{75}{\percent} methylation in normal HSCs, whose frequency is gradually decreasing in MPPs.}
+	\label{fig:wgbs_healthy_cchip1}
+\end{figure}
+
+Those populations are known to differ by the occupied niches and their balance between self-renewal and differentiation activity, which also implies a different cell cycling rate. Based on a presumed strong influence of passive methylation loss in \dnmtchip, we were expecting to see an aggravated demethylation when the relatively dormant HSC gives way to the faster cycling MPP populations. However, a direct comparison between the matched populations of \dnmtchip and \dnmtwt \reffigure{fig:wgbs_healthy_cchip1}{} showed that the majority of methylation loss had already occurred on HSC level. The \dnmtchip vs. \dnmtwt comparison in all four cell populations exhibited the bimodal pattern of persistent and compromised regions described previously for the leukemic cells\dissrefpage{chap:r:wgbs:demethylation}	\reffigurepage{fig:wgbs_gam_diff_chr14}{}. 
+
+However, the degree of separation was variable and a particular group of relatively persistent regions (with roughly \SI{75}{\percent} methylation in normal HSCs) seemed to abate upon differentiation\reffigure{fig:wgbs_healthy_cchip1}{, black arrows}. Based on these plots it appeared possible that those sections gradually hypermethylated in wild-type MPPs, but failed to do so in \dnmtchip. Yet, a direct comparison of the MPP3 population with the matched HSC data showed only marginal changes at the \SI{100}{\kilo b} resolution \reffigure{fig:wgbs_healthy_cchip2}{}. 
+
+Initially, we had hypothesized that the formation of compromised regions was causally linked to senescence and cell cylce exit, which we had predominantly observed in leukemia the \dnmtchip background\dissrefpage{chap:i:abridged:project:previous_results}. However, HSCs from \dnmtchip were mostly negative in \ensuremath{\beta}-galactosidase (\ensuremath{\beta}-gal) staining. Thus, based on this finding, we had to challenge close ties between the presence of compromised regions and senescence. For a detailed discussion see \autoref{chap:d:methylation:compromisedregions:effect} on page \pageref{chap:d:methylation:compromisedregions:effect}. 
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_healthy/wgbs_healthy_cchip2.pdf} 
+	\caption{Scatterplot of the HSC/MPP3 contrast for \dnmtwt (left panel) and \dnmtchip (right panel) hematopoietic progenitors. The CpGs have been mapped on \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b} steps) to generate these graphs of average methylation.}
+	\label{fig:wgbs_healthy_cchip2}
+\end{figure}
+
+\section{Leukemia-related demethylation revisited}
+ \label{chap:r:wgbs_chip_hsc:leukemia}\label{chap:r:wgbs_chip_hsc:compromised}
+ 
+ The new data permitted us to revisit the extent of demethylation upon transformation by \mllafnine \dissrefpage{chap:r:wgbs:demethylation}. For most of the project we were reliant on third-party methylome data of HSCs\dissrefpage{chap:ap:thirdpartydata:wgbs}, which was generated from \mmblsix mice\cite{Jeong2014}. However, the new data showed that the HSCs of \dnmtwt \mmsvjae were hypomethylated by approximately \SI{10}{\percent} in comparison to those from \mmblsix \supple. Thus, we may have overestimated the methylation loss  accompanying leukemic transformation by \mllafnine \reffigurepage{fig:wgbs_violinplot}{}, particularly in the case of \dnmtwt. 
+ 
+ By applying the formula $x_{c/chip} \leq f(x) = 0.7 \cdot \sin ((x_{wt} + 0.26)^5)$, which we developed to separate compromised regions in a sliding window analysis, we surprisingly could also detected a few compromised regions in \dnmtwt.  A set of lowly methylated regions in leukemia (\SIrange{25}{45}{\percent} methylation) was \SI{80}{\percent} methylated in \dnmtwt healthy controls \supple.  It seemed plausible that their rather arbitrary level of methylation was permitted by a lack of negative selection.	

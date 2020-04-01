@@ -1,0 +1,76 @@
+This is BibTeX, Version 0.99d (TeX Live 2018)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: main.aux
+The style file: plos2015.bst
+A level-1 auxiliary file: abstract.aux
+A level-1 auxiliary file: acknowledgements.aux
+A level-1 auxiliary file: introduction_abridged.aux
+A level-1 auxiliary file: results_wgbs.aux
+A level-1 auxiliary file: results_wgbs_betadist.aux
+A level-1 auxiliary file: results_gammodels.aux
+A level-1 auxiliary file: results_gam_chromatin.aux
+A level-1 auxiliary file: results_wgbs_cchip.aux
+A level-1 auxiliary file: results_deregulated_genes.aux
+A level-1 auxiliary file: results_deregulated_genes_tinats.aux
+A level-1 auxiliary file: results_enhancer_clustering.aux
+A level-1 auxiliary file: results_enhancer_motifsregulation.aux
+A level-1 auxiliary file: discussion_nuevageneracion.aux
+A level-1 auxiliary file: discussion_methylation_persistence.aux
+A level-1 auxiliary file: discussion_enhanceractivation.aux
+A level-1 auxiliary file: appendix_thirdpartydata.aux
+A level-1 auxiliary file: appendix_samples.aux
+A level-1 auxiliary file: cv2019strip.aux
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated field_info (elt_size=4) to 19586 items from 5000.
+Database file #1: references.bib
+Reallocated str_pool (elt_size=1) to 130000 items from 65000.
+Reallocated str_pool (elt_size=1) to 195000 items from 130000.
+Warning--empty author and editor in rproject
+Warning--missing publisher in rproject
+Warning--empty author and editor in Zhao2015
+Warning--missing publisher in Zhao2015
+You've used 429 entries,
+            3170 wiz_defined-function locations,
+            3797 strings with 173576 characters,
+and the built_in function-call counts, 1334847 in all, are:
+= -- 162627
+> -- 9176
+< -- 6
++ -- 5049
+- -- 2294
+* -- 122664
+:= -- 143675
+add.period$ -- 1835
+call.type$ -- 429
+change.case$ -- 5
+chr.to.int$ -- 0
+cite$ -- 433
+duplicate$ -- 80267
+empty$ -- 132484
+format.name$ -- 2697
+if$ -- 308274
+int.to.chr$ -- 0
+int.to.str$ -- 429
+missing$ -- 5658
+newline$ -- 2273
+num.names$ -- 429
+pop$ -- 8282
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 9557
+stack$ -- 0
+substring$ -- 313470
+swap$ -- 12246
+text.length$ -- 6
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 4
+while$ -- 5187
+width$ -- 432
+write$ -- 4958
+(There were 4 warnings)

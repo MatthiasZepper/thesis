@@ -1,0 +1,78 @@
+\chapter{Specification of the compromised regions}
+\label{chap:r:comprom:introduction} 
+\minitoc
+
+In the previous chapter, it was shown that the genome of the \dnmtchip \kitpos leukemia could be subdivided into areas of variable methylation levels, which mostly associated with the underlying chromatin structure \dissrefpage{chap:r:wgbs:lad_demethylation}. Lamina-associated domains (LADs) seemed to demethylate to a larger extent, whereas open inter-LAD areas tended to preserve methylation better. From the perspective of methylation, we could therefore distinguish compromised and persistent areas in the genome of \dnmtchip.
+
+The sliding \SI{100}{\kilo b} window analysis gave us a first idea of how the cells' methylation would change upon \proteinnamemouse{Dnmt1} insufficiency. Nevertheless, the accuracy fell short of our requirements in order to understand the implications on leukemia development and self-renewal. Thus, we sought to precisely map the borders of the compromised areas and to quantify the methylation persistency. 
+
+\section{Demethylation at single CpG resolution}
+\label{chap:r:comprom:single_cpg}
+
+In a bottom-up approach we addressed the methylscores of the single CpGs first. One should be aware that methylation is intrinsically binary - a cytosine may be methylated or not. Intermediate methylscores like \num{0.75} thus essentially reflect an average rate across multiple cells or alleles. 
+
+On average, \dnmtchip methylomes were globally hypomethylated by \SIrange{10}{30}{\percent}. This meant, either a few CpGs within the \SI{100}{\kilo b} window changed their methylation status completely from methylated to unmethylated or many CpGs hypomethylated slightly. We detected a large number of slightly hypomethylated CpGs in \dnmtchip \kitpos leukemia, which suggested a rather random, passive loss of methylation across cell divisions due to insufficient maintenance. In contrast, the incidence of CpGs, which changed from fully methylated to unmethylated was negligible \reffigure{fig:wgbs_cpgdensplot_LSCdiffoverall}{}. 
+
+%Kendall's\ensuremath{~\tau = 0.82}
+
+\begin{figure}[!ht]
+	% SingleCpG densities
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_lscdiff_LADregions_density/wgbs_cpgdensplot_LSCdiffoverall.pdf} 
+	\caption{Kernel density estimates for methylscore differences on single CpG level, separated by the annotated chromatin state\cite{Meuleman2013}. A high density implies that many CpGs exhibit a particular methylscore difference, which is calculated by subtraction of the \dnmtchip \kitpos methylscore from those of \dnmtwt \kitpos leukemia.}
+	\label{fig:wgbs_cpgdensplot_LSCdiffoverall}
+\end{figure}
+
+\begin{figure}[!ht]
+	% SingleCpG densities
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_lscdiff_LADregions_density/wgbs_cpgdensplot_LSCdiffoverall_over.pdf} 
+	\caption{Overlay of the density estimates from {\color{fbbioblue}Figure~}\ref{fig:wgbs_cpgdensplot_LSCdiffoverall} for better comparability. Mind the different scale (logarithmic vs. linear scale) in the two panels to aid visual inspection of different areas of the density estimates. The left panel focuses on the low-density from \numrange{-0.8}{-0.2} and the right panel on the high density at \num{0} methylscore difference. Local maxima at \num{-0.5},\num{-0.33},\num{-0.25} can be explained by the low cutoff: We permitted all CpGs with a coverage of 3 or more reads.}
+	\label{fig:wgbs_cpgdensplot_LSCdiffoverall_over}
+\end{figure}
+
+In terms of magnitude the annotated chromatin state was essentially irrelevant, the slightly greater demethylation in cLADs was only visible in the case of a log-scaled y-axis\reffigure{fig:wgbs_cpgdensplot_LSCdiffoverall_over}{, left panel}. The overlay of the density plots however also revealed that the absolute number of persistent CpGs dramatically decreased in fLADs and cLADs compared to ciLADs\reffigure{fig:wgbs_cpgdensplot_LSCdiffoverall_over}{, right panel}.
+
+Around the same time, a comprehensive WGBS analysis of human methylomes had suggested, that merely \SI{22}{\percent} of CpGs are dynamically regulated and serve regulatory purposes\cite{Ziller2013}. In light of this study, our own results therefore pointed towards a lack of negative selection in lamina-associated areas. Since these genomic areas are commonly compacted as heterochromatin\cite{Guelen2008}, the need to regulate e.g. transcription factor binding by methylation \cite{Stadler2011} is not present. Hence, a lack of negative selection was comprehensible. 
+
+\section{Increased partial methylation in leukemia}
+\label{chap:r:comprom:partial} 
+
+The distinctive feature between ciLAD, fLAD and cLAD on single CpG resolution was not the magnitude of demethylation but the absolute number of hypomethylated CpGs\reffigure{fig:wgbs_cpgdensplot_LSCdiffoverall_over}{}. Therefore, also persistent and compromised regions mostly differed by the number of CpGs with partial methylation, namely methylscores which were elements of the open interval $\interval[open]{0}{1}$. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_betadist_plots/wgbs_density_chr3_v2.pdf} 
+	%\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_betadist_plots/wgbs_density_chr2_regions.pdf} 
+	\caption[Methylation status within a sample region on chr3]{Methylation status in a \SI{2.2d7}{bp} region of chromosome~3, the y-axis
+		denotes the CpGs' methylation rate. To avoid overplotting, no single CpGs are shown. Instead tiles represent the underlying data - dark hues indicate a high CpG-density. The overall frequency for the respective percentage values is summarized by density estimates on the right - mind the square-root transformation of the scale.}
+	\label{fig:wgbs_density_chr3}
+\end{figure}
+
+Although we could confirm this claim, we also measured a surprisingly high amount of partial methylation in \dnmtwt \kitpos leukemia. \reffigure{fig:wgbs_density_chr3}{}. In contrast to the published methylome of \dnmtwt hematopoietic stem cells\cite{Jeong2014}, both \kitpos leukemia methylomes were heavily skewed towards arbitrary partial methylation. A square-root transformation was required to represent the density estimates of the three samples at scale, otherwise it would not have been possible to fit the unambiguously methylated CpGs in the HSC methylome, which by far outnumber the relative amount of such CpGs in the leukemia samples. The hypomethylation, but not the increase in partial methylation, had been described in \mllafnine AML before\citerev{Schoofs2013}.
+
+\begin{figure}[!bht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_betadist_plots/wgbs_density_chr5_v2.pdf}
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_betadist_plots/wgbs_density_chr5_regions.pdf} 
+	\caption[Methylation status within an annotated sample region on chr5]{Methylation status in a \SI{3d7}{bp} region of chromosome~5. The location of each CpG is determined by its chromosomal position (on x-axis) and methylation rate (on y-axis). To avoid overplotting, tiling was applied such that dark color indicates a high CpG density. Colored blocks below indicate the extent of chromatin or sequence features on the underlying DNA. Overall frequency for the methylation percentage values for the full set of CpGs is summarized by density estimates on the right.}
+	\label{fig:wgbs_density_chr5}
+\end{figure}
+
+Despite the dramatic, genome-wide increase in partial methylation, it was possible to visually spot areas of higher and lower methylation persistence in leukemia across large, megabase-spanning domains. In some genomic sections the amount of almost fully methylated CpGs (in the range of \numrange{0.70}{0.95}) considerably surpassed those of neighboring areas and was reflected in visually darker zones in the figures\reffigure{fig:wgbs_density_chr3}{,\,\autoref{fig:wgbs_density_chr5}}. Integration with annotated chromatin states\cite{Meuleman2013} corroborated that these darker zones were in coincidence with ciLADs (shown in dark green) and therefore argued for a higher methylation persistence in open genomic regions. Evidently, the density of well maintained CpG-Islands \dissrefpage{chap:r:wgbs:lad_demethylation_cgi} was higher in ciLAD areas \reffigure{fig:wgbs_density_chr5}{}, which may have contributed to the overall better persistency in these areas. However, also when the CGIs had been excluded beforehand from the analysis, the heterogeneity persisted\reffigure{fig:wgbs_sliding_windows6}{,\,{\color{fbbioblue}p.}\pageref{fig:wgbs_sliding_windows6}}.
+
+Given the association of methylation persistence and lamina-association,  we proposed that it would be conversely possible to infer the chromatin organization from the observed methylation pattern. Therefore, we aimed to precisely delineate persistent and compromised regions to derive insights into the \mllafnine chromatin with the help of the \dnmtchip mouse. 
+
+
+\section{Standard approach failed to discriminate domain borders}
+\label{chap:r:comprom:methylseeker} 
+
+Shortly after the first comprehensive WGBS datasets became available, a feature termed \emph{Partially Methylated Domain} (PMD) was described\cite{Lister2009}: Some methylomes contained large ($>$\SI{150}{\kilo b}) regions of seemingly disordered methylation harboring many heterogeneously methylated CpGs. Because of the evident similarity of compromised regions and PMDs, we presumed the applicability of a published tool for PMD calling named \emphsoftwarename{MethylSeekR}\cite{Burger2013} to precisely determine the domain borders of the compromised regions. 
+
+However, we could not derive meaningful and verifiable limits for the compromised regions with this approach. By reverse engineering of the method, we could ascertain why \emphsoftwarename{MethylSeekR} performed badly on \dnmtchip methylomes \supple. Briefly, fitting of the mixture model failed, because the resulting density over $\alpha$ for the beta distribution fits was unimodal for the \dnmtchip methylome. Normally, the density assumes a bimodal distribution split between open and lamina-associated chromatin for methylomes with PMDs, which was illustrated by the control (IMR90 fibroblasts). Subsequently, we tried to replace the beta distribution with the Kumaraswamy distribution, a beta-type distribution with more convenient tractability\cite{Kumaraswamy1980,Jones2009}, however, it did not improve the fits. 
+
+In conclusion, the compromised regions in \dnmtchip mice were either very weak PMDs or a distinct feature.     
+
+\herestoyoufrank{
+	\item For this section,  supplementary text and figures are available.
+}

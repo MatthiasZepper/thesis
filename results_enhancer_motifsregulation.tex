@@ -1,0 +1,259 @@
+\chapter{Enhancer motifs, targets and regulation} 
+\label{chap:r:enhancers:motifs}
+\vspace{-3.5em}
+\minitoc
+
+In the previous chapter, it was shown that between \SIrange{67}{86}{\percent} of the putative CAGE-defined enhancers confirmed by ATAC-seq in \mllafnine leukemic cells were constituted by strongly enriched clades. Since the clades are composed of congeneric enhancers\dissrefpage{chap:r:enhancers:cluster:minor}, we hypothesized that the transcription factors mediating their activation, would be specifically relevant in \mllafnine, albeit possibly not specific to leukemia. 
+
+\section{Motif analysis}
+\label{chap:r:enhancers:motifs:tfs}
+\subsection{Basic procedure}
+\label{chap:r:enhancers:motifs:tfs:basic} 
+
+Transcription factors, which bind directly to DNA exhibit affinity for a particular geometry of the DNA-helix, typically determined by a combination of the underlying sequence, its methylation, its coil and bound accessory proteins\cite{Belmont2001,Harteis2014}. Although binding is often considered binary (e.g. ChIP peaks), transcription factors in reality bind in proportion to their affinity and weak interactions actually confer most of the regulatory activity\cite{DeBoer2019}. While the higher structure of the DNA is hard to predict\footnote{exemplified by the \kit promoter\cite{Phan2007}}\cite{SantaLucia2004}, the sequence of a genomic segment is well tangible and typically informative on its own.  
+
+To analyze, which transcription factors might be involved in the regulation of our candidate enhancers, we derived de novo sequence motifs associated with the strongly enriched clades with the \emphsoftwarename{Homer} software. To do so, we built ten separate contrasts, each for every major \hisfourone-derived cluster \amitnum{1}\,-\,\amitnum{10}\dissrefpage{chap:r:enhancers:cluster:kmeans}. Within each cluster, we used the active CAGE-defined enhancers from the clades with strong accumulation as positive set and the CAGE-defined sequences from the depleted clades as control. This ensured that only transcribed enhancers were compared to transcribed enhancers. Thus, a possible bias due to enhancer vs. random sequence contrast or due to CAGE-defined vs. histone-mark-defined enhancer comparison was avoided. Subsequently, we united the enriched motifs for the ten cluster-specific sets and merged highly similar de novo motifs. The consolidated new motifs were united with the \emphsoftwarename{Homer} enhancer motif reference into one unified, curated library.
+
+Aforementioned library was used to screen the CAGE-defined candidate enhancers\footnote{\num{2621} from the strongly enriched as well as the \num{2500} from the strongly depleted clades} for presence and spatial location of the motifs (if present) under investigation. Obviously, relevant motifs should exhibit a clear enrichment over the background. Additionally, the highest frequency of relevant motifs should be focused around the enhancers' centers. We came up with the term centrality to refer to the latter property. We subsumed that sequence motifs, which are targeted by pioneering factors should exhibit the highest centrality, because their binding recruits secondary transcription factors and ultimately determines the position of the nucleosome-free chromatin region. 
+
+\subsection{Motifs enriched in strongly accumulated clades}
+\label{chap:r:enhancers:motifs:tfs:accu}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/motifs/enhancermotifs_atac_valiated_strong_accumulation.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/motifs/legend_enhancermotifs_atac_valiated_strong_accumulation.pdf} 
+	\caption{Details of the top ten enriched motifs, which were associated with the \num{2621} putative enhancers in clades with strong accumulation. In the left panel each motif is represented as a point in a coordinate system with the axes relevance and centrality. The relevance of the motif corresponds to the fraction of maximum (shown as dot size) divided by average frequency. The centrality refers to the genomic location of said maximum relative to the center of the enhancer. The latter is more clearly depicted in the right panel, which shows the course of the aggregated frequency within a \SI{2}{\kilo b} genomic segment around the enhancers' centers.}
+	\label{fig:enhancers:motifs:atac_valiated_strong_accumulation}
+\end{figure}
+
+Except one notable case, all relevant motifs in the clades with strong accumulation were also characterized by a high centrality \reffigure{fig:enhancers:motifs:atac_valiated_strong_accumulation}{, left panel}. 
+
+The motif \motifx was representative of this general trend \reffigure{fig:enhancers:motifs:atac_valiated_strong_accumulation}{, rufous color}. Its mean frequency was among the top five and its maximum the second highest. Furthermore, its centrality was high, the maximum was located just a few bases off the center. Such striking resemblance to second most relevant motif \motifpuone, a known pioneering factor with high relevance for acute myeloid leukemia\cite{Rosenbauer2004,Rosenbauer2006}, was clearly no coincidence. Both motifs comprised the core sequence \motifnucleotides{CACTTCC}. In this respect, it is very likely that the de novo motif was ultimately also a \proteinnamehuman{PU.1} binding motif with slightly different flanking bases, since the importance of \proteinnamehuman{PU.1} for \proteinnamehuman{MLL}-rearranged leukemia was already known\cite{Aikawa2015}.
+
+Since we did not experimentally validate the motifs (e.g. by ChIP experiments), no definitive assignments could be made, but the second-tier match for \motifx was \motifetsone \reffigure{fig:enhancers:motifs:atac_valiated_strong_accumulation}{, ultramarine color}, with which it shared a core sequence of \motifnucleotides{TTCCT}. ETS is a large family of transcription factors\cite{Sharrocks2001} and comprises \num{28} genes in the mouse. Appearance of this motif in a set of enhancers putatively linked to leukemogenesis was not surprising, as the founding member of this transcription factor family was initially identified as a leukemia oncogene transduced by the virus E26\cite{Leprince1983}. For this reason, \motifx could be considered to belong to a ETS family transcription factor, very likely \proteinnamehuman{PU.1}.
+
+Another enriched de novo motif was \motifxb, which however was appreciably rare \reffigure{fig:enhancers:motifs:atac_valiated_strong_accumulation}{, fulvous color}. This motif strongly resembled the recognition sequence \motifnucleotides{TGACGTCA} of the basic leucine zipper domain (bZIP domain), which is found in many eukaryotic DNA binding proteins. bZIP transcription factors dimerize when binding to DNA and represent an extremely old class of transcription factors dating back more than a billion years in evolution\cite{Amoutzias2007}. Therefore, many transcription factors, such as the activator protein 1 (\proteinnamehuman{AP-1}) could potentially bind there\cite{Chaudhari2018}. However, the motif is most likely recognized by \proteinnamehuman{CEPB} in our cells, since also a similar reference motif \motifcebpb was enriched. Furthermore it was already shown that \tfcebpa is frequently mutated\cite{Braun2019} and co-occupies open chromatin regions with \proteinnamehuman{PU.1} in \mllafnine leukemia\cite{Cusan2018}. 
+
+In this respect, the two de novo motifs with the most tangible binding sequences could be straightforwardly assigned to two transcription factors with well known involvement in leukemia and hematopoiesis. While this could be taken as a confirmation that we had actually identified enhancers relevant to leukemia, it was of course disappointing at the same time, since it left little room for new discoveries. 
+
+The motif \motifpolya was exceptional, as it was the sole top ten motif with a low centrality and a quite uniform distribution over the whole \SI{2}{\kilo b} range. Yet, its presence in the vicinity of enhancers was reasonable, since polyadenylation of eRNAs or related small RNAs does occur in some cases\citerev{Li2016}. %is far from being unheard-of.
+
+The remaining motifs consisted of predominantly CG-rich sequences\footnote{Shorter nucleotide tuples rich in CG are a general feature of transcribed enhancers in humans\cite{Kleftogiannis2018}. The overall CG content of enhancers, however, varies depending on cell type\cite{Maricque2017}.}, rarely interspersed with adenines or thymines. So, we puzzled over whether we could regard all three as basically identical. Undoubtedly, however, one of the three motifs was significantly more frequent than the other two\reffigure{fig:enhancers:motifs:atac_valiated_strong_accumulation}{, black color}, challenging complete equivalence. It also dominated all others by a clear margin in terms of relevance and centrality, which was quite remarkable given its somewhat uncommon sequence composition. It should be noted at this point that the motif matches were just short stretches of CpGs, which did not meet the usual length requirements to be considered as regular CpG-Islands (CGIs). 
+
+Because of the CG-rich sequences, we suspected that the motif \motifmlltwo as well as the two less frequent cognate candidates (\motifmlltwob, \motifmlltwoc) could be recognized by a protein comprising a CXXC zinc finger domain. Although subgroups of different DNA-binding specificities exist\cite{Xu2018a,Xue2019}, this domain generally binds to unmethylated CpG-dinucleotides and is found in a variety of chromatin-associated proteins, such as \proteinnamehuman{Mll1}\cite{Allen2006}. Because it is also retained in all known \proteinnamehuman{Mll} fusion proteins \citerev{Slany2016}, we suspected that those motifs might be directly bound by \mllafnine. However, when we reanalyzed a published \mllafnine ChIP-seq\cite{Bernt2011}, we could not observe direct binding\dns.\label{chap:r:enhancers:motifs:berntcite} Later, we could identify \genenamemouse{Kmt2b} (\proteinnamemouse{Mll2}) as the key methyltransferase to cling to \motifmlltwo and \motifmlltwoc, but not to \motifmlltwob \dissref{chap:r:enhancers:motifs:mlltwo}.
+
+\subsection{Motifs enriched in strongly depleted clades}
+\label{chap:r:enhancers:motifs:tfs:depl}
+
+We also ran a similar analysis for the strongly depleted enhancers, hoping to identify motifs relevant to enhancer decommissioning in \mllafnine leukemia. However, no known transcription factor motif arose in the top ten motifs and even the identified de novo candidates were extremely rare\reffigure{fig:enhancers:motifs.atac_valiated_strong_depletion}{, right panel drawn at scale with \autoref{fig:enhancers:motifs:atac_valiated_strong_accumulation}}. Because of  the very low average frequencies, the absolute values for the relevance score where comparably high (as they are the ratio of the maximum divided by the average frequency). None the less, the motifs were without any practical biological significance.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/motifs/enhancermotifs_atac_valiated_strong_depletion.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/motifs/legend_enhancermotifs_atac_valiated_strong_depletion.pdf} 
+	\caption{Ten most enriched sequence motifs in the \num{2500} putative enhancers originating from strongly depleted clades. Analogous to \autoref{fig:enhancers:motifs:atac_valiated_strong_accumulation}, the left panel depicts centrality and relevance as well as the maximum frequency of the motif. The centrality refers to the genomic location relative to the center of the enhancer, where the maximum frequency was recorded, whereas the relevance expresses the ratio of said maximum relative to the average frequency. The right panel shows the change of the aggregated average frequency along the genomic region surrounding the enhancer.} 
+	\label{fig:enhancers:motifs.atac_valiated_strong_depletion}
+\end{figure}
+
+%\subsection{ISA}
+%Interative Signature Algorithm
+%biocLite("eisa")
+
+\section{Methylation of enhancers and their motifs}
+\label{chap:r:enhancers:motifs:methylation}
+
+DNA methylation is a crucial regulatory layer for normal and malignant hematopoiesis\citerev{Lipka2014,Schuebeler2015} and a growing body of papers stresses the importance of influential methylation changes at cis-regulatory elements in health and disease \cite{Stadler2011,Hon2013,Kieffer-Kwon2013,Schlesinger2013,Varley2013,Sheaffer2014}. 
+
+Identification of a potential CXXC zinc finger motif within the strongly accumulating enhancers suggested an investigation of the methylation status, since CXXC binds exclusively to unmethylated CpG-dinucleotides\cite{Allen2006}. Also many other transcription factors are known to bind in a methylation sensitive manner\cite{Hu2013,Yin2017a}. Decisive regulatory methylgroups do not necessarily have to be located directly at the binding site of the transcription factor: A particularly interesting paper had shown how methylation at distant sites facilitates the efficiency of \proteinnamemouse{Egr1} target search process\cite{Kemme2017}. 
+
+Therefore, we hoped that decisive methylation changes in those regulatory regions might be the long sought answer to explain the \dnmtchip phenotype, in particular its self-renewal bias observed in leukemic stem cells (LSC)\cite{Vockentanz2011}. 
+
+\subsection{Methylation mapping at enhancer regions}
+\label{chap:r:enhancers:motifs:methylation:overall}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/methylation/enhancer_spatial_methylation.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/tinats/methylation/methylation_legend.pdf} 
+	\caption{Methylation in a \SI{4}{kb} window surrounding CAGE-defined putative enhancers from two clade groups. The top row depicts Colored lines represent the smoothed average methylscore in the three meta-samples, which are displayed on top of the measured methylation rate of single CpGs (black dots). CpGs without sufficient WGBS coverage (\SI{3}{reads}) are not shown. Furthermore, only candidate enhancers are considered, which feature at least one covered CpG within the window under investigation.}
+	\label{fig:enhancers:motifs:enhancer_spatial_methylation}
+\end{figure}
+
+When we mapped the WGBS meta-samples \dissrefpage{chap:r:wgbs:demethylation} on the putative enhancer regions, we found that they were generally hypomethylated compared to the surrounding backbone regions in accordance with published literature\cite{Stadler2011}. However, there were notable differences between the various enhancer groups \reffigure{fig:enhancers:motifs:enhancer_spatial_methylation}{}. 
+
+Enhancers, which were assigned to clades with depletion \dns exhibited a methylation pattern similar to enhancers from the non-significant clades\reffigure{fig:enhancers:motifs:enhancer_spatial_methylation}{, top row}. Among those, enhancers active in \dnmtwt as well as \dnmtchip leukemia exhibited a local methylation minimum located right over the center of the cis-regulatory element. Said minimum was seen in both leukemia and also the normal hematopoietic stem cell (HSC). Yet, in comparison to the stem cell, these sites in leukemia showed the highest degree of demethylation observed for any enhancer. Remarkably, this did not apply to the genotype-specific sets, which were insignificantly hypomethylated at all\reffigure{fig:enhancers:motifs:enhancer_spatial_methylation}{, top middle and top right panel}. Since \dnmtchip leukemia exhibited the least methylation in any group, we could rule out that genotype-specificity arose from differential methylation. 
+
+A slightly different methylation pattern could be observed in clades with strong accumulation of CAGE-defined enhancers. Here, the dent was rather wide, shallow and overall methylation levels were extremely low \reffigure{fig:enhancers:motifs:enhancer_spatial_methylation}{, bottom row}. In leukemia, the common sites were completely devoid of methylation and only sparsely methylated in the healthy hematopoietic stem cell \reffigure{fig:enhancers:motifs:enhancer_spatial_methylation}{, bottom left panel}. The genotype-specific sites were characterized by marginally higher levels of methylation, with \dnmtwt specific sites exhibiting the highest. Nevertheless, all three were still lower methylated than the enhancers of the non-significant clades.
+
+Taken together, we could observe differential methylation in various groups of putative, CAGE-defined enhancers. However, within the most relevant group, the clades with strong accumulation, the differences were small. Here, the sites were typically unmethylated in leukemia and seldom methylated in the HSC. However, we presumed that the methylation of single motifs might exhibit more distinct patterns. 
+
+\subsection{Methylation mapping at isolated motifs}
+\label{chap:r:enhancers:motifs:methylation:motifs} 
+
+ \fyfrank
+
+Contrary to whole enhancers, motifs are small and never occur isolated in the genome. A recent study found, that the average random 80-mer nucleotide sequence has about 138 binding sites for 68 different transcription factors\cite{DeBoer2019}.To account for confounding motifs during methylation analysis, we first searched for frequently co-occurring motifs and then tried to model their reciprocal influence on methylation. For this purpose, we used item set mining with the \emphcollectionname{Apriori} algorithm\cite{Agrawal1994a} to derive frequent motif patterns. Several frequent combinations could be identified, but low coverage in our WGBS data (\SIrange{2}{21}{\percent}) mostly hindered proper consideration of co-occurring motifs, because seldom all motifs of a set were covered in a particular instance. Ultimately, a different approach based on fitting a Kumaraswamy distribution separately enabled the identification of motifs with dynamic methylation\supple.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/methylation/violinplots/violinplot_meth_Ets1-like.pdf} \includegraphics[width=\textwidth]{figures/output/enhancer/methylation/violinplots/violinplot_meth_DeNovoTTTCCCCWTTYG.pdf}
+	\includegraphics[width=\textwidth]{figures/output/enhancer/methylation/violinplots/violinplot_meth_DeNovoSSCGCGGCCTSS.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/tinats/methylation/methylation_legend.pdf} 
+	\caption{Detailed representation of three selected motifs and their methylation dynamics. For this plot, motif instances had been split among the enhancer groups and the WGBS meta-samples were mapped. The average methylation was calculated per motif instance and all covered sites (see counts below) were included in the violin plots. Methylscore distributions are depicted as vertical density plots and the methylation mean of the respective motifs as horizontal black bar.}
+	\label{fig:enhancers:motifs:violinplot_meth_motifs}
+\end{figure}
+
+The most dynamic methylation was found for the motifs \motifetsone as well as \motifxc \reffigure{fig:enhancers:motifs:violinplot_meth_motifs}{, top and middle row} . However, both motifs were sparsely covered in the WGBS data, plus \motifxc was relatively rare ($n_{\text{CAGE-defined}}=$\num{227}, $n_{\text{control}}= 5463$). Nevertheless, the counts were commensurate, since \motifetsone was about three times more frequent in both categories ($n_{\text{CAGE-defined}}=$\num{651}, $n_{\text{control}}= 16663$). Assuming that the few covered instances of the two motifs are representative, we observed an almost complete demethylation in CAGE-defined enhancers, but an ambiguous methylation in the controls. 
+
+\motifmlltwo, the most frequent motif in CAGE-defined putative enhancers assigned to strongly accumulated clades \dissref{chap:r:enhancers:motifs:tfs:accu}, was covered in \SI{21.67}{\percent} of said enhancers in leukemia. At large, all instances within active sites were unmethylated in \mllafnine leukemia, but still partially methylated in hematopoietic stem cells (HSCs)\reffigure{fig:enhancers:motifs:violinplot_meth_motifs}{, bottom row}. Remarkably, the degree of methylation HSCs, but not in leukemia, varied depending on the clades. The motif was mostly demethylated if found in the accumulated clade enhancers and ambiguously methylated elsewhere in CAGE-defined enhancers. In the control set derived from the hematopoietic enhancer catalog, the motif was ambiguously methylated, too. Generally, it exhibited the highest average methylation in HSCs and the lowest in \dnmtchip leukemia. Clade enrichment did not matter for the methylation of control enhancers.
+
+This pattern suggested an active regulation of the motif's methylation in the hematopoietic system. Therefore, it was intriguing to speculate that the variable methylation might alter the binding of a CXXC protein and we aimed to identify said protein. 
+
+\section{MLL2 (Kmt2b) binding at strongly enriched enhancers}
+\label{chap:r:enhancers:motifs:mlltwo}
+
+Because of the CG-rich sequence, we speculated that the motif \motifmlltwo could be recognized by a CXXC zinc finger domain, which binds to various motifs of unmethylated CpG-dinucleotides\cite{Xu2018a}. Since this domain is contained in a variety of chromatin-associated proteins, such as \proteinnamehuman{Mll1}\cite{Allen2006}, we initially suspected that \motifmlltwo might be directly bound by \mllafnine. However, when we reanalyzed a published \mllafnine ChIP-seq\cite{Bernt2011}, we could not observe direct binding\dns. Subsequently, we tested further published ChIP-seq datasets of other CXXC proteins like the CXXC-type zinc finger protein~1 (\proteinnamemouse{Cfp1}), which, despite being crucially involved in hematopoietic regulation\cite{Chun2014} and \hisfourthree deposition\cite{Cao2016}, also did not bind to the motif \dns. Ultimately, the search for the correct binding partner stalled.
+
+Fortunately, in 2017, the laboratory of Ali Shilatifard published the results of a study aimed at deepening knowledge about the COMPASS family protein \genenamemouse{Kmt2b} (\proteinnamemouse{Mll2}) and its role in embryonal stem cells (ES cells)\cite{Hu2017}. It was already known to be implicated in the regulation of bivalent promoters in the stem cells\cite{Hu2013a}, but now the group showed that it also implements \hisfourthree at a subset of non-TSS regulatory elements\cite{Hu2017}. Because the properties of these sites \footnote{CG-rich, high \hisfourthree, but low \hisfourone, high \histwentysevenac} strikingly resembled CAGE-defined putative enhancers from the strongly accumulated clades \clade{3}{2}, \clade{3}{12}, \clade{3}{13} \reffigurepage{fig:enhancers:cleary_lymphpoidprog_clades}{,}, we assumed that the motif \motifmlltwo might be the target of \genenamemouse{Kmt2b}/ \proteinnamemouse{Mll2}. 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/shilatifard/shilatifard_lymphpoidprog_oddsratio_h3k4me3.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/shilatifard/legend_shilatifard.pdf} 
+	\caption{\hisfourthree ChIP-seqs in murine embryonic stem cells of different genotypes and under various experimental conditions. Data was mapped to the CAGE-defined enhancers of the \amitthree and \amitseven clusters and counts were normalized to the number of mapped reads per sample. Clades are shown ordered by the accumulation of putative leukemic enhancers.}
+	\label{fig:enhancers:motifs:shilatifard_lymphpoidprog_oddsratio_h3k4me3}
+\end{figure}
+
+\begin{figure}[!p]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/shilatifard/shilatifard_lymphpoidprog_oddsratio_mll2.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/shilatifard/legend_shilatifard.pdf} 
+	\caption{Normalized \proteinnamemouse{Mll2} occupancy at CAGE-defined enhancers in murine embryonic stem cells. Putative enhancers are split according to cluster and clade enrichment as explained in the previous chapter.}
+	\label{fig:enhancers:motifs:shilatifard_lymphpoidprog_oddsratio_mll2}
+\end{figure}
+
+Therefore, we downloaded the comprehensive datasets \dissrefpage{chap:ap:thirdpartydata:chip}, which accompanied the study\cite{Hu2017} and mapped them on the CAGE-defined putative enhancer regions. Although the data originated from murine embryonic stem cells instead of \mllafnine leukemic cells, we hypothesized that the dataset could still be informative based on the mostly universal \hisfourthree methylation in many hematopoietic cell types \reffigurepage{fig:enhancers:amit_nkclade}{}. Indeed, clades, which comprised many CG-rich \motifmlltwo enhancers, were typically \hisfourthree-positive in ES cells \reffigure{fig:enhancers:motifs:shilatifard_lymphpoidprog_oddsratio_h3k4me3}. While enhancers of the strongly accumulated clades within the clusters \amitthree, \amitfour or \amitseven exhibited \hisfourthree marked nucleosomes, no association could be observed in the other clusters \dns. This was in accordance with the frequency of the motifs \motifmlltwo and \motifmlltwoc in those clades and suggested that the mark is implemented by \proteinnamemouse{Mll2} at those sites. 
+
+However, the results were contradictory in this respect, since closer inspection revealed that \hisfourthree was also present in the sample \textsl{Mll2 -/- +Mll2-Y2604A}, which solely expresses a \proteinnamemouse{Mll2}-variant with a dysfunctional catalytic subunit\reffigure{fig:enhancers:motifs:shilatifard_lymphpoidprog_oddsratio_h3k4me3}{, medium sea green bar}. Also a disrupted targeting (\textsl{Mll2 -/- +Mll2$\Delta$CXXC}) did not impact \hisfourthree deposition noticeably. Thus, \proteinnamemouse{Mll2} could not be the sole histone methyltransferase targeting those sites and its function is possibly safeguarded by one of the other five Trithorax group (TrxG) proteins in mice\cite{Piunti2016}. 
+
+While the \hisfourthree results were still ambiguous, the \proteinnamemouse{Mll2}-ChIP-seqs clearly substantiated our hypothesis. Binding of \proteinnamemouse{Mll2} was preferably detectable in the strongly accumulated clades of the clusters \amitthree, \amitfour or \amitseven but not elsewhere\reffigure{fig:enhancers:motifs:shilatifard_lymphpoidprog_oddsratio_mll2}{}. Furthermore, the binding was definitely mediated by the CXXC zinc finger domain, since the occupancy was strongly diminished for the \textsl{Mll2$\Delta$CXXC} samples. 
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/motifs/smoothplot_mll2enhancermotifs.pdf} 
+	\caption{Aggregated frequencies of the top ten enriched motifs within a \SI{2}{\kilo b} genomic segment around the enhancers' centers. Shown are \num{374} transcribed enhancers, which are bound by \proteinnamemouse{Mll2} in embryonic stem cells and a equal number of matched unbound control enhancers.}
+	\label{fig:enhancers:motifs:smoothplot_mll2enhancermotifs}
+\end{figure}
+
+Nevertheless, we corroborated the role of the \motifmlltwo as \proteinnamemouse{Mll2} recognition site by a reciprocal analysis. Of the \num{6418} \proteinnamemouse{Mll2}-positive non-TSS sites identified in embryonic stem cells by the group of Ali Shilatifard \cite{Hu2017}, we considered \num{374} (\SI{5.83}{\percent}) as transcribed enhancers in \mllafnine leukemia, the majority of which (\num{313}, \SI{83.68}{\percent}) belonged to strongly accumulated clades in the clusters \amitnum{3}, \amitnum{4} or \amitnum{7}. We compared this to a control set consisting of an equal number of randomly chosen of \proteinnamemouse{Mll2}-negative CAGE-defined enhancers.
+
+Then, we derived the top ten most frequent motifs from both sets and were able to establish a clear association between the motif \motifmlltwo and the binding of \proteinnamemouse{Mll2}\reffigure{fig:enhancers:motifs:smoothplot_mll2enhancermotifs}{}. To a much lesser extent, also \motifmlltwoc seemed to be involved in the binding. 
+
+\section{Enhancer target genes}
+\label{chap:r:enhancers:targets}\label{chap:r:enhancers:targets:assignment}\label{chap:r:enhancers:targets:genes}
+
+Despite the clear enrichment, \proteinnamemouse{Mll2} seemed to be an unlikely candidate, since subtle differences between the CXXC-domains of \proteinnamemouse{Mll1} and \proteinnamemouse{Mll2} preclude an oncogenic potential of the latter in the context of fusion proteins\cite{Bach2009}. While we were still double-checking the results and pondering, whether we should experimentally follow up on the topic, the laboratory of Patricia Ernst published a detailed study, which highlighted the importance of \proteinnamemouse{Mll2} for \mllafnine leukemia\cite{Chen2017a}. The study measured the effects of \proteinnamemouse{Mll2} knock-out by RNA-seq, but did not provide a mechanism. We were intrigued to see, if some of the genes were responding due to abridged binding at enhancers. 
+
+\fyfrank
+
+Therefore, we aimed at the identification of the enhancers' presumable target genes. For the establishment of reliable enhancer-promoter interactions, we utilized promoter-capture Hi-C data rather than just assigning the closest transcription start site. In total, we could derive \num{11534} potential pairs, comprising \num{3103} putative enhancers and \num{4317} genes (\num{6728} transcripts). After ordering the connections by score, many renowned hematopoietic regulators appeared in the top ranks, which suggested that the derived pairing scores accurately reflected the biology. 
+
+Among the top\num{100} enhancer promoter interactions we could identify many renowned hematopoietic regulators with known involvement in leukemia (e.g. \genenamemouse{Irf2bp2}, \genenamemouse{Pten}, \genenamemouse{Fosl2}, \genenamemouse{Spred1}). Furthermore, the majority of involved enhancers in the top 100 originated from strongly accumulated clades (\SI{73}{\percent}), which corroborated their importance and thus validated our clustering strategy\dissrefpage{chap:r:enhancers:cluster}.
+
+\begin{figure}[!bth]
+	\vspace{4em}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109392455-109392682.pdf} 
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109393827-109394241.pdf} 
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109397023-109397354.pdf} 
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109415207-109415438.pdf} 
+	\end{minipage}
+	\caption{Schematic representation of the four enhancers presumably involved in regulating the expression of \genenamemouse{Rhog} and  \genenamemouse{Nup98} in \mllafnine leukemia. Genotype-specificity is indicated by the colors red (\dnmtchipregular), blue (\dnmtwtregular) and black (common). Gray boxes symbolize approximate positions of transcription factor binding motifs. Note the \motifmlltwo motif in two of the four enhancers.}
+	\label{fig:enhancers:rhognup98:enh}
+\end{figure}
+
+\begin{figure}[!bht]
+	\setlength{\unitlength}{\textwidth}
+	\footnotesize
+	\begin{picture}(1,0.71)%
+	\put(-0.01,0){\includegraphics[width=1.03\textwidth]{figures/output/gviz/enhancerregions/outputregions/regionNup98RhoG.pdf}}
+	\put(-0.04,0.645){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Methylation\newline rate}\end{minipage}}}%
+	\put(-0.04,0.535){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq +/+}\end{minipage}}}%
+	\put(-0.04,0.47){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq  -/chip}\end{minipage}}}%
+	\put(-0.04,0.37){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Refseq~84 genes }\end{minipage}}}%   
+	\put(-0.04,0.26){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny CAGE-defined\newline enhancers }\end{minipage}}}% 
+	\put(-0.04,0.17){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions +/+}\end{minipage}}}%
+	\put(-0.04,0.07){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions  -/chip}\end{minipage}}}%
+	\end{picture}%
+	\caption{Representation of  the  second ranking gene locus comprising the promoters of \genenamemouse{Nup98}, \genenamemouse{Pgap2},  \genenamemouse{Rhog} and \genenamemouse{Stim1} (from left to right). The top track contains a scatterplot representation of single CpG methylation rates as well as a LOESS smooth thereof depicted in gray. RNA-seq data is log-scaled to base 2 and  (like all other relevant items) colored by genotype: Red is used for data referring to \dnmtchip and blue constitutes \dnmtwt items. Thickness of the arcs conveys the frequency of the respective interaction.}
+	\label{fig:enhancers:targets:rhognup98}
+\end{figure} 
+
+Accordingly, two of the four enhancers presumably involved in the regulation of \genenamemouse{Rhog + Nup98} contained a motif for \proteinnamemouse{Mll2} binding\reffigure{fig:enhancers:rhognup98:enh}{}. Only the Hi-C promoter capture data allowed to decipher the complex regulation at this gene locus\reffigure{fig:enhancers:targets:rhognup98}{}, which deserved a particular attention, because both genes are notoriously implicated in leukemic development\cite{Tybulewicz2005,Jackson2015,Wang2013,Nimmagadda2018}\cite{Nakamura1996,Borrow1996,Zutven2006,Wang2007a,Wang2009,Franks2017}.  Although further important hematopoietic regulators like \genenamemouse{Irf2bp2} or \genenamemouse{Ikzf2} were putatively targeted by several enhancers in \mllafnine. 
+
+We corroborated the enhancer assignments with our RNA-seq data. As expected, the expression of transcripts that were assigned to enhancer(s) was significantly higher than that of expressed transcripts without an enhancer assignment\supplefig. Intriguingly, we observed consistent downregulation of enhancer-assigned transcripts in \dnmtchip \supplefig. As it was shown that hemi-methylation flanking \proteinnamehuman{CTCF} motifs is highly relevant for the directionality of the binding\cite{Xu2018b},  the downregulation suggested that regulatory enhancer promoter interactions in \dnmtchip might have been perturbed in select cases by differential methylation. For an in-depth discussion see\dissrefpage{chap:d:enhancers:mechanism:dnmtchipgeno}. 
+\FloatBarrier
+\subsection{Assessment of Mll2 target genes}
+\label{chap:r:enhancers:targets:mlltwotargets}
+
+\fyfrank
+
+Having established the enhancer promoter pairs in general, we specifically focused on the regulatory effects of \proteinnamemouse{Mll2}.  A detailed study from the laboratory of Patricia Ernst had highlighted the importance of \proteinnamemouse{Mll2} for \mllafnine leukemia\cite{Chen2017a}, but no mechanism had been established. We reanalyzed the data from that study\dissrefpage{chap:ap:thirdpartydata:rna} to test, if some of the transcriptional effects observed after \proteinnamemouse{Mll2} deletion in \mllafnine leukemia could be attributed to enhancers rather than promoters.
+ 	
+\SI{15}{\percent} of the genes, whose expression was altered as a result of \proteinnamemouse{Mll2} deletion likely responded in an enhancer-mediated manner. Most of these genes were involved in crucial cellular functions - among them e.g. Ras homolog family member~G (\genenamemouse{Rhog})\reffigure{fig:enhancers:targets:rhognup98}{}, which was already described above. 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/targets/ernst_mll2_targets_reanalyzed_fc_promincl.pdf} 
+	\caption{Dot plot of the expression pattern after knock-out of  \proteinnamemouse{Mll2} in \mllafnine leukemic cells. Only significantly differentially expressed transcripts are shown. Colors indicate the regulatory assignment. On top and to the right, one-dimensional pile-up plots provide visual aids to assess the absolute number of the significantly differentially expressed transcripts and their respective assignment.}
+	\label{fig:enhancers:ernst_mll2_targets_reanalyzed_fc_promincl}
+\end{figure}
+
+Approximately two-thirds of the differentially expressed transcripts responded to \proteinnamemouse{Mll2} loss by downregulation (\num{151} down, \num{73} up). In terms of effect size, the observed expression change (particularly downregulation) was typically more prominent in the promoter category than in the enhancer category\reffigure{fig:enhancers:ernst_mll2_targets_reanalyzed_fc_promincl}{, pile-up graph to the right}. This finding was likely attributable to potential redundant enhancers and clearly not related to a prior expression bias, since the transcripts could be found in the full range of the spectrum\reffigure{fig:enhancers:ernst_mll2_targets_reanalyzed_fc_promincl}{, top pile-up graph}.
+
+Despite being small in relation to promoter-mediated regulation, both in terms of magnitude and number of affected transcripts, there was a noticeable effect of \proteinnamemouse{Mll2}-enhancer deficiency. Functionally, some of the respondent genes were involved in crucial cellular functions such that an effect on self-renewal and leukemogenesis seemed plausible. Nevertheless, none of the candidate genes was experimentally tested anymore. Also if there was a methylation-dependent impairment at those particular enhancers in \dnmtcchip still warrants investigation.
+
+\section{Summary and outlook}
+\label{chap:r:enhancers:motifs:summary}
+
+This chapter describes the common mechanisms, which presumably govern the recruitment of the congeneric enhancers in the strongly accumulated clades\dissrefpage{chap:r:enhancers:cluster:minor}. We derived motifs and inferred 
+\proteinnamehuman{PU.1} (or another ETS transcription factor), \tfcebpa (or another bZIP dimer) as well as \proteinnamemouse{Mll2} (or another CXXC protein) as the key transcription factors involved \dissref{chap:r:enhancers:motifs:tfs:accu}\dissref{chap:r:enhancers:motifs:mlltwo}.
+
+Since the roles of \proteinnamehuman{PU.1} and \tfcebpa in leukemia are well established, we were most excited by the identification of \proteinnamemouse{Mll2}, particularly because the data suggested an dynamic regulation of the corresponding motif \motifmlltwo by DNA methylation\dissref{chap:r:enhancers:motifs:methylation:motifs}. Indeed, the laboratory of Patricia Ernst shortly thereafter published a detailed study, which highlighted the importance of \proteinnamemouse{Mll2} for \mllafnine leukemia\cite{Chen2017a}. 
+
+Since the study did not propose a mechanism, we consulted the \emphdatabasename{StringDB} database for possible interaction partners of \proteinnamemouse{Mll2}\reffigure{fig:enhancers:motifs:stringdbmll2}{}. Especially \genenamemouse{Kdm6a}/\proteinnamemouse{UTX}, which demethylates \histwentyseventwo / \histwentyseventhree and is implicated in the differentiation of natural killer cells\cite{Beyaz2017}, caught our attention due to the enhancers' strong \histwentysevenac signal in natural killer cells\dissrefpage{chap:r:enhancers:cluster:clades:healthy}. Therefore, we conjectured that \proteinnamemouse{Mll2} recruits \genenamemouse{Kdm6a}/\proteinnamemouse{UTX} in NK~cells (and possibly also in \mllafnine leukemia) to enable subsequent acetylation of lysine~\num{27}. 
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{figures/output/vectors/Mll2_interaction2.pdf} 
+	\caption{High confidence interactions of \proteinnamemouse{Mll2} with other proteins.}
+	\label{fig:enhancers:motifs:stringdbmll2}
+\end{figure}
+
+\begin{figure}[!hbt]
+		\setlength{\unitlength}{\textwidth}
+		\footnotesize
+		\begin{picture}(1,0.75)%
+		\put(0.1,0){\includegraphics[width=0.9\textwidth]{figures/output/raster/299wt_day3initialplating.jpg}}
+		\put(0.17,0.73){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}\raggedright {\large 1\,$\mu$M GSK-J4} \end{minipage}}}
+		\put(0.47,0.73){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}\raggedright {\large 5\,$\mu$M GSK-J4} \end{minipage}}}
+		\put(0.77,0.73){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}\raggedright {\large 10\,$\mu$M GSK-J4} \end{minipage}}}
+		\put(-0.03,0.61){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength} {\large \raggedright 299 \dnmtwtshort}\newline replicate A \end{minipage}}}
+		\put(-0.03,0.37){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\large \raggedright 299 \dnmtwtshort}\newline replicate B \end{minipage}}}%
+		\put(-0.03,0.14){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\large \raggedright 299 \dnmtwtshort}\newline replicate C\end{minipage}}}%
+		\end{picture}%
+	\caption{Bright-field micrographs of \mllafnine leukemic cells cultured on methyl-cellulose semisolid medium. Before starting the experiment, two serial replatings were performed in semisolid medium to enrich for leukemic stem cells. At day~0, \num{1000} cells per plate were seeded in methyl-cellulose/IMDM medium supplemented with \SI{10}{\percent}FCS and cytokines IL-3,IL-6 and SCF as described before\cite{Vockentanz2011}. Appropriate amounts of GSK-J4 dissolved in DMSO or pure DMSO were added to the medium while seeding. Micrographs depict the status at day~3, DMSO control (not shown) corresponded to \SI{1}{\micro M}.}
+	\label{fig:enhancers:motifs:gskj4}
+\end{figure} 
+To test this, we treated \mllafnine leukemic cells in vitro with the inhibitor GSK-J4, a prodrug of GSK-J1, which inhibits \genenamemouse{Kdm6a} and \genenamemouse{Kdm6b} effectively\cite{Kruidenier2012}, but may also show activity against the \genenamemouse{Kdm5}-family\cite{Heinemann2014}. It emerged as a potential inhibitor for prostate cancer\cite{Morozov2017} and various hematological malignancies \cite{Mathur2017,Boila2017}, however, a positive effect was questionable since inhibition of \genenamemouse{Kdm5c} would have counteracted the effect\cite{Wong2015}.
+
+GSK-J4 inhibited the growth of \mllafnine leukemic cells at concentrations of \SIrange{2}{5}{\micro M} depending on the leukemic clone. The effects were consistent in liquid culture as well as on methyl-cellulose semisolid medium\reffigure{fig:enhancers:motifs:gskj4}{}. However, it also noticeably affected normal hematopoietic control cells at just \SI{10}{\micro M}, casting doubts on its suitability for therapeutic application. Furthermore, another study around the same time reported efficacy of GSK-J4 for the treatment of AML (including \mllafnine). Based on overexpression of \genenamemouse{Kdm6b} and a greatly exaggerated specificity of GSK-J4, the authors proposed a \genenamemouse{Kdm6b}-dependent mechanism without further proof\cite{Li2018}. 
+
+Therefore, the next step upon continuation of the project would be to address this issue and to design experiments, which allow for the discrimination of \genenamemouse{Kdm6a}- and \genenamemouse{Kdm6b}-mediated effects.

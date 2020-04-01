@@ -1,0 +1,60 @@
+\chapter{Enhancer motifs and regulation} 
+\label{chap:r:enhancers:motifs}
+
+\section{Methylation of enhancers and their motifs}
+\label{chap:r:enhancers:motifs:methylation}
+
+DNA methylation is a crucial regulatory layer for normal and malignant hematopoiesis\citerev{Lipka2014,Schuebeler2015} and a growing body of papers stress the importance of influential methylation changes at cis-regulatory elements in health and disease \cite{Stadler2011,Hon2013,Kieffer-Kwon2013,Schlesinger2013,Varley2013,Sheaffer2014}. 
+
+Identification of a potential CXXC zinc finger motif within the strongly accumulating enhancers suggested an investigation of the methylation status, since CXXC binds exclusively to unmethylated CpG-dinucleotides\cite{Allen2006}. Also many other transcription factors are known to bind in a methylation sensitive manner\cite{Hu2013,Yin2017a}. Decisive regulatory methylgroups do not necessarily have to be located directly at the binding site of the transcription factor: A particularly interesting paper had shown how methylation at distant sites facilitates the efficiency of \proteinnamemouse{Egr1} target search process\cite{Kemme2017}. 
+
+Therefore, we hoped that decisive methylation changes in those regulatory regions might be the long sought answer to explain the \dnmtchip phenotype, in particular its self-renewal bias observed in leukemic stem cells (LSC)\cite{Vockentanz2011}. 
+
+\subsection{Methylation mapping at isolated motifs}
+\label{chap:r:enhancers:motifs:methylation:motifs} 
+
+None the less, we hoped that we could manage to identify individual transcription factor binding motifs that might be disturbed by abnormal methylation. However, investigation of the methylation status was challenging, because confounding motifs had to be considered. 
+
+Contrary to promoters, motifs are small and rarely occur isolated in the genome, but typically appear in dense clusters. Therefore, the methylation status of a CpG can theoretically be shaped by the motif under investigation as well as neighboring ones. To account for this properly, we first searched for frequently co-occurring motifs and then tried to model their reciprocal influence. 
+
+For this task we employed the \emphsoftwarename{arules} R package\cite{Hahsler2011}, which provides a computational environment for association rule deduction and frequent item set identification. Such analyses are commonly used for finding regularities in the shopping behavior of customers. It aims to find sets of products, which are frequently bought together to stimulate purchases by improved arrangement in shelves, cross-selling or product bundling. However, these algorithms can also serve the purpose of identifying linked motifs by treating a motif instance as item and a cis-regulatory element as transaction set\cite{Ha2012,Navarro2014}. We tested several approaches and ultimately settled for the \emphcollectionname{Apriori} algorithm\cite{Agrawal1994a} to derive frequent motif patterns. 
+
+Remarkably, the motifs \motifpolya, \motifmlltwo and \motifmlltwoc were strongly associated with themselves, as such they frequently appeared two to three times per enhancer. Minor associations were found with \motifnkx and \motifrunx. 
+
+A distinct, second set involved \motifx and \motifpuone. This was to be expected, because one had to assume on the basis of the high sequence similarity that it was de facto the same motif. Weaker associations of \motifx existed with \motifetsone and \motifmybb. The latter was also involved in a third set together with \motifblh and \motifxb. Occasionally, also the motif \motifnanog appeared in this set. 
+
+The reason, why suddenly novel hits appeared in this analysis, which were not found previously, was the inclusion of a relatively large region of \SI{4}{\kilo b} as a consequence of the broad demethylation observed around the enhancer regions of strongly accumulated clades. Therefore, promoter motifs of nearby transcription start sites (TSS) may have been incorporated into the mined motif sets. 
+
+Subsequently, we tried to model the methylation change of the motifs with various generalized additive models (GAM), which incorporated the presence of other motifs from the frequent item sets as well as previously identified predictors such as DNA sequence or chromatin structure \dissrefpage{chap:r:persistency}. Yet, despite comprehensive modifications at the models' terms, we did not succeed to come up with satisfactory predictions \dns. 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/methylation/enhancer_motif_methyl_kuma.pdf} 
+	\caption{Two alternative representations of the screening results for methylation-sensitive motifs. Each motif is represented as a dot, but just the most relevant ones, which differed strongly between CAGE-defined enhancers and control, are fully labeled. The rest is shown as gray dots only. Blue color represents those motifs, which account for the top ten in strongly accumulated clades. In the top panel, the $\frac{a}{b}$ ratios of the motif-wise Kumaraswamy fits are plotted on the axes - either that of the CAGE-defined putative enhancers or that of the control. In this representation, the three WGBS datasets are shown separately, whereas the panel below does not discriminate the samples. Here, motifs are ranked according to the foldchange calculated as shown in \autoref{eq:enhkuma:1}. Small $\log_2\hspace{-0.2em}FC$ indicate motifs, which are demethylated in the CAGE-defined putative enhancers but methylated in the control sites.}
+	\label{fig:enhancers:motifs:enhancer_motif_methyl_kuma}
+\end{figure}
+
+To some degree, this may have been due to the extremely bad coverage, which we recorded at many motif regions. For only \num{14}~(\SI{2.15}{\percent}) respectively \num{15}~(\SI{2.3}{\percent}) out of \num{651} instances of \motifetsone in CAGE-defined putative enhancers, we had methylation information available in \dnmtwt and \dnmtchip. Even in cases where we achieved exceptionally high coverage, it was still mostly in the single-digit range. We obtained methylation information for \num{80}/\num{1313} (\ensuremath{\approx} ~\SI{6}{\percent}) instances of \motifcebpb and for \ensuremath{\approx} \num{1750}/\num{8076} (\SI{21.67}{\percent}) of \motifmlltwo. This low rate was particularly problematic for the proper consideration of co-occurring motifs, because there was virtually no set in which methylation calls for all involved motifs were present. Thus, we were not able to elucidate the reciprocal influence of frequently associated motifs on the respective methylation. 
+
+Ultimately, we resorted to the fits of the Kumaraswamy distribution\cite{Kumaraswamy1980,Jones2009}, a beta-type distribution with more convenient tractability\dissrefpage{chap:r:comprom:methylseeker:improvements}, to assess methylation changes at the motifs and neglected possible combinatorial interactions. The shape of its probability density function (PDF)\refeqpage{eq:methylseeker:4} is determined by two parameters designated $a > 0$ and $b >0 $. The ratio of the two reflects the distribution of methylscores in the interval $\interval{0}{1}$. If $a > b$, then the motif tends to be methylated, whereas $a < b$ will suggest a preference for unmethylated instances. 
+
+For all motifs, we thus calculated the ratio of $\frac{a}{b}$ for the motifs within the CAGE-defined putative enhancers as well as for inactive control sites from the hematopoietic enhancer catalog\cite{Lara-Astiaso2014}\reffigure{fig:enhancers:motifs:enhancer_motif_methyl_kuma}{, top row}. Virtually all motifs exhibited a lower $\frac{a}{b}$ ratio for the CAGE-defined candidate sites and thus were demethylated in comparison to the control group. To represent this property in one dimension, we calculated the foldchange of the two ratios as shown in \autoref{eq:enhkuma:1}. Motifs with a $\log_2\hspace{-0.2em}FC\,<\,-2$ were considered to be of particular interest due to the significant change in methylation \reffigure{fig:enhancers:motifs:enhancer_motif_methyl_kuma}{, bottom row} and subsequently investigated in greater detail. 
+
+\begin{eqnarray}
+\label{eq:enhkuma:1} \log_2\hspace{-0.2em}FC \ = \ \log_2 \left( \frac{a_{\text{\,\tiny CAGE}}}{ b_{\text{\,\tiny CAGE}} } \right) - \log_2 \left( \frac{a_{\text{control}} }{ b_{\text{control}} } \right) \ = \ \log_2 \left( \frac{a_{\text{\,\tiny CAGE}} \cdot b_{\text{control}} }{ a_{\text{control}} \cdot b_{\text{\,\tiny CAGE}} } \right) 
+\end{eqnarray}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/methylation/violinplots/violinplot_meth_Ets1-like.pdf} \includegraphics[width=\textwidth]{figures/output/enhancer/methylation/violinplots/violinplot_meth_DeNovoTTTCCCCWTTYG.pdf}
+	\includegraphics[width=\textwidth]{figures/output/enhancer/methylation/violinplots/violinplot_meth_DeNovoSSCGCGGCCTSS.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/tinats/methylation/methylation_legend.pdf} 
+	\caption{Detailed representation of three selected motifs and their methylation dynamics. For this plot, motif instances had been split among the enhancer groups and the WGBS meta-samples were mapped. The average methylation was calculated per motif instance and all covered sites (see counts below) were included in the violin plots. Methylscore distributions are depicted as vertical density plots and the methylation mean of the respective motifs as horizontal black bar.}
+	\label{fig:enhancers:motifs:violinplot_meth_motifs}
+\end{figure}
+
+The clearest demethylation was found for the motifs \motifetsone as well as \motifxc \reffigure{fig:enhancers:motifs:violinplot_meth_motifs}{, top and middle row} . However, both motifs were sparsely covered in the WGBS data, plus \motifxc was relatively rare ($n_{\text{CAGE-defined}}=$\num{227}, $n_{\text{control}}= 5463$). Nevertheless, the counts were commensurate, since \motifetsone was about three times more frequent in both categories ($n_{\text{CAGE-defined}}=$\num{651}, $n_{\text{control}}= 16663$). Assuming that the few covered instances of the two motifs are representative, we observed an almost complete demethylation in CAGE-defined enhancers, but an ambiguous methylation in the controls. Here, an analysis of co-occurring motifs would have been of great interest, but was not feasible due to the low coverage. Methylation patterns of \motifetsone were very similar to \motifpuone, corroborating a potential functional equivalence in leukemia \dns. 
+
+\motifmlltwo, the most frequent motif in CAGE-defined putative enhancers assigned to strongly accumulated clades, was covered in \SI{21.67}{\percent} of said enhancers in leukemia. At large, all instances within active sites were unmethylated in \mllafnine leukemia, but still partially methylated in hematopoietic stem cells (HSCs)\reffigure{fig:enhancers:motifs:violinplot_meth_motifs}{, bottom row}. Remarkably, the degree of methylation HSCs, but not in leukemia, varied depending on the clades. The motif was mostly demethylated if found in the accumulated clade enhancers and ambiguously methylated elsewhere in CAGE-defined enhancers. In the control set derived from the hematopoietic enhancer catalog, the motif was ambiguously methylated, too. Generally, it exhibited the highest average methylation in HSCs and the lowest in \dnmtchip leukemia. Clade enrichment did not matter for the methylation of control enhancers.
+
+This pattern suggested an active regulation of the motif's methylation in the hematopoietic system. Therefore, it was intriguing to speculate that the variable methylation might alter the binding of a protein and we aimed to identify said protein. 

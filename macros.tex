@@ -1,0 +1,294 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% ADDITIONAL PACKAGES %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{xspace}
+
+\usepackage{float} % for additional supplementary figure float
+
+\usepackage{siunitx}
+\sisetup{group-separator = {\,}}
+\usepackage{mathpazo}
+\usepackage{makecell}
+
+\DeclareTextFontCommand{\emph}{\slshape}
+%\DeclareTextFontCommand{\emph}{\normalfont}
+% scshape small caps
+
+\newenvironment{mydescription}[1]
+{\begin{list}{}%
+		{\renewcommand\makelabel[1]{\slshape ##1:\hfill}%
+			\settowidth\labelwidth{\makelabel{#1}}%
+			\setlength\leftmargin{\labelwidth}
+			\addtolength\leftmargin{\labelsep}}}
+	{\end{list}}
+
+%%%%%%%% Config the figure names and references %%%%%%%%%%%%%%
+
+
+\newcommand{\figurecaption}[2]{\caption[#1]{\textbf{#1}\linebreak\hfill #2 \linebreak\hfill}}
+\newcommand{\panellabel}[1]{\textbf{\color{fbbioblue}\xspace#1\xspace}}
+
+\newcommand{\reffigure}[2]{\xspace[\ensuremath{\rhd}~\autoref{#1}{\color{fbbioblue} #2}]\xspace}
+\newcommand{\reffigurepage}[2]{\xspace[\ensuremath{\rhd}~\autoref{#1}{\color{fbbioblue} ,\,p.\pageref{#1}#2}]\xspace}
+\newcommand{\reffiguresup}[2]{\xspace[\ensuremath{\rhd}~{\color{fbbioblue}Suppl.~}\autoref{#1}{\color{fbbioblue} #2}]\xspace}
+
+\newcommand{\dns}{\xspace[\ensuremath{\rhd}~{\color{fbbioblue} data not shown}]\xspace}
+\newcommand{\mip}{\xspace[\ensuremath{\rhd}~{\color{fbbioblue} manuscript in preparation}]\xspace}
+\newcommand{\supple}{\xspace[\ensuremath{\rhd}~{\color{fbbioblue} supplement}]\xspace}
+\newcommand{\supplefig}{\xspace[\ensuremath{\rhd}~{\color{fbbioblue} supplementary figure}]\xspace}
+
+\newcommand{\reftable}[1]{\xspace[\ensuremath{\rhd}~\autoref{#1}]\xspace}
+\newcommand{\reftablepage}[1]{\xspace[\ensuremath{\rhd}~\autoref{#1}, {\color{fbbioblue}p.}\pageref{#1}]\xspace}
+\newcommand{\refeq}[1]{\xspace[\ensuremath{\rhd}~\autoref{#1}]\xspace}
+\newcommand{\refeqpage}[1]{\xspace[\ensuremath{\rhd}~\autoref{#1}, {\color{fbbioblue}p.}\pageref{#1}]\xspace}
+
+%%%%%%%% Config the new supplementary figure float %%%%%%%%%%%%%%
+
+\floatstyle{plain}
+\newfloat{figuresup}{h}{figsup}
+\floatname{figuresup}{Suppl.~Fig}
+
+%%%%%%% References %%%%%%%%%%%%%%%%
+\newcommand{\dissref}[1]{\xspace[\ensuremath{\pmb\hookrightarrow}~\autoref{#1}]}
+\newcommand{\dissrefpage}[1]{\xspace[\ensuremath{\pmb\hookrightarrow}~\autoref{#1}, {\color{fbbioblue}p.}\pageref{#1}]}
+
+\newcommand{\citerev}[1]{\xspace[reviewed in~\citenum{#1}]}
+\newcommand{\inlinerefpage}[1]{\autoref{#1} on page \pageref{#1}}
+
+% % % Reference to outside content
+
+\newcommand{\herestoyoufrank}[1]{
+	{\vspace{0.3em} \color{wwugray} \setlength{\fboxsep}{6pt}
+		\framebox[\textwidth][c]{
+			\begin{minipage}{0.2\textwidth}
+				\begin{center}
+					\includegraphics[width=2cm]{figures/output/raster/qr-thesismz.png}
+				\end{center}
+				{\tiny \raggedright Text abridged. Supplementary online information is available. \vfill}
+			\end{minipage}
+			\begin{minipage}{0.7\linewidth}
+				\footnotesize
+				\begin{itemize}
+					\setlength{\itemsep}{0pt}
+					\setlength{\parskip}{0pt}
+					\setlength{\parsep}{0pt} 
+					#1
+				\end{itemize}
+			\end{minipage} \setlength{\fboxsep}{3pt}
+		}}
+	}
+
+\newcommand{\fyfrank}{
+		{ \color{wwugray} \framebox[\textwidth][c]{
+				\setlength{\fboxsep}{6pt}
+				\begin{minipage}{0.95\textwidth}
+				\footnotesize \raggedright This section is printed in condensed form. Optionally, a version with additional information regarding methodical details and quality control is available as online supplement.
+				\end{minipage} \setlength{\fboxsep}{3pt}
+				}}
+}
+
+\newcommand{\supplebox}[1]{
+	{ \color{wwugray} \framebox[\textwidth][c]{
+			\setlength{\fboxsep}{6pt}
+			\begin{minipage}{0.95\textwidth}
+				\footnotesize \raggedright #1
+			\end{minipage} \setlength{\fboxsep}{3pt}
+		}}
+	}
+
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%% ADDITIONAL SHORTHAND NOTATIONS %%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%% Typography %%%%%%%%%%
+
+\newcommand{\typoplus}{\texttt{+}}
+\newcommand{\typominus}{\texttt{-}}
+
+%\newcommand{\myexp}[1]{\textperiodcentered10\textsuperscript{#1}}
+\newcommand{\myexp}[1]{\num{1d#1} }
+
+\newcommand{\ca}{Ca$^{2\text{+}}$\xspace}
+\newcommand{\mgtwo}{Mg$^{2\text{+}}$\xspace} % Calcium Kation% Calcium Kation
+\newcommand{\cak}{Ca$^{2\text{+}}$-concentration\xspace} % Calcium Konzentration
+
+\newcommand{\plusmin}{\ensuremath{\stackrel{+}{\scriptstyle(\kern-1pt-\kern-1pt)}}}
+
+%%%%%%%%%%%% Cell populations %%%%%%%%%%
+
+\newcommand{\linneg}{Lin{\slshape \footnotesize -}\xspace}
+
+\newcommand{\lsk}{Lin\textsuperscript{\slshape \footnotesize -} Sca\babelhyphen{nobreak}1\textsuperscript{\slshape \footnotesize +} c\babelhyphen{nobreak}Kit\textsuperscript{\slshape \footnotesize +}\xspace}
+
+\newcommand{\lgmp}{Lin\textsuperscript{\slshape \footnotesize -} IL\babelhyphen{nobreak}7R\ensuremath{\alpha}\textsuperscript{\slshape \footnotesize +} Sca\babelhyphen{nobreak}1\textsuperscript{\slshape \footnotesize -} c\babelhyphen{nobreak}Kit\textsuperscript{\slshape \footnotesize +} CD34\textsuperscript{\slshape \footnotesize +} FC\ensuremath{\gamma}R\textsuperscript{\slshape \footnotesize +}\xspace}
+
+\newcommand{\kit}{c\babelhyphen{nobreak}Kit\xspace}
+\newcommand{\kitpos}{c\babelhyphen{nobreak}Kit\textsuperscript{\slshape \footnotesize +}\xspace}
+\newcommand{\kithi}{c\babelhyphen{nobreak}Kit\textsuperscript{\slshape \footnotesize high}\xspace}
+\newcommand{\kitlow}{c\babelhyphen{nobreak}Kit\textsuperscript{\slshape \footnotesize low}\xspace}
+
+\newcommand{\cdelevenbpos}{CD11b{\slshape \footnotesize +}\xspace}
+\newcommand{\cdonehundretseventeenpos}{CD117{\slshape \footnotesize +}\xspace}
+
+
+
+%%%%%%%%%%%% Oncogenes %%%%%%%%%%%%%%
+
+\newcommand{\mllfp}{MLL-FP\xspace}
+\newcommand{\mllaffour}{MLL-AF4\xspace}
+\newcommand{\mllafnine}{MLL-AF9\xspace}
+\newcommand{\mllafninegfp}{MLL-AF9-{\scshape ires}-GFP\xspace}
+\newcommand{\mycbcltwo}{MYC-BCL2\xspace}
+
+%%%%%%%%%%%% Transcription factors %%%%%%%%%%%%%%
+
+\newcommand{\tfcebpa}{\proteinnamehuman{C/EBP\ensuremath{\alpha}}}
+\newcommand{\tfcebpb}{\proteinnamehuman{C/EBP\ensuremath{\beta}}}
+\newcommand{\tfcebpg}{\proteinnamehuman{C/EBP\ensuremath{\gamma}}}
+\newcommand{\tfcebpe}{\proteinnamehuman{C/EBP\ensuremath{\epsilon}}}
+
+%%%%%%%%%%%%%%% Genes %%%%%%%%%%%%%%
+
+\newcommand{\genename}[1]{#1\xspace}
+\newcommand{\genenamehuman}[1]{{\uppercase\expandafter{#1}}\xspace}
+\newcommand{\genenamemouse}[1]{#1\xspace}
+\newcommand{\genenamedrosophila}[1]{#1\xspace}
+
+%%%%%%%%%%%%%%% Protein %%%%%%%%%%%%%%
+
+\newcommand{\proteinname}[1]{#1\xspace}
+\newcommand{\proteinnamehuman}[1]{{\uppercase\expandafter{#1}}\xspace}
+\newcommand{\proteinnamemouse}[1]{#1\xspace}
+\newcommand{\proteinnamedrosophila}[1]{#1\xspace}
+
+%%%%%%%%%%%%%%% Genotypes %%%%%%%%%%%%%%
+
+\newcommand{\dnmtchipheadline}{Dnmt1\textsuperscript{ -/chip}\xspace}
+\newcommand{\dnmtchip}{Dnmt1\textsuperscript{\slshape \footnotesize -/chip}\xspace}
+\newcommand{\dnmtchipshort}{\textsuperscript{\slshape \footnotesize -/chip}\xspace}
+\newcommand{\dnmtchipregular}{{\slshape \footnotesize -/chip}\xspace}
+\newcommand{\dnmtfloxchip}{Dnmt1\textsuperscript{\slshape \footnotesize fl/chip}\xspace}
+\newcommand{\dnmtcchip}{Dnmt1\textsuperscript{\slshape \footnotesize c/chip}\xspace}
+\newcommand{\dnmtchipallele}{Dnmt1\textsuperscript{\slshape \footnotesize chip}-allele\xspace}
+\newcommand{\dnmtcallele}{Dnmt1\textsuperscript{\slshape \footnotesize c}-allele\xspace}
+\newcommand{\dnmtnallele}{Dnmt1\textsuperscript{\slshape \footnotesize n}-allele\xspace}
+\newcommand{\dnmtnegallele}{Dnmt1\textsuperscript{\slshape \footnotesize -}-allele\xspace}
+\newcommand{\dnmtwt}{Dnmt1\textsuperscript{\slshape \footnotesize +/+}\xspace}
+\newcommand{\dnmtwtshort}{\textsuperscript{\slshape \footnotesize +/+}\xspace}
+\newcommand{\dnmtwtregular}{{\slshape \footnotesize +/+}\xspace}
+\newcommand{\cremx}{Mx1-Cre\xspace}
+
+%%%%%%%%%%%%%%% Strains %%%%%%%%%%%%%%
+
+\newcommand{\mmblsix}{C57BL/6\xspace}
+\newcommand{\mmsvjae}{129/SvJae\xspace}
+\newcommand{\mmsjlola}{SJL-Ola\xspace}
+
+%%%%%%% HISTON MARKS %%%%%%%%%%%%%%%%
+% in case we need a special formatting here
+\newcommand{\histwoarg}{H3R2me2a\xspace}
+\newcommand{\hisfourone}{H3K4me1\xspace}
+\newcommand{\hisfourtwo}{H3K4me2\xspace}
+\newcommand{\hisfourthree}{H3K4me3\xspace}
+\newcommand{\hiseightac}{H3K8ac\xspace}
+\newcommand{\hisnineac}{H3K9ac\xspace}
+\newcommand{\hisninethree}{H3K9me3\xspace}
+\newcommand{\hiseighteenac}{H3K18ac\xspace}
+\newcommand{\hiseighteenub}{H3K18ub\xspace}
+\newcommand{\histwentythreeub}{H3K23ub\xspace}
+\newcommand{\histwentysevenac}{H3K27ac\xspace}
+\newcommand{\histwentyseventwo}{H3K27me2\xspace}
+\newcommand{\histwentyseventhree}{H3K27me3\xspace}
+\newcommand{\histhirtysixtwo}{H3K36me2\xspace}
+\newcommand{\histhirtysixthree}{H3K36me3\xspace}
+\newcommand{\hisseventyninetwo}{H3K79me2\xspace}
+\newcommand{\hisseventyninethree}{H3K79me3\xspace}
+
+%%%%%%%%%%%% Other ChIP-targets %%%%%%%%%%%%%%%%%%
+
+\newcommand{\poltwo}{RNA polymerase~{\uppercase \expandafter{\romannumeral2}}\xspace}
+
+%%%%%%%%%%%% Enhancer clusters %%%%%%%%%%
+
+\newcommand{\enhancerid}[2]{{\color{wwugray}\textbf{{\textsl{#1}:\tiny #2}}}\xspace}
+\newcommand{\enhancertab}[2]{{#1:#2}\xspace}
+
+\newcommand{\amitnum}[1]{\uppercase \expandafter{\romannumeral#1}\xspace}
+
+\newcommand{\amitcluster}[2]{\textsl{#1}~({\uppercase \expandafter{\romannumeral#2}})\xspace}
+
+\newcommand{\amitone}{\amitcluster{Common}{1}}
+\newcommand{\amittwo}{\amitcluster{Myeloid\,+\,Progenitors}{2}}
+\newcommand{\amittwon}{\amitcluster{Myeloid\,+\,Prog.}{2}}
+\newcommand{\amitthree}{\amitcluster{Lymphoid\,+\,Progenitors}{3}}
+\newcommand{\amitthreen}{\amitcluster{Lymphoid\,+\,Prog.}{3}}
+\newcommand{\amitfour}{\amitcluster{Erythroid\,+\,Progenitors}{4}}
+\newcommand{\amitfourn}{\amitcluster{Erythroid\,+\,Prog.}{4}}
+\newcommand{\amitfive}{\amitcluster{Progenitors}{5}}
+\newcommand{\amitsix}{\amitcluster{Myeloid}{6}}
+\newcommand{\amitseven}{\amitcluster{B-cells}{7}}
+\newcommand{\amiteight}{\amitcluster{TNK-cells}{8}}
+\newcommand{\amitnine}{\amitcluster{Erythroid}{9}}
+\newcommand{\amitten}{\amitcluster{Undefined}{10}}
+
+\newcommand{\clade}[2]{\textsl{\uppercase \expandafter{\romannumeral#1}.#2}\xspace}
+\newcommand{\cladesevenac}[2]{\textsl{\uppercase \expandafter{\romannumeral#1}.#2}{\footnotesize~(K27ac)}\xspace}
+\newcommand{\cladefourthree}[2]{\textsl{\uppercase \expandafter{\romannumeral#1}.#2}{\footnotesize~(K4me3)}\xspace}
+
+%%%%%%% TF motifs %%%%%%%%%%%%%%%%
+
+\newcommand{\motif}[2]{{\color{wwugray}\textbf{{\textsl{#1}.\tiny #2}}}\xspace}
+\newcommand{\motifnucleotides}[1]{{\color{wwugray}\textbf{\texttt{\large #1}}}\xspace}
+\newcommand{\motifmlltwo}{\motif{DeNovo}{SSCGCGGCCTSS}}
+\newcommand{\motifmlltwob}{\motif{DeNovo}{CGCCCCGCCCAC}}
+\newcommand{\motifmlltwoc}{\motif{DeNovo}{CCGGRCGGCG}}
+\newcommand{\motifx}{\motif{DeNovo}{CACTTCCTGT}}
+\newcommand{\motifxb}{\motif{DeNovo}{TGACGTCACT}}
+\newcommand{\motifxc}{\motif{DeNovo}{TTTCCCCWTTYG}}
+\newcommand{\motifpolya}{\motif{DeNovo}{YAAAAAAAAV}}
+\newcommand{\motifpuone}{{\color{wwugray}\textbf{\textsl{PU.1.ThioMac\-.{\tiny PU.1.ChIP.Seq.Homer}}}}\xspace}
+\newcommand{\motifetsone}{{\color{wwugray}\textbf{\textsl{Ets1.like.CD4\-.{\tiny PolII.ChIP.Seq.Homer}}}}\xspace}
+\newcommand{\motifcebpb}{{\color{wwugray}\textbf{\textsl{CEBP.CEBPb\-.{\tiny ChIP.Seq.Homer}}}}\xspace}
+\newcommand{\motifetwoa}{{\color{wwugray}\textbf{\textsl{E2A.proBcell.E2A\-.{\tiny ChIP.Seq.Homer}}}}\xspace}
+\newcommand{\motifmybb}{{\color{wwugray}\textbf{\textsl{MYB.HTH\-.{\tiny GSE22095}}}}\xspace}
+\newcommand{\motifnanog}{{\color{wwugray}\textbf{\textsl{Nanog.Homeobox\-.{\tiny GSE11724}}}}\xspace}
+\newcommand{\motifnkx}{{\color{wwugray}\textbf{\textsl{Nkx3.1.Homeobox\-.{\tiny GSE28264}}}}\xspace}
+\newcommand{\motifrunx}{{\color{wwugray}\textbf{\textsl{RUNX.AML\-.{\tiny Runt.CD4}\xspace}}}\xspace}
+\newcommand{\motifblh}{{\color{wwugray}\textbf{\textsl{SCL.bHLH\-.{\tiny GSE13511}\xspace}}}\xspace}
+
+
+%%%%%%% Bioinformatic tools %%%%%%%%%%%%%%%%
+
+\newcommand{\emphsoftwarename}[1]{\textsc{#1}}
+\newcommand{\emphcollectionname}[1]{\textsc{#1}}
+\newcommand{\emphdatabasename}[1]{\textsc{#1}}
+\newcommand{\emphkeggname}[1]{\emph{#1}}
+
+%%%%%%% Reference genomes %%%%%%%%%%%%%%%%
+
+\newcommand{\mmnine}{\textsl{NCBI37/mm9}\xspace}
+\newcommand{\mmten}{\textsl{GRCm38/mm10}\xspace}
+\newcommand{\hgnineteen}{\textsl{GRCh37/hg19}\xspace}
+
+%%%%%%%%%%%%%%% Chemicals %%%%%%%%%%%%%%
+
+\newcommand{\polyic}{poly\,I:C\xspace}
+
+%%%%%%% Other emphasis %%%%%%%%%%%%%%%%
+
+\newcommand{\emphspecies}[1]{\emph{\slshape #1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%% CV formatting %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\cvhead}[1]{\hskip-2mm\colorbox{fbbiolight}{
+	\hbox to\textwidth{
+		\fontsize{11.5pt}{13.2pt}\selectfont\color{white}
+		\hskip2mm\textbf{#1}
+		\vrule width0ptheight10ptdepth2pt\hss
+	}}}
+
+\newcommand{\emphfrank}[1]{#1}
+

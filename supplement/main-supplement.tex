@@ -1,0 +1,337 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% File: main.tex
+%% Author: Matthias Zepper
+%% Based on: John Liaperdos (ioannis.liaperdos@gmail.com)
+%% Last update: March 31, 2017
+%% Description: Provides an example of a PhD Thesis 
+%% using the wwubio-thesis-en pdfLaTeX class.
+%%
+%% Character encoding: UTF-8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%%%%%%
+% 1. use the "modern" or "classic" option to switch between 
+% a modern or classic font, respectively.
+%
+% 2. add/remove the "hyperref" option to enable/disable hyperlinks:
+% (remember to remove auxiliary files after adding/removing 
+% the "hyperref" option).
+%
+% 3. add/remove the "printer" option to typeset a printer-friendly 
+% (grayscale)/color version of the thesis.
+%
+% 4. use the "watermark" option to indicate a draft copy of the thesis
+%
+% 5. use the "histinit" option to enable "historiated initials".
+% (If used, all chapter initials declared by the \InitialCharacter{}
+% macro are enlarged. If ommitted, arguments of \InitialCharacter{}
+% are typeset as normal text.)
+%
+% 6. use the "plain" option to disable tikz graphics in title page
+% and part/chapter headers (might help to avoid compilation timeouts).
+% Note that "plain" disables CD label and CD cover creation.
+%
+% 7. use the "noindex" option to (hopefully) avoid compilation timeouts
+% when compiling online (disables index generation - note that "\indexGR",
+% "\index" invocations need not be removed when toggling this option).
+%
+% 8. use the "frontispiece" option to typeset a frontispiece at the back of the cover page
+%
+% 9. use the "letter" option for a US letter page layout, instead of A4
+%
+% 10. use the "minitoc" option to load and properly initialize the "minitoc" package, 
+% that allows typesetting individual tables of contents per chapter.
+% (remember to remove auxiliary files after adding/removing 
+% the "minitoc" option).
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+	\documentclass[modern,hyperref,watermark,histinit,minitoc,plain]{wwubio-thesis-en-supple}
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% UNIVERSITY INFO 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% University Name
+%
+	\UniversityName{Westfälische Wilhelms-Universität}
+%
+% School Name
+%
+	\SchoolName{Institut für Molekulare Tumorbiologie}
+%
+% Department Name
+%
+	\DepartmentName{}
+%
+% Location
+%
+	\UniversityLocation{Münster}
+%----
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% THESIS INFO 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%% -------------------------------------------------------------------
+% Thesis Type
+%
+\ThesisType{}
+%
+%% -------------------------------------------------------------------
+% Thesis Title 
+%
+% To force line breaks in title, use "\\".
+% If different line break locations are to be used for the cover page and the inner title page (page 3) 
+% repeat the cover page title as an optional argument of the \title macro, including line breaks.
+%
+% Examples:
+% 1. Automatic title line breaks in cover page and inner title page: 
+%	 \title{This is my title}
+% 2. Title breaking after ''my'' in both cover page and inner title page:
+%	 \title{This is my \\ title}
+% 3. Title breaking after ''my'' in cover page, and after ''is'' in inner title page:
+%	 \title[This is my \\ title]{This is \\ my title}
+%
+	\title{Epigenetic characterization of murine Dnmt1-deficient MLL-AF9 leukemia}
+%%
+%
+%% -------------------------------------------------------------------
+%% Thesis subtitle (optional)
+%
+% If no subtitle is required, set argument to blank, or comment-out the \subtitle macro.
+%
+% Example:
+%%	\subtitle{This is my subtitle}
+	\subtitle{DNA methylation in large regions and at cis-regulatory elements dissected in the \dnmtchip mouse model}
+%
+%% -------------------------------------------------------------------
+%
+%% Author name
+%
+% For more than one authors, separate with ",".
+% Example:
+	\authorName{Matthias Lutz Zepper} 
+	\authorBirthplace{Ludwigsburg} 
+%
+%% -------------------------------------------------------------------
+%
+%% Supervisor's name
+% 
+	\supervisor{Frank Rosenbauer}
+%
+%% -------------------------------------------------------------------
+%% Supervisor's title
+%
+	\supervisorTitle{Prof.~Dr.rer.nat.}
+%
+%
+%% -------------------------------------------------------------------
+%% Place and date of publication
+%
+	\thesisPlaceDate{2020}
+%
+%% -------------------------------------------------------------------
+%% Place and date in acknowledgements (if applicable).
+%
+	\ackPlaceDate{Münster, February 2020}
+%
+%% -------------------------------------------------------------------
+%% Approval information
+%
+	\examinationDate{October XX, 2020}
+	\approvalStatement{Approved by ...}
+%
+%% -------------------------------------------------------------------
+%% Copyright Year
+%
+	\copyrightYear{2020}
+%
+%% -------------------------------------------------------------------
+%% Name of first examiner
+%
+\dean{Susanne Fetzner}
+%
+%% -------------------------------------------------------------------
+%% Title of first examiner
+%
+\deanTitle{Prof.~Dr.rer.nat.}
+%% -------------------------------------------------------------------
+%% Name of first examiner
+%
+	\firstExaminer{Joachim Kurtz}
+%
+%% -------------------------------------------------------------------
+%% Title of first examiner
+%
+	\firstExaminerTitle{Prof.~Dr.rer.nat.}
+%
+%% -------------------------------------------------------------------
+%% Name of second examiner
+%
+	\secondExaminer{Martin Dugas}
+%
+%% -------------------------------------------------------------------
+%% Title of second examiner
+%
+	\secondExaminerTitle{Prof.~Dr.med.}
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% THESIS COLORS: 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{wwugreen}{HTML}{7ab51d}
+\definecolor{wwulime}{HTML}{b1c800}
+\definecolor{wwublue}{HTML}{009dd1}
+\definecolor{wwudark}{HTML}{006e89}
+\definecolor{wwuteal}{HTML}{008e96}
+\definecolor{wwugray}{HTML}{666666}
+
+\definecolor{fbbioblue}{HTML}{5685b9}
+\definecolor{fbbiolight}{HTML}{a2c3e6}
+
+
+
+%%
+%% Color for cover and chapters
+	\chaptercolor{fbbioblue}
+%%
+%% Color for appendices
+	\appendixcolor{fbbiolight}
+%%
+%% hyperlink color (ignored if the "hyperref" option is omitted)
+ 	\hyperlinkcolor{fbbioblue}
+%%
+%% Thesis title foreground color in cover page (ignored if the "plain" option is used)
+ 	\titlecolor{fbbioblue}
+%%
+%% Thesis title background color in cover page (ignored if the "plain" option is used)
+ 	\titlebackgroundcolor{white} 
+%%
+%% COVER PAGE IMAGE: 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+\coverpageimage{0.2}{logo/biouni.jpg}
+%%
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% MISCELLANEOUS SETTINGS: 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+% Path to University Logo (all supported formats are allowed)
+\UniversityLogoPath{logo/logo_wwu.eps}
+%
+% Path to University Logo (grayscale version to be used with the `printer' option)
+\UniversityBWLogoPath{logo/logo_wwu.eps}
+%
+% Scalefactor for University logos (1 for 100%)
+\LogoScaleFactor{2}
+% Draft Indication (watermark text to be used with the `watermark' option)
+	\draftIndication{Supplementary methods, figures and results}
+%
+% Frontispiece settings (ignored if the `frontispiece' option is omitted)
+%	Syntax: \setFrontispiece[scale factor]{path to frontispiece image}{frontispiece image legend}
+	\setFrontispiece[0.8]{figures/aesop.png}{Aesop}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% add custom hyphenation rules here
+%\hyphenation{} 
+%
+% Custom formatting
+\input{../macros}	
+\input{../hyphenation} % suppress hyphenation of some terms and abbreviations
+
+%textwidth: 14.99786cm
+%linewidth: 14.99786cm
+
+\renewcommand{\arraystretch}{1.4}
+\setlength{\parindent}{0em}
+%\setlength{\parskip}{1em} 
+
+\addto\captionsenglish{
+\renewcommand{\figurename}{Figure S\hspace{-0.2em}}
+\renewcommand{\tablename}{Table S\hspace{-0.2em}}
+\renewcommand{\chaptername}{Supplementary Chapter}
+}
+
+\addto\extrasenglish{
+	\renewcommand\figureautorefname{Figure S\hspace{-0.2em}}
+	\renewcommand{\tableautorefname}{Table S\hspace{-0.2em}}
+}
+
+\begin{document}
+ 
+\maketitle
+
+\beginfrontmatter
+	
+% Abstract (content in `abstract.tex')
+% Acknowledgements (content in `acknowledgements.tex')
+% Table of Contents
+	\tableofcontents
+% List of Figures
+%	\listoffigures
+% List of Illustrations
+	%\listofillustrations
+% List of Tables
+	%\listoftables
+% List of Algorithms
+	%\listofalgorithms
+% Preface (content in `preface.tex') 
+	%\include{preface}
+	
+\beginmainmatter
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INCLUDE YOUR CHAPTERS/SECTIONS HERE
+%%
+% Introduction
+ %\part{Introduction}
+    \adjustmtc   %to sync the minitocs with the actual chapter
+  	\include{introduction_enhancers}
+  	\include{results_wgbs_supplement}
+	\include{results_wgbs_betadist_supplement}
+    \include{results_gammodels_supplement}
+    \include{results_persistency_supplement}
+	\include{results_wgbs_cchip_supplement}
+	\include{results_deregulated_genes_supplement}
+	\include{results_deregulated_genes_tinats_supplement}
+	\include{results_enhancer_clustering_supplement}
+	\include{results_enhancer_motifsregulation_supplement}
+	\include{results_enhancer_targetgenes}
+ 	\include{appendix_degenes}
+ 	\include{appendix_enhancers}
+ \cleardoublepage\phantomsection\addcontentsline{toc}{chapter}{Bibliography}%
+ %\bibliographystyle{plos2015}
+	\bibliography{../references.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Index
+	%\printindices
+%
+%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%
+
+%% Create CD labels:
+
+	\definecdlabeloffsets{0}{-0.65}{0}{0.55} % upper label x offset [cm] (default=0) / upper label y offset [cm] (default=0) / lower label x offset [cm] (default=0) / lower label y offset [cm] (default=0) -- For Q-Connect KF01579 labels use the following offset values: {0}{-0.65}{0}{0.55}
+
+	\createcdlabel{This is my PhD \\ Thesis Title}{My Name}{October}{2014}{8} % thesis title / author name / month / year / title area width in cm (recommended value: 8) 
+
+%%
+%% Create CD case covers:
+
+	\createcdcover{This is my PhD \\ Thesis Title}{My Name}{October}{2014}{10} % thesis title / author name / month / year / title area width in cm (recommended value: 10) 
+
+%%
+%
+\end{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

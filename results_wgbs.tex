@@ -1,0 +1,129 @@
+\chapter{Methylome data of MLL-AF9 leukemia}\setlength{\fboxsep}{3pt}
+\minitoc
+
+The data presented above \dissrefpage{chap:i:abridged:project:previous_results} indicated that reduced \proteinnamemouse{Dnmt1} activity interferes with self-renewal and leukemia stem cell (LSC) function in a cell-autonomous manner. Some cells, in particular LSCs, seemed to undergo G1 arrest and become senescent. Although the \dnmtchip mouse exhibited aberrant hematopoiesis and disordered lymphoid lineage development\cite{Broeske2009}, incidence for senescence was only present in the leukemia. We assumed that oncogenic transformation with \mllafnine crucially depends on changes in the methylome, which could no longer be fully maintained in a \proteinnamemouse{Dnmt1} hypomorphic setting, being reminiscent of the treatment with chemical inhibitors of DNA methylation\cite{Stresemann2006,Hollenbach2010}. Thus, we asked, how malignant transformation would manifest itself in the methylome of a wild-type cell and in which regard that of a \dnmtchip cell would deviate.
+
+To generate acute myeloid leukemia (AML) in the \dnmtchip background and \dnmtwt controls, we transduced respective ex-vivo bone marrow progenitor cells (\lsk) with the hematopoietic-specific oncogene MLL-AF9 and transplanted them into sub-lethally irradiated wild-type recipient mice. Transduction of MLL-AF9, a MLL-fusion protein\citerev{Li2014a}, can transform several early hematopoietic lineages\cite{George2016} in a well characterized manner\cite{Somervaille2009,Krivtsov2013,Stavropoulou2016}. Importantly, it is known that the expression of CD117/c-kit is expedient to enrich leukemia stem cells (LSCs) from the leukemic bone marrow\cite{Krivtsov2006,Somervaille2006}. Such LSC-enriched \kitpos fractions (\lgmp) of three independently established \mllafnine \dnmtwt and \dnmtchip leukemia were (in collaboration with Frank Lyko and Günter Raddatz) subjected to Whole-Genome Bisulfite Sequencing (WGBS) to assess the DNA methylation. Although RRBS and methylation array data from human leukemia had been published before\cite{Akalin2012a,TCGAC2013}, this were the first WGBS methylomes generated for murine \mllafnine leukemia. 
+
+\section{Leukemia-related demethylation}
+\label{chap:r:wgbs:demethylation}
+
+Because of the high cross-sample consistency for the replicates \supple, we decided to pool the data of three biological replicates per genotype and generated meta-samples, which simplified further analyses. Instead of averaging over the methylscores of the three biological replicates, which could easily misrepresent sites with highly different coverage, we pooled the aligned samples on a read level before calling the combined methylscore over all reads at a site. 
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_violinplot.pdf} 
+	\caption[Violinplot of methylscore averages, \SI{100}{\kilo b} windows]{Distribution of methylscore averages across \SI{100}{\kilo b} windows, sliding with a step size of \SI{25}{\kilo b} along the genome.}
+	\label{fig:wgbs_violinplot}
+\end{figure}
+
+In comparison to the previously published methylome of mouse hematopoietic stem cells (HSC)\cite{Jeong2014}, both leukemia were hypomethylated\reffigure{fig:wgbs_violinplot}{}. The methylscore of \dnmtwt HSCs typically averaged at \num{0.88} within a \SI{100}{\kilo b} window with little deviation. While the average decreased in both leukemia, the degree of hypomethylation, in accordance with reduced \proteinnamemouse{Dnmt1}-expression, was more pronounced in \dnmtchip. In contrast, the deviation\footnote{The median absolute deviation is another measure of spread, however more robust than variance and standard deviation for cases with extremely high or low values and preferred for non-normality. It is defined for univariate data as the median of the absolute deviations from the data's median:$$\operatorname{MAD}_{x_{1},x_{2},\ldots,x_{n}} = \operatorname{median}\left(\ \lvert x_{i} - \operatorname{median} (x) \rvert \right)\,$$}, which increased diametrically as indicated by the skewness of the curves, was particularly large in \dnmtchip \reftable{tab:wgbs_violinplot}{} . Thus, the methylome of \dnmtchip was the most hypomethylated and least uniform in our assay. 
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{lcc}
+		\textbf{Sample} & \textbf{Median} & \textbf{Median Absolute Deviation} \\
+		\hline
+		\dnmtwt HSC & \num{0.88} & \num{0.04} \\
+		\dnmtwt \kitpos leukemia & \num{0.76} & \num{0.06} \\
+		\dnmtchip \kitpos leukemia & \num{0.58} & \num{0.09} \\
+		\hline
+	\end{tabular}
+	\caption[Summary table of methylscore averages]{Summary for the \SI{100}{\kilo b} sliding window averages, which are shown in \autoref{fig:wgbs_violinplot} as well as \autoref{fig:wgbs_sliding_windows1}.}
+	\label{tab:wgbs_violinplot}
+\end{table}
+
+A pairwise comparison of \dnmtwt HSC vs. \kitpos leukemic cells showed a global reduction of the methylation levels by approximately \SI{10}{\percent}, regardless of the original baseline methylscore average within the particular window \reffigure{fig:wgbs_sliding_windows1}{, left panel}. 
+
+\emphfrank{In contrast to the uniform hypomethylation, which we observed for the \dnmtwt cells, the \dnmtchip \kitpos methylome surprisingly divided, albeit globally hypomethylated, into areas of higher and lower methylation persistence} \reffigure{fig:wgbs_sliding_windows1}{, right panel}. In some areas the hypomethylation mediated by \proteinnamemouse{Dnmt1}-impairment was confined to further \SI{10}{\percent}, whereas other sections of the genome on average lost \SI{25}{\percent} of their methylation in comparison to wild-type leukemia. Thus, we named these different sections of the genome \emph{persistent} and \emph{compromised} regions. Such a separation had been shown for solid tumors, but not for leukemia. Importantly, the compromised regions did not overlap with the methylation canyons  previously described in hematopoietic stem cells\cite{Jeong2014}\dns. 
+
+\begin{figure}[!ht] 
+	% LSCs vs LSCs 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows1.pdf} 
+	\caption[Scatterplot of pairwise comparisons for all CpGs]{Pairwise comparison of two meta-samples per panel. Each dot denotes a particular \SI{100}{\kilo b} window and its position on the axis is decided by the average methylscore in the respective sample. A color-encoded density scale highlights areas with many individual points.}
+	\label{fig:wgbs_sliding_windows1}
+\end{figure}
+
+\section{Chromatin-state-dependent demethylation}
+\label{chap:r:wgbs:lad_demethylation}
+
+Several previous studies reported hypomethylation in solid tumors, which did not occur uniformly, but seemed to associate with the underlying chromatin structure and to intensify in heterochromatic regions\cite{Hansen2011,Berman2012,Hon2012,Timp2014}. Published WGBS data from hematopoietic malignancies was rare, but with on average just 5\% intensification in heterochromatic, lamina-associated domains (LADs), human B-ALL\cite{Lee2015a} for example was virtually devoid of such patterns. This also applied to the hypomethylation observed in our murine \dnmtwt \kitpos dataset, which - as mentioned previously - was weak and uniform\reffigure{fig:wgbs_sliding_windows1}{, left panel}.
+
+The methylome of \dnmtchip \kitpos leukemia cells, which exhibited unevenly distributed hypomethylation\reffigure{fig:wgbs_sliding_windows1}{, right panel}, unexpectedly resembled those of aforementioned solid tumors. Therefore, we presumed that those patters might also be ramifications of the chromatin structure.
+
+\subsection{Ramifications of lamina-association on methylation}
+
+We inferred the chromatin structure of \dnmtchip \kitpos leukemia from a published annotation of constitutive lamina-association downloaded from the NCBI Gene Expression Omnibus with the accession GSE36132\cite{Meuleman2013}. In this dataset, the authors termed regions, which were lamina-associated\cite{Peric-Hupkes2010} in all cell types constitutive LADs (cLADs) and called such, which never associated with the lamina, constitutive interLADs (ciLAD). Taken together the two groups comprised \SI{71}{\percent} of the genome. The remaining \SI{29}{\percent} are variable among cell types and thus termed flexible LADs (fLADs). 
+
+\begin{figure}[!ht] 
+	% LSCs vs LSCs ciLAD / cLAD
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows3.pdf} 
+	\caption[Scatterplot of pairwise leukemia contrasts for ciLAD/cLAD CpG averages]{For these intra-leukemia contrast plots the methylscore averages within \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b} steps) were calculated after prior separation of the CpGs in ciLAD respectively cLAD sets. Sections without a sufficient coverage were excluded.}
+	\label{fig:wgbs_sliding_windows2}
+\end{figure}
+
+It was clearly possible to relate the higher and lower methylation persistence in \dnmtchip to ciLADs and cLADs respectively\reffigure{fig:wgbs_sliding_windows2}{\,vs. right panel of \autoref{fig:wgbs_sliding_windows1}}.  
+
+Hence, methylation loss in \dnmtchip \kitpos leukemia remarkably intensified in cLAD regions, which were unequivocally methylated in \dnmtwt HSC and LSC\reffigure{fig:wgbs_sliding_windows3}{, right panel}. No difference in methylation persistency between cLADs and ciLADs could be observed for the \dnmtwt HSC versus LSC contrast\reffigure{fig:wgbs_sliding_windows3}{}. Furthermore, it should be noted that areas of relatively low methylation (such as $\leq $\SI{65}{\percent}) were confined to the ciLAD areas in \dnmtwt samples. 
+
+Therefore, this analysis for the first time established an association of compromised regions with a lack of \genenamemouse{Dnmt1}. Additionally, the methylome of \dnmtchip \mllafnine was the first leukemia sample to exhibit a drastically variable methylation persistence known from solid tumors\cite{Timp2014}. 
+
+\begin{figure}[!ht] 
+	% HSCs vs LSCs ciLAD / cLAD
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows2.pdf} 
+	\caption[Scatterplot of averaged ciLAD / cLAD CpGs in wild-type leukemia vs. HSC]{CpGs were partitioned into ciLAD and cLAD collections and mapped on \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b} steps) for calculating mean methylation. The comparison of \dnmtwt \kitpos leukemia vs. HSCs is shown.}
+	\label{fig:wgbs_sliding_windows3}
+\end{figure}
+
+\subsection{Assessment of CpG-Island methylation}
+\label{chap:r:wgbs:lad_demethylation_cgi}
+
+\begin{figure}[!bht] 
+	% CpG Islands
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows4.pdf} 
+	\caption[Scatterplot of CGI methylation in leukemia ]{Either the CpG entirety or a the ciLAD subset of CpGs has been mapped on a CpG-Island reference and the difference between the \dnmtchip and \dnmtwt leukemia is visualized as dotplot.}
+	\label{fig:wgbs_sliding_windows4}
+\end{figure}
+
+CpG-Islands, genomic areas with an unusually high frequency of CG-dinucleotide base pairs, are involved in transcriptional regulation and known to be aberrantly methylated in cancer\cite{Issa2004,Rodriguez-Paredes2011}. Furthermore it has been shown that their methylation level is regulated separately from the baseline methylscore of the surrounding sequence in cancer\cite{Lee2015}. Therefore, we addressed the methylation level of CpG-Islands in particular by mapping the data on CpG-Island coordinates obtained from \url{http://www.haowulab.org/software/makeCGI/index.html}\cite{wu2010redefining}. 
+
+ Remarkably, the methylation of CpG-Islands (CGI) was largely unchanged in \dnmtchip \kitpos versus \dnmtwt \kitpos leukemia\reffigure{fig:wgbs_sliding_windows4}{}. Just a few hundred of the \num{74986} CGIs for the \mmnine reference genome changed their methylation status significantly and basically none was associated with a known promoter\dns. 
+ 
+ If a CGI was already unmethylated in the \dnmtwt sample, which we only observed in ciLAD space, impairment of faithful propagation by \proteinnamemouse{Dnmt1} insufficiency would obviously be of no consequence. However, also the highly methylated CGIs in the cLAD areas remained essentially untampered with, although they were situated in the actually more hypomethylating cLADs\reffigure{fig:wgbs_sliding_windows5}{, left panel}. 
+ 
+ It remained unknown, whether this resulted from a preferential recruitment of Dnmt1 to the CpG-Islands or a de novo methylation by the other methyltransferases and if it reflected a selective pressure. Since those CGIs were also highly methylated in \dnmtwt HSCs\reffigure{fig:wgbs_sliding_windows5}{, right panel}, it seemed comprehensible that cells with widespread loss of methylation at these sites had been subject to negative selection. 
+
+\begin{figure}[!htb] 
+	% CpG Islands: cLADs
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows5.pdf} 
+	\caption[Scatterplot of CGI methylation in cLADs, \dnmtwt vs. \dnmtchip leukemia and HSCs]{A selection of CpGs localized in annotated cLAD regions has been mapped on a CpG-Island reference. Either the contrast \dnmtwt \kitpos vs. HSC or vs. \dnmtchip \kitpos leukemia is shown.}
+	\label{fig:wgbs_sliding_windows5}
+\end{figure}
+
+Since our data confirmed a previous observation, namely that one had to consider CpG-Islands and the methylation of the backbone separately\cite{Lee2015}, we were now interested, how exclusion of the CGIs would affect our results. Therefore, we repeated the \SI{100}{\kilo b} sliding window analysis after prior exclusion of all CpGs within islands. 
+
+\begin{figure}[!htb] 
+	% exclude CpG Islands
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows6.pdf} 
+	\caption[Scatterplot of \SI{100}{\kilo b} analysis with the exception of CGIs]{Mean methylation for \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b} steps) for all CpGs outside islands.  Although some authors regard shores as transition zones influenced by the methylation level of the island\cite{Hebestreit2013}, we considered shore-CpGs (\SI{2}{\kilo b} margin surrounding an island) as backbone and counted them normally.}
+	\label{fig:wgbs_sliding_windows6}
+\end{figure}
+
+Without distorting CpG-Islands, the large-scale trends in the data became more obvious\reffigure{fig:wgbs_sliding_windows6}{\,vs.\,\autoref{fig:wgbs_sliding_windows1}}. While \dnmtwt \kitpos leukemia exhibited a homogeneous demethylation by roughly \SI{10}{\percent}, a clear division into regions of better and worse methylation persistence emerged within the \dnmtchip specimen. This bimodal distribution was mainly attributable to the ciLAD/cLAD fractions as we had seen before\reffigure{fig:wgbs_sliding_windows2}{}. 
+The remaining \SI{29}{\percent} flexible LADs (fLADs) appeared as regions of intermediate persistency \reffigure{fig:wgbs_sliding_windows7}{, left panel}, which harbored mostly methylated and stable CpG-Islands\reffigure{fig:wgbs_sliding_windows7}{, right panel}.
+
+\begin{figure}[!ht] 
+	% fLADs
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_100kb_sliding_windows/wgbs_sliding_windows7.pdf} 
+	\caption[Scatterplot of \SI{100}{\kilo b} restricted to fLADs]{Methylscore average within \SI{100}{\kilo b} windows, sliding with a step size of \SI{25}{\kilo b} along the genome has been calculated under exclusive consideration of CpGs situated in flexible LADs.}
+	\label{fig:wgbs_sliding_windows7}
+\end{figure}
+
+Taken together, this analysis showed that also in \mllafnine leukemia, methylation in CpG-Islands and backbone is independently regulated. Therefore, we included this parameter during the GAM modeling\dissrefpage{chap:r:gam:fitting}. Furthermore, we were puzzled by the surprisingly good methylation persistency at cLAD CpG-Islands in \dnmtchip, which later urged us to test, whether they serve as recruitment platforms for \genenamemouse{Dnmt1}\dissrefpage{chap:r:persistency:nextcgi}.      

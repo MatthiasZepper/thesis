@@ -1,0 +1,37 @@
+\chapter{Project assignment}
+\section{Previous findings}
+\label{chap:i:project:previous_results}
+
+The Rosenbauer laboratory has a long-standing interest in the role of DNA-methylation for normal and abnormal hematopoiesis\cite{Broeske2009,Vockentanz2010}. Lena Vockentanz, a former PhD student\cite{Vockentanz2011} and Irina Savelyeva, a previous postdoc in the laboratory, conducted many experiments, which have collectively shown that \proteinnamemouse{Dnmt1} expression is essential for cell-autonomous activity of \mllafnine leukemia cells. 
+
+Using a \polyic-inducible \mllafnine \cremx \ensuremath{\times} \dnmtfloxchip mouse model, the rate-limiting impact of diminished \proteinnamemouse{Dnmt1} levels on leukemia development was shown. However, non-excised \dnmtfloxchip cells, which had escaped induction, typically outgrew their rearranged cognates in prolonged experimental settings. Thus, this model appeared non-optimal for studying the function of leukemic stem cells (LSCs) in particular and \mllafnine leukemia with a \proteinnamemouse{Dnmt1} hypomorphic background was created using bone marrow cells from \dnmtchip mice as donors.
+
+Consistent with the previous \mllafnine \cremx \ensuremath{\times} \dnmtfloxchip results, animals transplanted with \dnmtchip \mllafnine leukemia fell ill significantly later than those of the wild type control group\footnote{median latency \num[separate-uncertainty = true]{140.8\pm37}\,days versus \num[separate-uncertainty = true]{89.8\pm24.1}\,days after transplantation}. Animals with end-stage leukemia presented with splenomegaly and massive infiltration of donor \mllafninegfp cells into the bone marrow and spleens of recipient mice. Like the \dnmtwt control, \dnmtchip \mllafnine leukemia mimicked \cdelevenbpos granulocyte-macrophage progenitors and in part expressed the precursor marker \cdonehundretseventeenpos (\kit). The latter is useful to enrich LSCs from the leukemic bone marrow\cite{Krivtsov2006,Somervaille2006} and limiting dilution assays showed that the rate of LSCs in leukemia with \dnmtchip genotype was significantly lower\cite{Vockentanz2011}. 
+
+This indicated that the prolonged latency was attributable to cell-autonomous functions of LSCs instead of microenvironment- or engraftment-deficiencies. The latter possibility was firmly ruled out by a short-term (\SI{20}{\hour}) engraftment assay, which detected that a comparable number of transplanted cells of both genotypes had infiltrated the hematopoietic organs. Furthermore the recipients for the transplantation experiments were all wild-type mice, which corroborated engraftment independence of the observations. 
+
+Altogether the results argued for an impaired self-renewal of LSCs, which was confirmed by in vitro serial replating in methyl-cellulose. To determine if the reduced self-renewal was functionally linked to an altered cell cycle, Hoechst\,\num{33342} incorporation was monitored: \dnmtchip \mllafnine exhibited a \SI{31}{\percent} reduction in cell numbers for LSCs in the S-G2-M phases, but no increase in apoptosis. Hence, a proportion of \dnmtchip LSCs accumulated in the non-cycling G1 phase. By quantitative PCR experiments, this G1 arrest could in part be attributed to an increased expression of the two transcripts \genenamemouse{p19/Arf} and \genenamemouse{p16/Ink4A} at the \genenamemouse{Cdkn2a} locus in \dnmtchip leukemia. Both gene products are known to accompany senescence in murine and human cells. Indeed variable fractions of senescent cells could be detected in the \dnmtchip group by \ensuremath{\beta}-galactosidase (\ensuremath{\beta}-gal) staining. While non-leukemic hematopoietic stem/progenitor populations of \dnmtchip were devoid of senescent cells \footnote{despite known aberrant hematopoiesis and disordered lymphoid lineage development\cite{Broeske2009}}, the leukemia bulk contained up to \SI{7}{\percent} (avg. \SI{2.8}{\percent}) and the LSC fraction up to \SI{53}{\percent} (avg. \SI{9.3}{\percent}) senescent cells. Although the rate of senescence was highly variable across replicates, these findings suggested a relevant inherent senescence risk of \dnmtchip \mllafnine leukemia and provided a first plausible route to cell cycle exit and self-renewal defects. 
+
+\section{Aim of this thesis}
+\label{chap:i:project:aim}
+
+Although the first hypothesis to explain the prolonged latency of \dnmtchip \mllafnine leukemia had been drafted, it remained elusive how the senescence program was triggered by reduced \proteinnamemouse{Dnmt1} levels in the first place. Since chemical inhibitors of DNA methylation, such as decitabine, which has received market authorization by the European Medical Agency, have proven therapeutic efficacy for the treatment of acute myeloid leukemia\cite{Stresemann2006,Hollenbach2010}, we assumed a common methylation-dependent mechanism.
+
+The treatment with inhibitors results in an undirected reduction in DNA methylation. However, it is generally presumed that most methylation changes occur silently and therapeutic effects are only conferred, when yet to be characterized key sites have been affected by random. Our mouse model seemed to be suitable to aid the identification of those key sites, as it permitted to reduce DNA methylation by genetic \genenamemouse{Dnmt1} deficiency instead of inhibitor treatment and thus allowed to circumvent possible side-effects. We utilized the \dnmtchip mouse strain to elicit acute myeloid leukemia by transduction of \mllafnine and asked, how selective pressure and impaired methylation maintenance would shape the leukemia methylome. \clearpage
+
+The \kitpos sorted, leukemic stem cell fractions were subjected to extensive, genome-wide characterization by next-generation sequencing experiments:
+
+\begin{itemize}
+	\item Whole-Genome Bisulfite sequencing (WGBS) to assay DNA methylation
+	\item RNA-seq to study gene expression changes and alternative splicing
+	\item CAGE-seq to detect aberrant transcriptional initiation and call enhancers
+	\item \hisfourthree ChIP-seq to corroborate active transcription and identify broad peaks, which are referred to as buffer domains and mark cell identity genes\cite{Benayoun2014}.
+\end{itemize} 
+
+The bioinformatic analysis and interpretation of the gathered data from these experiments was the centerpiece of the project. To quantify the methylation persistence across large regions and detect regional trends, a novel method for WGBS data comparison based on Generalized Additive Models was developed. 
+
+Since misplaced or anomalous enhancers have emerged as important contributing factors of leukemogenesis\dissref{chap:i:enhancers:leukemia}, we asked whether they might be sites of therapeutically relevant DNA methylation changes. To address this possibility, a comprehensive characterization of bivalently transcribed active enhancers and their respective methylation status was performed. 
+
+All results were placed in context with published third-party datasets \dissrefpage{chap:ap:thirdpartydata}, which were often reanalyzed from scratch to assure full comparability with our own data. 
+
+Selected genes and enhancers were also experimentally tested in vitro by shRNA knock-down or CRISPRi for their effect on self-renewal and growth rate. 

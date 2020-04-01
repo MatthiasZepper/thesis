@@ -1,0 +1,229 @@
+\chapter{Transcriptional analysis}
+\label{chap:r:transcription}
+\minitoc
+
+\section{Characterization of Dnmt1-hypomorphic transcription}
+\label{chap:r:transcription:intro}
+
+Several methods exist for the genome-wide assessment of transcription and have specific capacities, advantages and downsides. The first genome-wide dataset, which had been generated more than a decade ago in the Rosenbauer laboratory from \dnmtchip mice comprised samples from healthy hematopoietic stem and progenitor cells\cite{Broeske2009,Vockentanz2010} measured by microarray. The chip design "Affymetrix GeneChip Mouse Genome 430 A 2.0" represented approximately 14,000 well-characterized mouse genes. Later Lena Vockentanz, a previous PhD student, had also generated microarray data from leukemic \kitlow and \kithi \mllafnine cells , but unfortunately a more comprehensive, but different chip design was chosen (Affymetrix GeneChip Mouse Gene 2.0 ST Array), which subsequently hindered straightforward comparisons to the healthy controls. Although we addressed and solved this issue by matching equivalent probesets and performing intricate normalization, those results shall not be part of this thesis. 
+
+In collaboration with Gangcai Xie from the group of Wei Chen, Lena Vockentanz had generated RNA-seq data from \mllafnine \kithi and \kitlow fractions\cite{Krivtsov2006,Somervaille2006} as well as a \hisfourthree ChIP-seq from \kithi cells for both genotypes (\dnmtchip, \dnmtwt). In-depth analysis of this data was another task, which was addressed as part of this thesis work. Given that the sensitivity of RNA-seq was higher and we were intrigued by the potential impact of DNA hypomethylation on splicing, we focused on those more informative datasets \dissrefpage{chap:r:degenes:changes}. 
+
+Indeed, widespread aberrant alternative splicing across tumors was documented by other researchers\cite{Kahles2018} at the time of writing this thesis, the cause of which however was still disputed. Loss of methylation in gene bodies seemed to be a plausible mechanism to regulate splicing\cite{Mendizabal2017}, however this was refuted by in an experimental in-vitro transcription model\cite{Nanan2017}. An alternative explanation was provided by the discovery of epigenetically repressed cryptic promoters, which became activated upon hypomethylation and seriously perturbed regular splicing\cite{Brocks2017}. These promoters were referred to as \emph{treatment-induced non-annotated transcription start sites} (TINATs), because they were identified in the context of therapeutic treatment with DNA methyltransferase inhibitors (DNMTi) for cancer therapy. Previously the therapeutic effect of hypomethylating drugs for cancer therapy had been widely attributed to the reversal of focal hypermethylations silencing tumour-suppressor genes\cite{Cai2017}, but the derepression of cryptic promoters represented an appealing different mechanism.
+
+While reviewing the aligned RNA-seq data, we had observed that a surprisingly large number of genes seemed to be incompletely annotated in the reference genome, since the canonical transcripts could sometimes not explain the distribution of sequencing reads. Often, we could spot peaks of aligned reads in the vicinity of a known gene, despite no reference exon was annotated at those loci. Furthermore the readcounts measured at the exons of a particular transcript were sometimes unbalanced, arguing against a full-length transcription of the transcript in question. 
+
+For selected genes like \genenamemouse{Pard6b}, Irina Savelyeva therefore performed 5'-RACE-PCR to identify unannotated transcription start sites, which were often located inside introns and produced shorter than normal transcripts. Although we had achieved the DNA hypomethylation by means of genic \genenamemouse{Dnmt1} reduction instead of inhibitor treatment, we had thereby discovered transcription originating from cryptic promoters similar to TINATs independently from the group of Christoph Plass\cite{Brocks2017}. 
+
+However, we did not consider these findings as a specific class of undiscovered transcription start sites, but rather as expectable shortcoming of the reference transcriptome, which obviously could not meet the requirements of all cell types and conditions. Even comprehensive projects like the \emphcollectionname{FANTOM} consortium could not provide a complete reference of all transcriptional activity in the genome, yet elaborated on the incompleteness of the existing references\cite{Carninci2005,Faulkner2008}.
+
+Since fusion proteins of \proteinnamehuman{Mll} (\mllfp) are known to impact crucial regulators of the transcriptional machinery \cite{Slany2016}, we presumed to detect new transcripts and splice variants. To generate an experimentally determined transcriptome of \mllafnine cells, Irina Savelyeva in collaboration with Claudia Gebhard from the laboratory of Michael Rehli performed CAGE-seq\cite{Carninci1996,Shiraki2003,Takahashi2012}, a technique to sequence capped 5'-ends of mRNA to determine transcription start sites. We united the CAGE-seq and RNA-seq datasets to determine an experimental transcriptome\dissrefpage{chap:r:tinats:stringtie}.
+
+\section{Genotype validation}
+\label{chap:r:transcription:genotypeval}
+
+Like the methylome data also the transcriptome sequencing libraries of both experiments were created in collaboration with partnering laboratories and processed by several scientists and students. To avoid false conclusions due to sample confusions, we strove for a validation of the sequencing results during quality control. In contrast to the methylome data, we had access to the raw reads for those experiments, which permitted for more thorough checks, such as mapping them to control regions to confirm the presumed genotype.
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/genes/genotype_validation/dnmt1mappings.pdf} 
+	\caption{Genotype validation of the samples by remapping reads to control regions. The left panel shows the normalized RNA-seq read counts for the two genotypes (each \ensuremath{n\!= \!5}), which map on the respective features. The presence of reads mapping on the resistance cassette for aminoglycoside antibiotics in the \dnmtchip group proves the presence of the \dnmtcallele. The right panel depicts the CAGE-seq reads allotted to the exons of \genenamemouse{Dnmt1}, whose order is reversed due to their location on the antisense strand. The promoter signal is far higher than those of the exons (thus the y-axis is modulus transformed).}
+	\label{fig:genes:genotype_validation}
+\end{figure}
+
+\subsection{RNA-seq}
+\label{chap:r:transcription:genotypeval:rna}
+
+Validation of the \dnmtchip genotype in RNA-seq was relatively straightforward due to the \dnmtnegallele, which contained a PGK-NeoR-PGKpoly(A)-cassette\cite{Adra1987,Tybulewicz1991} excised with EcoRI/HincII from the pKJ-1 plasmid (Addgene ID: 11333). 
+Lei et al.\cite{Lei1996} inserted this cassette at several locations into the genomic sequence of the \genenamemouse{Dnmt1}-locus to create various truncated and dysfunctional proteins. One of those constructs carries the insertion in the last third of the gene near the c-terminus and is therefore referred to as the \dnmtcallele. The 3’-half of exon~34 and the complete exon~35 located in the last third of the \genenamemouse{Dnmt1}-gene had been replaced, which resulted in the protein sequence \textsc{[…]VMAGEV-deleted-AGQYGV[…]}. Thus, almost one hundred amino acids were deleted and the tertiary structure heavily perturbed, such that the \dnmtcallele encoded for a dysfunctional protein. 
+
+The inserted PGK-NeoR-PGKpoly(A)-cassette encompassed a functional gene copy of the enzyme neomycin phosphotransferase II (EC 2.7.1.95), which confers resistance to various aminoglycoside antibiotics, including kanamycin and G418 and originated from the transposon Tn5 \cite{Yenofsky1990}. Because in particular G418 also exhibits toxicity to eukaryotic cells, it can be used as selectable marker in the transformation of organisms as diverse as bacteria, yeast, plants and animals, which typically lack comparable enzymes.
+Therefore, we could use the sequence of the neomycin phosphotransferase II to validate the genotypes in RNA-seq: Only \dnmtchip genomes contained the DNA cassette with the gene of the enzyme\reffigure{fig:genes:genotype_validation}{, left panel}. Since expression of the neomycin phosphotransferase II was driven by the PGK-promoter, which natively belongs to the housekeeping-gene phosphoglycerate kinase 1 (PGK), the promoter and terminator sequences could also be detected in \dnmtwt, albeit with a lower expression. 
+
+\subsection{CAGE-seq}
+\label{chap:r:transcription:genotypeval:cage}
+
+For the same reason, validation of the \dnmtcallele in CAGE-seq was impossible, because the PGK promoter in the cassette comprised roughly \SI{500}{bp}, while our single-end sequencing reads just allowed to inspect the first \SI{35}{bp} of the transcript. Therefore, we could not distinguish transcription of the housekeeping-gene phosphoglycerate kinase 1 (PGK) from that of PGK-NeoR-PGKpoly(A)-cassette.
+While the RNA-seq results had suggested that the elevated PGK expression could suffice to set the groups apart \reffigure{fig:genes:genotype_validation}{, left panel}, this approach was precluded by a very high standard deviation among the biological replicates of the two groups and an inconclusive ranking in CAGE-seq expression. 
+
+While CAGE-seq is capable of highly enriching 5'-capped RNA, it is not uncommon to see weaker signals at splice acceptor sites. Thus, known exons are typically 5'-masked for downstream analyses like enhancer calling\cite{Andersson2014}. We utilized this property of the data to attempt the validation of the genotypes based on the replacement of exon~35 of \genenamemouse{Dnmt1} by the PGK-NeoR-PGKpoly(A)-cassette in the \dnmtcallele. However, virtually no difference was detectable between the two genotype groups for exon~35 \reffigure{fig:genes:genotype_validation}{, right panel}. 
+
+Remarkably the signal levels varied greatly between the individual exons. For the \dnmtwt genotype this was easily explainable by alternative transcript variants and splicing. In the case of \dnmtchip, however, these reads could only arise from the \dnmtcallele, because the \dnmtchipallele was the spliced cDNA of \genenamemouse{Dnmt1} inserted as a minigene replacement of the genomic \genenamemouse{Dnmt1}-locus\cite{Tucker1996,Gaudet2003}. Thus, the data suggested active transcription and post-transcriptional regulation taking place at the locus of the \dnmtcallele despite the c-terminal truncation. However, the main goal of the analysis - the validation of the genotypes - could not be achieved for the CAGE-data. 
+
+\section{Expression analysis}
+\label{chap:r:transcription:expressionoverall}
+
+\subsection{Stray transcription of reference transcripts}
+\label{chap:r:transcription:strayreference}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/chromatin/gam_hic_features/refseqecdfplot_rnaseq_lscdiff_gam.pdf} 
+	\caption{Relation of relative GAM-derived methylation probability and cumulated transcriptional expression. Each biological replicate is shown as a single curve of cumulated expression and depending on genotype and population is assigned to the respective panel. The overlay of both genotypes is shown in the last column.} % and comprises seven samples each, including \kithi ($n\!= \!5$) and \kitlow ($n\!= \!2$).}
+	\label{fig:refseqecdfplot_rnaseq_lscdiff_gam}
+\end{figure}
+
+As shown previously, there were few hypomethylated transcripts with a reproducibly upregulated expression across all replicates. However, this did not rule out the possibility that in single cells uncontrolled transcription due to individually hypomethylated promoters had occurred. At most, such stray transcription would have been visible in the aggregated data as increased noise. 
+
+We tried to detect and quantify possible stray transcription by several approaches. The most comprehensive analysis was based on an experimentally determined transcriptome derived from CAGE-seq data \dissrefpage{chap:r:tinats}, but we also addressed this question in the context of the reference transcripts. 
+
+On the grounds of an assumed passive demethylation in \dnmtchip and due to the potential accessibility for the transcription machinery, we conjectured that the flexible lamina-associated domains (fLADs) might be the hot spot of stray transcription. While cLADs, which contact the nuclear lamina with high cell-to-cell consistency are gene-poor, the fLADs harbor a notable fraction of transcripts\cite{Guelen2008}. Furthermore the variable interactions are a backbone of single-cell gene regulation and chromatin organization\cite{Kind2015}. In connection with impaired methylation maintenance, we therefore suspected to find notable epigenetic heterogeneity and stray transcription in fLADs. However, mapping the expression of annotated transcripts onto our GAM-derived methylation persistency score resulted again in exactly comparable ECDF~plots for both genotypes. We did not observe an uncontrolled onset of relevant transcription in methylation-compromised areas\reffigure{fig:refseqecdfplot_rnaseq_lscdiff_gam}{}.
+
+We also tried to corroborate the latter result with direct chromatin data. Lacking an actual dataset of \mllafnine \kitpos leukemia, we resorted to Hi-C chromatin interaction data generated in the HPC-7 murine blood stem/progenitor cell model\cite{Wilson2016}, which we deemed applicable to our cells \dissrefpage{chap:r:gam:chromatin:hic}. To derive a simple measure of the chromatin openness from the high dimensional Hi-C interaction matrices generated during our reanalysis, we applied Principal Component Analysis (PCA). Essentially, PCA introduces a new coordinate system, whose artificial dimensions are referred to as the principle components and ideally describe the data with as few dimensions as applicable. The largest possible variance in the data is covered by the first component, with the second component explaining as much of the remaining variance as possible, and so on. 
+
+When used on Hi-C data, the first principal component typically is the most informative and distinguishes \emph{active/permissive} from \emph{inactive/inert} compartments \cite{Lieberman-Aiden2009}. Therefore, we determined the value of the first principal component for all promoters, assigning them to the most likely chromatin configuration.
+
+As expected, most of the transcribed RNA originated from areas of open chromatin and only a small fraction from more condensed areas. Since the curves of both genotypes were practically congruent\reffigure{fig:refseqecdfplot_rnaseq_Hicpc1}{}, we had to conclude that stray transcription of reference genes was negligible in \dnmtchip and could confirm the previous results. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/chromatin/gam_hic_features/refseqecdfplot_rnaseq_Hicpc1.pdf} 
+	\caption{Graphs of the cumulated transcript expression relative to the first principal component computed from uniquely mapping Hi-C reads of HPC-7~cells. The latter is an approximation of the openness and interaction frequency of the local chromatin. Data for the populations \kithi ($n\!= \!5$) and \kitlow ($n\!= \!2$) are shown as superimposed individual curves and separated by genotype.}
+	\label{fig:refseqecdfplot_rnaseq_Hicpc1}
+\end{figure}
+
+\chapter{Differentially expressed genes}
+\label{chap:r:degenes}
+
+\section{Basics of differential gene expression analysis}
+\label{chap:r:degenes:basics}
+
+Changes in the biological processes of a cell are typically associated with an adaption on the genetic as well as the proteomic level. Stability, post-translational modification or cellular localization of proteins may change and the transcription of previously unexpressed genes may be initiated, while that of other genes ceases. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_basics/basicdegenes.pdf} 
+	\caption{Illustration how incorrect estimation of the distributions' parameters may result in erroneous assignments. Small sample sizes per group (single values are represented by dots, \ensuremath{\!3}) impede precise statistical inference. In the case of gene~X, the sample variance of group~A was overestimated and that of group~B was underestimated, while the mean values of both groups were determined approximately correctly. Nevertheless, the gene would probably be classified correctly as differentially expressed (\ensuremath{\mu_A = 4, \mu_B = 2.5, \text{logFC}= -0.678}). This designation would likely also be applied to gene~Y, because the observed sample variance of group B happens to be unusually small by chance. Yet, all six measurements from gene~Y were randomly drawn from one distribution (\ensuremath{\mu = 3, \sigma^2 = 0.49}), therefore gene~Y is not differentially expressed. }
+	\label{fig:genes:basicdegenes.pdf}
+\end{figure}
+
+Often, it is of interest which genes are particularly relevant for a functional alteration such as differentiation or cell cycle progression. Starting from measurements of transcript abundance in different populations or under varied conditions, such genes can be identified by means of an analysis for differential expression. The determination of genes, which are differentially expressed between two datasets, is therefore a common, yet not trivial task. Often hundreds of genetic changes can be observed in parallel owing to the complex regulatory circuitry of genomic pathways as well as the cellular heterogeneity within cell populations.
+
+Picking suitable genes for an in-dept experimental follow-up investigation thus requires to rank genes for the best candidates. However, ranking genes solely based on test statistics (like $t$-statistics) is quite error-prone, particularly due to likely cases of misrepresentation of the population variance by the sample variance\reffigure{fig:genes:basicdegenes.pdf}{}. This can be explained as follows: In presence of biological variability and experimental noise, measured values will vary. Therefore, even if we suppose an identical expression in replicate samples, measurements will give rise to a collection of deviant data values, which form a distribution. This distribution can be characterized by parameters such as its mean and variance, which quantifies how much the data points are likely to deviate from the average. Given infinitely many measurements, it would be possible to determine the distribution's parameters exactly. However, the so called unobserved true parameter values cannot be obtained in a real scenario, when only a finite number of data points can be generated. Thus, the parameters have to be estimated from the observed values.
+
+A gene expression study will typically comprise just a few replicates for each condition, but assay thousands of genes in parallel. Although the likelihood that the observed parameters significantly deviate from the true unobserved ones is small for each gene individually, it is probable that it occurs for some genes in the data. The most decisive parameter in regard to differential gene expression analysis is the variance. To designate a gene as differently expressed between two groups, whose true expression is confounded by experimental or biological variability, the observed expression averages must be sufficiently distinct in relation to the observed variance. Inaccurate estimation of the variance can heavily skew the test statistics and either erroneously reject or confirm the candidate gene as differentially expressed\reffigure{fig:genes:basicdegenes.pdf}{}. Therefore, many algorithms and softwares for RNA-seq DE gene calling have been developed\citerev{Rapaport2013,Zhang2014,Seyednasrollah2015,Tang2015,Jaakkola2017}, which have different strengths and weaknesses and will rank genes according to various statistics. Thus, an overlap of several tools is generally not recommended. Instead a pathway analysis or gene-set enrichment may provide additional support for a specific candidate gene. 
+
+\section{Expression changes}
+\label{chap:r:degenes:changes}
+\begin{figure}[!ht]
+	{\Large \dnmtchip vs. \dnmtwt \hspace{2cm} \kithi vs. \kitlow \hspace{4cm}} 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_basics/volcanoplots_rnaseq_genes2.pdf} 
+	\caption{Volcano plots for both comparisons in RNA-seq, each dot represents one gene. The relative change in the expression of gene is shown log-scaled to base \num{2} on the X-axis, while the y-axis denotes the false discovery rate (FDR)\cite{Benjamini1995} for the gene being altered. The FDR already accounts for multiple testing and the chosen significance level of \num{0.05} is a relatively conservative cutoff\cite{Anders2010,McCarthy2012}.}
+	\label{fig:genes:volcanoplots_rnaseq_genes}
+\end{figure}
+Lena Vockentanz in collaboration with Gangcai Xie from the group of Wei Chen had performed polyA-enriched RNA-seq from \mllafnine \kithi ($n\!= \!5$) and \kitlow ($n\!= \!2$) fractions for each genotype (\dnmtchip, \dnmtwt). We analyzed this data with the \emphsoftwarename{edgeR} package\cite{Robinson2010} in \emphcollectionname{Bioconductor}. The analysis was mostly carried out according to the \emphsoftwarename{Rsubread}/\emphsoftwarename{edgeR} pipeline\cite{Chen2016c}, however we deviantly chose the \emph{Genewise Negative Binomial Generalized Linear Models} approach\cite{McCarthy2012} to test for differentially expressed genes. The alternative method applied an $\chi^2$-approximation to the likelihood ratio statistic instead of the pipeline's default quasi-likelihood F-test, which had a more rigorous type~I error rate control and was thus more conservative. 
+
+We defined two contrasts, \dnmtchip vs. \dnmtwt and \kithi vs. \kitlow, in the test's design matrix. Since we had sequenced more \kithi ($n\!= \!5$) than \kitlow ($n\!= \!2$) samples per genotype, each group consisted of three individual ex-vivo leukemia \kithi fractions and two paired samples of both, the \kithi and \kitlow populations. This experimental design required to account for batch effects, therefore we used a set-up with blocking in the specification of the GLM formula. 
+
+\begin{figure}[!ht]
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_degenes_clusterings/rnaseq_single_sample_corrmatrix_kendall_complete.pdf} 
+	\caption{Kendall rank correlation coefficients \ensuremath{\tau} of the single RNA samples. All complete observations, ie significantly differentially expressed genes for any contrast were used for the clustering ($n\!= \!4581$).}
+	\label{fig:genes:single_sample_corrmatrix_kendall_complete}
+\end{figure}
+
+Ultimately, we could identify \num{4581} differentially expressed genes (\num{3261} individual differential transcripts) at a significance level of \num{0.05}. For some genes, it was not possible to assign a change to a specific transcript, thus the number of differentially expressed genes surpassed that of the transcripts. Considering the respective contrasts individually, a total of \num{730} genes (\num{477} transcripts) were differentially expressed in \dnmtchip vs. \dnmtwt \reffigure{fig:genes:volcanoplots_rnaseq_genes}{, left panel}. In comparison, the changes for the \kithi vs. \kitlow contrast were significantly larger as \num{4393} gene (\num{3109} transcripts) differed \reffigure{fig:genes:volcanoplots_rnaseq_genes}{, right panel}.
+
+ Evidently consequences of \proteinnamemouse{Dnmt1}-reduction were mild compared to the distinctions between self-renewing leukemia stem cells to leukemic bulk. This was also reflected in the correlation matrix of the individual samples based on all differential genes. The correlation coefficient was increased about \num{0.25} for population matched samples, thus \kitlow specimen stood out clearly from the rest. In contrast, the genotype accounted for about \num{0.1} difference in correlation\reffigure{fig:genes:single_sample_corrmatrix_kendall_complete}{} . Since the genetic basis of self-renewal and cancer cell stemness in LSCs had been addressed previously \cite{Chen2008,Somervaille2009,Gentles2010,Eppert2011,Cabezas-Wallscheid2013,Corces2016,Stavropoulou2016} , we focused primarily on the effects of \proteinnamemouse{Dnmt1}-insufficiency. 
+ 
+\section{Contrast of \dnmtchip vs. \dnmtwt}
+\label{chap:r:degenes:genotypecontrast}
+
+\subsection{Transcripts with hypomethylated promoters}
+\label{chap:r:degenes:promhyposingle}
+
+\begin{figure}[!ht]
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_basics/promdiff_hypo_upreg_transcripts.pdf} 
+	\caption{Selection criteria and expression of candidate transcripts. The left panel illustrates the selection process of the candidates listed in \autoref{chap:ap:degenes:tab:promhypo} on page \pageref{chap:ap:degenes:tab:promhypo} and puts them in relation to the remainders of significantly differentially expressed genes. The right panel shows the average expression of the candidates in relationship to those of all transcript. Every blue dot denotes a single candidate, while the colored curves represent the density of measured expression values.}
+	\label{fig:genes:promdiff_hypo_upreg_transcripts}
+\end{figure}
+
+The entire previous parts of \autoref{chap:r:degenes:genotypecontrast} have dealt with the differentially expressed genes and their pathways that we found when comparing the \dnmtchip genotype with the wild-type control. Given the organization in pathways, direct regulation by promoter hypomethylation was not considered to be imperative for all differentially expressed genes. Nevertheless we mainly aimed to elucidate the ramifications of hypomethylation, thus we were hoping to identify some directly affected transcription factors. 
+
+The initial superficial analysis  had already suggested that promoter hypomethylation had little relevance to overall transcription in \dnmtchip. None the less, we revisited this topic with the proper differential gene expression analysis at hand. 
+
+Our criterion for a candidate transcript was significant differential expression, an upregulation of at least 2-fold in \dnmtchip and a hypomethylated promoter ($< - 0.2$). All requirements were fulfilled by \num{40} of \num{455} transcripts\reffigure{fig:genes:promdiff_hypo_upreg_transcripts}{, left panel}\dissrefpage{chap:ap:degenes:tab:promhypo}, for \num{22} no sufficient WGBS coverage was achieved (\num{477} total DE transcripts). We additionally recorded \num{9} transcripts, which were downregulated by more than 2-fold in \dnmtchip despite a hypomethylated promoter. The single transcript candidates were mostly expressed below average \reffigure{fig:genes:promdiff_hypo_upreg_transcripts}{, right panel}. There was no significant difference in the logCPM densities between the genotypes, which corroborated the absence of any meaningful global gene misregulation in \dnmtchip \dissrefpage{chap:r:transcription:strayreference}. 
+
+Next, we investigated whether there were matches to genes from the enriched signaling pathways, which might have produced a direct link between the hypomethylated transcripts and the altered cellular homeostasis in \dnmtchip. However, most of the \num{40} transcripts were not element of the enriched pathways. Although the lysosomal \proteinnamemouse{Cathepsin~W}(\genenamemouse{Ctsw}) and the endothelial Nitric oxide synthase (\genenamemouse{Nos1}) were represented in the pathways, we considered them as coincidental hits due to their far downstream localization. The only candidate genes that could be linked were \proteinnamemouse{Interleukin-2 receptor subunit~\ensuremath{\alpha}}(\genenamemouse{Il2ra}) and \proteinnamemouse{Laminin subunit \ensuremath{\beta}-2}(\genenamemouse{Lamb2}), which as receptor and component of the extracellular matrix, respectively, were at the very beginning of the \emphkeggname{PI3K-Akt (mmu04151)} and \emphkeggname{JAK-STAT (mmu04630)} signaling pathways.
+% % % downregulated ones: \genenamemouse{Tln2} and \genenamemouse{Ptger1}
+
+Nevertheless, we focused on other candidates, notably those who would be promising new targets. Therefore, we manually reviewed the list for regulatory proteins. These included such with protein-interaction domains, DNA-binding properties or second messenger relations. Namely we experimentally tested \proteinnamemouse{Pleckstrin homology domain-containing, family G member 4}(\genenamemouse{Plekhg4}) due to its Rho guanyl-nucleotide exchange factor activity, \proteinnamemouse{Protein NOV homolog}(\genenamemouse{Nov}) for being an activator of Notch-signaling and known essential regulator of hematopoietic stem and progenitor cell function\cite{Gupta2007} as well as the c-myc-responsive target gene modulator \proteinnamemouse{RING finger protein 17}(\genenamemouse{Rnf17}) \cite{Yin1999}. However, quantitative PCR in additional biological replicates of \dnmtchip \mllafnine \kithi leukemia did not confirm consistent overexpression \dns. The sole candidate whose expression increase was corroborated by qPCR was the \proteinnamemouse{ATP-dependent RNA helicase TDRD9}(\genenamemouse{Tdrd9}). Since this protein mediates the repression of transposable elements (preferably during meiosis in the male germline)\cite{Wenda2017}, we presumed its increased activity implied faulty transposon silencing in \dnmtchip due to methylation loss. However, shRNA-mediated knockdown of the protein had no detectable effect on proliferation or self-renewal in \mllafnine leukemic clones in vitro \dns. 
+
+\section{H3K4me3 buffer domains}
+\label{chap:r:degenes:bufferdomains}
+
+In 2014, the laboratory of Anne Brunet\cite{Benayoun2014} described an epigenetic feature termed \emph{buffer domains}. It seemed to promote transcriptional consistency and was identifiable by extended peaks of \hisfourthree. This mark had previously been known to reside at transcription start sites of active genes, however they observed that it may spread far into the bodies of genes that are essential for the identity and function of the respective cell type. Since Lena Vockentanz had generated \hisfourthree ChIP-seq data from ex-vivo sorted \mllafnine leukemic stem cells (\kithi), we applied the published analytical approach to characterize those buffer domains in the leukemia and elaborate on possible differences to \dnmtchip.
+
+As described in the paper\cite{Benayoun2014} we considered the \SI{5}{\percent} broadest of all \hisfourthree peaks to be buffer domains. It should be noted that the peak caller \emphsoftwarename{MACS2}\cite{Zhang2008} used in the original publication was designed for transcription factor ChIP-seq data with narrow peaks and was, despite improvements and the introduction of the \verb|--broad| option, known for a weak performance with regard to histon ChIP-seq data\cite{Thomas2017}. Therefore, we replaced it by \emphsoftwarename{SICER}\cite{Sicer}, which exhibited superior abilities to call clustered enriched regions from diffuse data\cite{Xu2014,Steinhauser2016} and was thus better suited for broad peaks such as \histhirtysixthree or buffer domains of \hisfourthree. 
+
+We deliberately allowed for small gaps of less than \SI{2}{\kilo b} and merged close adjacent peaks to larger domains prior to defining the buffer domains. This merger and particularly the application of \emphsoftwarename{SICER} increased the maximum breadth from \SI{5.8}{\kilo b} to \SI{235}{\kilo b}, while the median size of a buffer domain grew to \SI{17.5}{\kilo b}. Because of these alterations, both were now in line with published reference values. Intersection of the buffer domains in \dnmtwt and \dnmtchip ($n\,=\,2895$ and $n\,=\,2455$ respectively) showed that the genotype disparity in buffer domains (Jaccard index$\,=\,0.41$) was higher than that in all \hisfourthree peaks (Jaccard index$\,=\,0.58$). Therefore, we anticipated that the impairment of \dnmtchip cells to acquire and maintain malignant self-renewal properties arose at least in part from the deviant buffer domains. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/output/chromatin/buffer_domains/bufferdomains_venn_manual.pdf} 
+	\caption{Number of reference genes, of which at least one transcript (count given in brackets below) was marked by a broad \hisfourthree domain. However, most buffer domains in either genotype did not overlap any reference transcript.}
+	\label{fig:genes:bufferdomains_venn.png}
+\end{figure}
+
+ 
+Since it was suggested that buffer domains can be used as a discovery tool to identify important regulators of cell identity\cite{Cao2017a}, we aimed to elaborate on the differences associated with a \genenamemouse{Dnmt1} hypomorphic genotype and to identify the altered genes. Surprisingly, just \num{553} (\SI{19,1}{\percent}) of the \dnmtwt and \num{418} (\SI{17,0}{\percent}) of the \dnmtchip buffer domains overlapped any annotated gene at all, thus the genesis and function of the other peaks remained elusive. Most buffer domains overlapped just a single annotated gene, however some peaks extended to multiple (up to \num{24}) at the same loci. Broad \hisfourthree domains were neither associated with higher (normalized) ChIP intensities nor correlated with the number of transcripts or the length of overlapped genes\dns. 
+
+\begin{figure}[!ht]
+	\includegraphics[width=\textwidth]{figures/output/chromatin/buffer_domains/buffer_domains_expression_boxplots.pdf} 
+	\caption{Boxplots of transcript expression depending on the \hisfourthree coverage. Transcripts are categorized based on presence of a promoter peak (\SIrange{-500}{100}{bp}), full length coverage by a buffer domain or the absence of both. Measured expression of the genes in single \kithi biological replicates is summarized and shown as boxplots. Numerical representation of the plotted median expression can be found in \autoref{tab:genes:bufferdomain_expression}.}
+	\label{fig:genes:buffer_domains_expression_boxplots}
+\end{figure}
+
+\begin{table}[h!]
+	\centering
+%	\begin{tabular}{lcccc}
+%		\textbf{Genotype} & \textbf{\hisfourthree category} & \multicolumn{3}{l}{\textbf{Median expression (RPKM)}}\\
+%		\hline
+%		\dnmtwt & none & \num{1.62} & \rdelim\}{4}{13mm}[\parbox{13mm}{0.277}] & \rdelim\}{6}{25mm}[\parbox{25mm}{$<$\num{1d-4}}] \\
+%		\dnmtchip & none & \num{1.75} & \\
+%		\dnmtwt & Regular H3K4me3 peak & \num{ 12.0} \\
+%		\dnmtchip & Regular H3K4me3 peak & \num{12.24} \\
+%		\dnmtwt & H3K4me3 buffer domain & \num{21.15} & \rdelim\}{2}{13mm}[\parbox{13mm}{0.0002}] \\
+%		\dnmtchip & H3K4me3 buffer domain & \num{26.83} \\
+%		\hline
+%	\end{tabular}
+	\setlength\extrarowheight{2pt}
+		\begin{tabular}{lccccc}
+			\textbf{Genotype} & \textbf{\hisfourthree category} & \multicolumn{3}{l}{\textbf{Median expression (RPKM)}} &\\
+			\hline
+			\dnmtwt & none & \num{1.62} & \rdelim\}{4}{13mm}[\parbox{13mm}{0.277}] & \rdelim\}{6}{25mm}[\parbox{25mm}{$<$\num{1d-4}}] & \\
+			\dnmtchip & none & \num{1.75} & & \\
+			\dnmtwt & Regular H3K4me3 peak & \num{ 12.0} & \rdelim\}{4}{25mm}[\parbox{25mm}{$<$\num{1d-4}}] \\
+			\dnmtchip & Regular H3K4me3 peak & \num{12.24} \\
+			\dnmtwt & H3K4me3 buffer domain & \num{21.15} & \rdelim\}{2}{13mm}[\parbox{13mm}{\num{2d-4}}] \\
+			\dnmtchip & H3K4me3 buffer domain & \num{26.83} \\
+			\hline
+		\end{tabular}
+	\caption{Median expression of the data shown in \autoref{fig:genes:buffer_domains_expression_boxplots}. The brackets to the right indicate the resulting, adjusted p-values for each contrast by Tukey's all-pair comparison of linear hypotheses.}
+	\label{tab:genes:bufferdomain_expression}
+\end{table}
+
+A majority of buffered genes was shared among the genotypes \reffigure{fig:genes:bufferdomains_venn.png}{} and seemed to exhibit an elevated median expression \reffigure{fig:genes:buffer_domains_expression_boxplots}{, rightmost panel}. To test the significance, we fitted a generalized linear model to the measured expression as response variable and used genotype together with the peak status as predictors. Decomposition of the model into its linear hypotheses and calculation of Tukey's all-pair comparison showed that the expression difference of \emph{Regular \hisfourthree peaks vs. none} was not statistically significant \reftable{tab:genes:bufferdomain_expression}. In contrast to published results \cite{Benayoun2014}, the expression of genes marked by \hisfourthree buffer domains was significantly elevated compared to both other categories. We also detected a meaningful difference for the genotype nested in the \hisfourthree buffer domain category.
+
+\begin{figure}[!ht]
+	\includegraphics[width=\textwidth]{figures/output/chromatin/buffer_domains/buffer_domains_meth_violins.pdf} 
+	\caption{Average promoter methylation rate (\SIrange{-500}{+100}{bp} around the TSS) for the transcripts, which fell into the respective \hisfourthree categories.}
+	\label{fig:genes:buffer_domains_meth_violins}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/output/chromatin/buffer_domains/buffer_domains_zscore_boxplots_trim.pdf} 
+	\caption{Boxplots of the standardized expression, which was calculated for each transcript individually. Raw values were centered by having the corresponding mean expression of the particular gene subtracted from them. Scaling was performed afterwards and refers to dividing the centered values by the sample standard deviation of the set. As the sum of all standardized values per transcript equals \num{0}, purely random deviations should ultimately cancel out over hundreds of genes, which was not the case for those marked by buffer domains.} 
+	\label{fig:genes:buffer_domains_zscore_boxplots}
+\end{figure}
+
+Given the increased expression of buffer domain genes in \dnmtchip, we investigated a potential promoter hypomethylation. However, the promoters of any \hisfourthree marked gene were essentially methylation-free \reffigure{fig:genes:buffer_domains_meth_violins}{, middle and right panel} and the promoters of the genotype-specific transcripts (\num{317} and \num{162} respectively) \reffigure{fig:genes:bufferdomains_venn.png}{} did not feature contrasting methylation rates \dns. Solely unmarked transcripts were frequently methylated and consequentially not expressed. The median methylation rate of unmarked promoters was \num{0.59} and dropped notably in \dnmtchip to \num{0.38} \reffigure{fig:genes:buffer_domains_meth_violins}{, leftmost panel}, which however did not translate into a significantly increased expression of the hypomethylated genes \reftable{tab:genes:bufferdomain_expression}. 
+
+ 
+
+
+
+
+
+

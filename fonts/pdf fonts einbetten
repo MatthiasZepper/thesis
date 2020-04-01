@@ -1,0 +1,40 @@
+https://tex.stackexchange.com/questions/10391/how-to-embed-fonts-at-compile-time-with-pdflatex
+
+gs -dCompatibilityLevel=1.4 \
+    -dPDFSETTINGS=/prepress \
+    -dCompressFonts=true \
+    -dSubsetFonts=true \
+    -dNOPAUSE \
+    -dBATCH \
+    -sDEVICE=pdfwrite \
+    -sOutputFile=image_with_fonts.pdf \
+    -c ".setpdfwrite <</NeverEmbed [ ]>> setdistillerparams" \
+    -f image_without_fonts.pdf
+
+----------
+
+https://stackoverflow.com/questions/12857849/how-to-repair-a-pdf-file-and-embed-missing-fonts/13131101#13131101
+
+gs                                             \
+  -o file-with-embedded-fonts.pdf              \
+  -sDEVICE=pdfwrite                            \
+  -dEmbedAllFonts=true                         \
+  -sFONTPATH="/path/to/ttf;/other/path/to/ttf" \
+   input-without-embedded-fonts.pdf
+
+
+
+
+
+gs                                             \
+  -o main_embedded.pdf              \
+  -sDEVICE=pdfwrite                            \
+  -dEmbedAllFonts=true                         \
+  -sFONTPATH="./CharterBT-Roman.tff" \
+   ../main.pdf
+
+
+
+
+
+

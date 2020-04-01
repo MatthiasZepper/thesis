@@ -1,0 +1,59 @@
+ % for some reason the line spacing in the minitoc is too large due to the two line chapter title.
+% UPDATE: Was coincidental. The amount of text was just in a range that would cause the section to start on the next page.
+\chapter{Methylome analysis of matched non-malignant hematopoietic progenitors}
+\label{chap:r:wgbs_chip_hsc}
+
+\setcounter{section}{1}
+\section{Leukemia-related demethylation revisited}
+ \label{chap:r:wgbs_chip_hsc:leukemia}
+
+The new data permitted us to revisit the extent of demethylation upon transformation by \mllafnine. For most of the project we were reliant on third-party methylome data of HSCs, which was however generated from \mmblsix mice\cite{Jeong2014}. As the mouse strain may have significant impact on experimental results, it was important to corroborate the previous findings with matched controls from the same background.
+
+The comparison of the new data\reffigure{fig:wgbs_healthy_cchip3}{, top row} with the initial plot affirmed the previous findings in general. The vast majority of the genome was slightly hypomethylated in leukemia versus all healthy HSPC populations. The plots of both genotypes were characterized by just one density peak\reffigure{fig:wgbs_healthy_cchip3}{}, which argued for a homogeneous demethylation in conjunction with leukemic transformation and supported the coexistence of persistent and compromised regions in the healthy hematopoiesis in \dnmtchip.
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_healthy/wgbs_healthy_cchip3.pdf} 
+	\caption{Contrast plots depicting the methylscore averages within \SI{100}{\kilo b} windows (slid by \SI{25}{\kilo b} steps) of either wild-type (left panels) or \proteinnamemouse{Dnmt1}-hypomorphic (right panels) \mllafnine \kitpos leukemia versus the genotype and strain matched healthy controls HSC or MPP1 respectively.}
+	\label{fig:wgbs_healthy_cchip3}
+\end{figure}
+
+Nevertheless we also detected some differences. Firstly the HSCs of \dnmtwt \mmsvjae are hypomethylated by approximately \SI{10}{\percent} in comparison to those from \mmblsix. Thus, we may have overestimated the methylation loss, which accompanied leukemic transformation by \mllafnine. Another difference involved a set of lowly methylated regions in leukemia (\SIrange{25}{45}{\percent} methylation), which was \SI{80}{\percent} methylated solely in \dnmtwt healthy controls\reffigure{fig:wgbs_healthy_cchip3}{, left column} and shall be discussed in the next section in greater detail. 	
+
+\section{Compromised region addendum}
+\label{chap:r:wgbs_chip_hsc:compromised}
+
+In the previous chapters we presented an approach based on generalized additive models (GAMs), which permitted to locate and characterize the compromised regions in \dnmtchip with an unprecedented fidelity. However, this method relied on single CpG methylscores, which we did not obtain as part of the prepublication access, which Daniel Lipka granted us on his laboratories' TWGBS data. Nevertheless we aimed for a better understanding of particularly those regions in healthy HSPCs and therefore approximated the compromised regions based on the \SI{100}{\kilo b} sliding window mappings. A region was considered to be compromised, if the average methylscore in \dnmtchip \kitpos \mllafnine leukemic cells $x_{c/chip}$ was less then or equal to the value $f(x_{wt})$ calculated according to \autoref{eq:compromised:func}\reffigure{fig:wgbs_healthy_cchip4}{}. 
+
+\begin{eqnarray}
+\label{eq:compromised:func} 
+\text{Compromised region:} \hspace{1em} x_{c/chip} \leq f(x) = 0.7 \cdot \sin ((x_{wt} + 0.26)^5)
+\end{eqnarray}
+
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_healthy/wgbs_healthy_cchip4.pdf} 
+	\caption{The genome was partitioned into compromised and persistent sections \SI{100}{\kilo b} in size on the grounds of \autoref{eq:compromised:func} and the intraleukemic comparison of \mllafnine \kitpos cells.}
+	\label{fig:wgbs_healthy_cchip4}
+\end{figure}
+
+When we plotted the compromised regions as comparisons of leukemia versus the HSCs of the concordant genotype, a minor separate population became apparent solely in the wild-type plot. The aforementioned set \dissref{chap:r:wgbs_chip_hsc:leukemia} of regions demethylated from roughly \SI{80}{\percent} to \SI{35}{\percent} methylation upon leukemic transformation of the wild-type, while it exhibited stable intermediate methylation in any \dnmtchip population\reffigure{fig:wgbs_healthy_cchip5}{}. Therefore, this set could be regarded as commonly compromised in leukemia of any genotype. Like the identification of a bimodal methylation pattern in healthy HSCs of \dnmtchip, also the presence of compromised regions in \dnmtwt leukemia was in disagreement with the results of the \ensuremath{\beta}-galactosidase (\ensuremath{\beta}-gal) senescence staining. 
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_healthy/wgbs_healthy_cchip5.pdf} 
+	\caption{Comparison of \mllafnine leukemic cells with the matched hematopoietic stem cells (HSCs). The methylscore average within \SI{100}{\kilo b} sliding windows has been calculated solely for the compromised regions of the intraleukemic contrast.}
+	\label{fig:wgbs_healthy_cchip5}
+\end{figure}
+
+As kind of back-testing, we also created plots for the genotype contrast of HSC and MPP1 populations, which were restricted to the compromised parts of the genome\reffigure{fig:wgbs_healthy_cchip6}{}. This analysis could confirm that the compromised regions in leukemia were identical to the compromised areas of healthy populations.
+
+\begin{figure}[!ht] 
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_healthy/wgbs_healthy_cchip6.pdf} 
+	\caption{Pairwise comparison of the healthy HSPC populations of \dnmtchip and \dnmtwt mice.}
+	\label{fig:wgbs_healthy_cchip6}
+\end{figure}
+
+Taken together, it became evident that hardly any severe perturbation such as cell cycle exit was linked to the methylation level of compromised regions. Instead, it seemed plausible that the rather arbitrary level of methylation was permitted by a lack of negative selection.

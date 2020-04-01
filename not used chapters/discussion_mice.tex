@@ -1,0 +1,78 @@
+\chapter{Dnmt1 hypomorphic mouse strain \dnmtchipheadline}
+\label{chap:d:strain}
+\minitoc
+
+This doctoral project addressed various hypotheses and scientific questions with regard to the \dnmtchip mouse model as the connecting thread. The mouse strain soon became the most frequently used animal model in our laboratory to address scientific questions related to DNA hypomethylation, although the Rosenbauer group's interest in the role of DNA-methylation for normal and abnormal hematopoiesis predated its adoption\cite{Broeske2009,Vockentanz2010}.
+
+Previously, a \polyic-inducible \mllafnine \cremx \ensuremath{\times} \dnmtfloxchip mouse model was used. However, in prolonged experimental settings, non-excised \dnmtfloxchip cells typically outgrew their rearranged cognates. Therefore, this model was not well suited for studying the function of leukemic stem cells (LSCs) in vivo and was replaced by the \dnmtchip mouse strain. This strain carries a dysfunctional \dnmtnegallele, which is c-terminally truncated and thus is sometimes also referred to as \dnmtcchip. 
+
+The \dnmtchip mouse permitted Lena Vockentanz and Irina Savelyeva to perform experiments, which collectively showed that \proteinnamemouse{Dnmt1} expression is essential for self-renewal of \mllafnine leukemia stem cells in a cell-autonomous manner\cite{Vockentanz2011}. 
+
+Despite favorable tractability, in retrospect, this heavy focus on one model system may have hindered advancement. Particularly, the WGBS data from healthy hematopoietic progenitors\dissrefpage{chap:r:wgbs_chip_hsc:mpp}, which we obtained years down the road of the project, urged us to revoke key assumptions about the methylome of the \dnmtchip strain and forced us to reinterpret results from earlier, seemingly sound experimental designs. 
+
+Hence, this first chapter of the discussion shall focus on potential issues and limitations related to usage of the \dnmtchip mouse model as a tool to study hypomethylated \mllafnine leukemia.   
+
+\section{Characteristics of the \dnmtchipheadline strain}
+\label{chap:d:strain:details}
+
+The \dnmtchip strain was first crossed and bred in the laboratory of Rudolf Jaenisch\cite{Gaudet2003} at the Whitehead Institute for Biomedical Research to study the phenomenon of genome-wide DNA hypomethylation occurring in many human cancers\cite{Ehrlich2009,Timp2014}. 
+
+The main characteristics of the strain were described in the original publication\cite{Gaudet2003} as:
+\begin{itemize}
+	\item The mice were viable and fertile.
+	\item Runts at birth, the mice grew to just \SI{70}{\percent} of the wild-type size, but could generate regular-sized offspring when mated with wild-type mice.
+	\item \dnmtchip embryonic stem cells expressed about \SI{10}{\percent} of the normal \genenamemouse{Dnmt1} levels. Expression in other tissues was not shown, but several tissues exhibited pronounced hypomethylation. 
+	\item About \SI{80}{\percent} of the mice developed aggressive T-cell lymphomas or other thymic tumors and succumbed the desease at \numrange{4}{8} months of age. An overexpression of  the \proteinnamemouse{c-myc} oncogene was observed in most tumors. However, the overexpression was not directly linked to hypomethylation, since it could not be observed in homozygous \dnmtcallele fibroblasts. Additionally, frequent single-copy whole-chromosome gains of chromosome~\num{14} or~\num{15} were observed in the lymphomas. 
+	\item No reactivation of retroviral elements integrated in the genome\footnote{The group later corrected this statement by showing frequent transposition of an endogenous retroviral-like element known as intracisternal A particle (IAP) into the Notch1 locus\cite{Howard2008}}.       
+\end{itemize} 
+
+In our laboratory, \dnmtchip mice were as well smaller than their wild-type cognates, but never spontaneously developed thymic tumors. Possibly, our substrain was less susceptible to faulty chromosomal segregation and chromosomal gains. Additionally, Irina Savelyeva, a former postdoc from our laboratory, performed extensive experiments (e.g. \ensuremath{\gamma}H2AX-stainings) addressing the frequency of double-strand breaks in \mllafnine transformed \dnmtchip cells and observed no increased genomic instability due to hypomethylation \dns. 
+
+We also could not fully corroborate the previous findings with regard to the reactivation of retroviral elements. After leukemia initiation by \mllafnine, we could identify many unique, short ($<$\SI{2}{\kilo b}), unspliced, intergenic transcripts, which had no apparent connection to annotated genes and were typically framed by SINEs or LINEs \dissrefpage{chap:r:tinats:stringtie}. The cumulated expression of those transcripts, possibly pseudogenes, sequences of viral origin or transposons, was notable, but did not increase  significantly in \dnmtchip \dissrefpage{chap:r:tinats:denovoexpression}. Therefore, one should exercise caution with generalizing the finding that retroviral elements remain silent in \dnmtchip, since some seem to be reactivated after leukemic transformation by \mllafnine even at normal \proteinnamemouse{Dnmt1} levels.
+
+Remarkably, our CAGE-seq data indicated that notable splicing occurs at the \proteinnamemouse{Dnmt1} locus in \dnmtchip, even though no regular mRNA is present, since the strain just features a \dnmtnegallele combined with an already spliced \proteinnamemouse{Dnmt1} cDNA\dissrefpage{chap:r:transcription:genotypeval:cage}.  
+
+By far the most relevant requirement of the strain, however, was the ability to achieve a constant reduction of \proteinnamemouse{Dnmt1} and a comparable hypomethylation. Otherwise, variable degrees of methylation would affect comparability of the results. Yet, the \dnmtchipallele did not provide reliable \proteinnamemouse{Dnmt1} reduction, as Irina Savelyeva could show by quantitative PCR: On transcript level, expression varied greatly between \SIrange{25}{95}{\percent} of the wild-type levels\dns, which urged us to check subclones prior to in vitro experiments. 
+
+However, for the ex vivo sampled material transplanted to sub-lethally irradiated animals\cite{Vockentanz2011}, it was impossible to seamlessly monitor \proteinnamemouse{Dnmt1} levels throughout propagation of the leukemia. When the mice succumbed the disease, the average \proteinnamemouse{Dnmt1} expression in LSCs was \SI{50}{\percent} of the wild-type\dissrefpage{chap:ap:degenes:tab:genotype}  and medians of the single WGBS replicates varied greatly between \numrange{0.51}{0.76}. Admittedly, also one replicate of the \dnmtwt genotype was markedly hypomethylated \reffigure{fig:single_samples_medianvalues_ranked}{} and DNA methyltransferase inhibitors (DNMTi)\citerev{Christman2002} are not better suited to assure comparable methylation levels.  
+
+\begin{figure}[!bht] 
+	\centering
+	\vspace{1.5em}
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_single_sample_clustering/single_samples_medianvalues_ranked.pdf} 
+	\caption{Median methylation of backbone regions, which were defined as intergenic areas excluding CpG islands (CGIs). The values of our own samples are presented along with murine HSC WGBS\cite{Jeong2014} and reference data of primary human cancers from the \emphcollectionname{The Cancer Genome Atlas (TCGA}. Medians of the TCGA reference data were kindly provided by Seung-Tae Lee, who calculated the respective values for Figure~1C of his publication\cite{Lee2015}.}
+	\label{fig:single_samples_medianvalues_ranked}.
+\end{figure}
+
+Despite aforementioned variation, all \dnmtchip mice exhibited a pronounced hypomethylation\footnote{the average backbone methylscore of the \dnmtchipregular \kitpos \mllafnine leukemia metasample was \num{0.71}} compared to \dnmtwt \dissrefpage{chap:r:wgbs:demethylation}. Additionally, findings that proper methylation is essential for the cell-autonomous activity of \mllafnine leukemia cells\cite{Broeske2009} were confirmed by the Orkin group with a different \proteinnamemouse{Dnmt1} -hypomorphic mouse model \cite{Trowbridge2012}. So, the \dnmtchip  mouse strain is a useful model system to study hypomethylation, but has limitations that should not go unnoticed. 
+
+Phenotypic alterations may arise from spontaneous mutations, which is illustrated by the frustrating experience 
+of a team studying the effects of two other genes on hematopoiesis\cite{Mahajan2016}: The genes sialic acid acetyl\-ester\-ase (\genenamemouse{Siae}) and cytidine monophospho-N-acetylneuraminic acid hydroxylase (\genenamemouse{Cmah}) seemed to influence B-cell signaling and immune tolerance, but the phenotype previously attributed to \genenamemouse{Siae} suddenly disappeared after they backcrossed their KO model to a refreshed \mmblsix background\cite{Mahajan2016}. 
+
+In the latter case,  pronounced differences existed even between two substrains of \mmblsix. A few words of caution are therefore appropriate, considering that the \dnmtchip strain has a \mmsvjae background\cite{Simpson1997}, but we nevertheless relied on \mmblsix WGBS data\dissrefpage{chap:ap:thirdpartydata:wgbs}\cite{Jeong2014} as healthy control. For example, we overestimated the methylation loss  accompanying leukemic transformation by \mllafnine \reffigurepage{fig:wgbs_violinplot}{}, because HSCs of \dnmtwt \mmsvjae are already hypomethylated by approximately \SI{10}{\percent} in comparison to those from \mmblsix \dissrefpage{chap:r:wgbs_chip_hsc:leukemia}. 
+
+\section{Methylation-independent roles of Dnmt1}
+\label{chap:d:strain:dnmtonealtfunct}
+
+The methylation-independent functions of \proteinnamemouse{Dnmt1} are another layer of complexity, which is insufficiently addressed by many studies using hypomorphic \proteinnamemouse{Dnmt1} mouse strains to achieve DNA hypomethylation. 
+
+\subsection{Replication stress and heterochromatin spreading}
+\label{chap:d:strain:dnmtonealtfunct:hetero}
+Normally, \proteinnamemouse{DNA (cytosine-5)-methyltransferase 1} is recruited to replication foci by interacting with  \proteinnamemouse{Pcna} and  \proteinnamemouse{Uhrf1}\cite{Easwaran2004,Esteve2006} and is loaded onto hemiCpGs to methylate the nascent cytosines during DNA replication. It is well established that \genenamemouse{Dnmt1} knockdown triggers intra-S-phase arrests\cite{Milutinovic2003} or activates stress response checkpoints such as ataxia telangiectasia mutated-Rad3-related (\proteinnamemouse{ATR})\cite{Unterberger2006}. Apparently, removal of DNMT1 from replication forks is the trigger for these responses, since ectopic expression of \proteinnamemouse{Dnmt1} lacking a functional catalytic domain alleviated the stress response\cite{Unterberger2006}. This notion is also backed by the observation that senescence in IMR90 fibroblasts can be overcome by the SV40 T-antigen, while the characteristic hypomethylated methylome is retained\cite{Cruickshanks2013}.  
+ 
+Although we observed on average \SI{2.8}{\percent} senescent cells in the hypomorphic leukemic bulk (\SI{9.3}{\percent} in LSCs), it remained unclear to what extent such a stress response has relevance for the \dnmtchip strain. The negative \ensuremath{\gamma}H2AX-stainings performed by Irina Savelyeva challenged an \proteinnamemouse{ATR}-mediated response and most \dnmtchip cells were arrested in G1-phase\dns, whereas a lack of \proteinnamemouse{Dnmt1} typically causes an intra-S-phase cell cycle arrest\cite{Milutinovic2003}. Both observations seemed to argue against a pronounced stress response in \dnmtchip.
+
+However, acute replication stress challenges proper chromatin restoration even below the threshold that results in a cell cycle arrest\citerev{Nikolov2016}. It facilitates stochastic epigenetic silencing by laying down repressive histone marks at sites of fork stalling\cite{Jasencakova2010a}. Unfortunately, we did not assay repressive chromatin in \dnmtchip, but the striking absence of unannotated TSS clusters in corresponding areas\reffigurepage{fig:tinatdensplot_LSChicpc1overall.pdf}{, bottom row} might reflect an increased compaction of chromatin and a diminished cellular plasticity. 
+
+Additionally, the persistently methylated CpG Islands in compromised, mostly heterochromatic regions\dissrefpage{chap:r:persistency:nextcgi} could be indicative of long-range epigenetic silencing (LRES) in the hypomorphic mice, a process with particular relevance for carcinogenesis\cite{Clark2007}. Due to the excessive heterchromatin formation, \dnmtchip \mllafnine leukemic stem cells would, according to a model by the Feinberg lab\cite{Pujadas2012}, respond poorly when challenged by variable conditions. Therefore, a lack of \proteinnamemouse{Dnmt1} might cause improper chromatin restoration after cell divisions resulting in a survival and self-renewal bias in \dnmtchip independently of the methylation levels.
+
+\subsection{Crosstalk between Dnmt1 and other epigenetic regulators}
+\label{chap:d:strain:dnmtonealtfunct:crosstalk}
+
+Studies investigating the cellular transcriptome after treatment with DNA methyltransferase inhibitors (DNMTis) have repeatedly reported effects unrelated to direct promoter DNA hypomethylation\cite{Schmelz2005,Flotho2009}. DNMTis are typically cytosine nucleoside analogues, which become integrated into the DNA and form stable adducts with \proteinnamemouse{Dnmt1}\cite{Christman2002}. Thus, the enzyme becomes irreversibly bound to 5-Aza-2'-deoxycytidine (Decitabine) residues in the DNA, which eventually confers cytotoxicity\cite{Juettermann1994}.
+
+Besides being mutagenizing\cite{Jackson-Grusby1997}, the adducts also withdraw \proteinnamemouse{Dnmt1} from the many protein complexes and tasks it is involved in.  For example, \proteinnamemouse{Dnmt1} interacts with long non-coding RNAs (lncRNAs)\cite{DiRuscio2013} as well as many histone-modifying enzymes.
+
+Known interaction partners are the histone-lysine N-methyltransferase  \proteinnamemouse{EHMT2/G9A}\cite{Esteve2006}, the histone-lysine N-methyltransferase \proteinnamemouse{SUV39H1}\cite{Fuks2003}, the histone deacetylases~1 and~2 (\proteinnamemouse{HDAC1,HDAC2})\cite{Fuks2000,Rountree2000}, the lysine-specific histone demethylase 1A \proteinnamemouse{KDM1A/LSD1}\cite{Wang2009a,Clements2012} and the Polycomb-repressor complex~2 (\proteinnamemouse{PCR2})\cite{Vire2006,Symmank2018}. Additionally, interactions with the retinoblastoma (\proteinnamemouse{RB}) tumour suppressor\cite{Robertson2000,Pradhan2002}, the methyl-CpG binding protein \proteinnamemouse{MeCP2}\cite{Kimura2003}, the chromobox protein homologs \genenamemouse{Cbx5}/\proteinnamemouse{HP1\ensuremath{\alpha}}, \genenamemouse{Cbx1}/\proteinnamemouse{HP1\ensuremath{\beta}}, \genenamemouse{Cbx3}/\proteinnamemouse{HP1\ensuremath{\gamma}}\cite{Smallwood2007} and many more proteins \citerev{Qin2011} have been shown. 
+
+These predominantly repressive chromatin modifiers allow \proteinnamemouse{Dnmt1} to alter transcription of target genes independent of DNA methylation in a direct manner\cite{Espada2011,Clements2012}.  Given that many upregulated transcripts did not feature a hypomethylated promoter\dissrefpage{chap:r:degenes:promhyposingle}, it was therefore conceivable that also methylation-independent functions of  \proteinnamemouse{Dnmt1} constituted to the phenotypic alterations of the \dnmtchip strain.    

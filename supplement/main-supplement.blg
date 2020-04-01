@@ -1,0 +1,69 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/dev/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main-supplement.aux
+The style file: plos2015.bst
+A level-1 auxiliary file: introduction_enhancers.aux
+A level-1 auxiliary file: results_wgbs_supplement.aux
+A level-1 auxiliary file: results_wgbs_betadist_supplement.aux
+A level-1 auxiliary file: results_gammodels_supplement.aux
+A level-1 auxiliary file: results_persistency_supplement.aux
+A level-1 auxiliary file: results_wgbs_cchip_supplement.aux
+A level-1 auxiliary file: results_deregulated_genes_supplement.aux
+A level-1 auxiliary file: results_deregulated_genes_tinats_supplement.aux
+A level-1 auxiliary file: results_enhancer_clustering_supplement.aux
+A level-1 auxiliary file: results_enhancer_motifsregulation_supplement.aux
+A level-1 auxiliary file: results_enhancer_targetgenes.aux
+A level-1 auxiliary file: appendix_degenes.aux
+A level-1 auxiliary file: appendix_enhancers.aux
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=20001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated field_info (elt_size=4) to 18532 items from 5000.
+Database file #1: ../references.bib.bib
+Reallocated str_pool (elt_size=1) to 130000 items from 65000.
+Reallocated str_pool (elt_size=1) to 195000 items from 130000.
+Warning--empty pages in bookshelf-eukaryotic-genomes
+Warning--empty chapter in Nagari2017
+You've used 398 entries,
+            3170 wiz_defined-function locations,
+            3494 strings with 149681 characters,
+and the built_in function-call counts, 1194956 in all, are:
+= -- 146110
+> -- 8154
+< -- 6
++ -- 4406
+- -- 2038
+* -- 109172
+:= -- 128509
+add.period$ -- 1677
+call.type$ -- 398
+change.case$ -- 10
+chr.to.int$ -- 6
+cite$ -- 400
+duplicate$ -- 73784
+empty$ -- 118281
+format.name$ -- 2420
+if$ -- 276265
+int.to.chr$ -- 0
+int.to.str$ -- 398
+missing$ -- 5172
+newline$ -- 2081
+num.names$ -- 400
+pop$ -- 7668
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 8628
+stack$ -- 0
+substring$ -- 278208
+swap$ -- 11083
+text.length$ -- 4
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 4725
+width$ -- 401
+write$ -- 4549
+(There were 2 warnings)

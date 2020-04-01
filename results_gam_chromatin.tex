@@ -1,0 +1,80 @@
+\chapter{Relationship of chromatin structure and methylation persistency}
+\label{chap:r:gam:chromatin}
+\minitoc
+
+On the grounds of the association of lamina-association with methylation persistence,  we aimed at conversely inferring the chromatin organization from the observed methylation pattern. After we had developed the GAM to precisely delineate persistent and compromised regions, we could observe some inconsistencies with the constitutive annotation	\reffigure{fig:wgbs_gam_diff_chr14}{, facing page}. 
+
+We referred to those inconsistencies descriptively as \emph{unexpected}, although it was comprehensible that the annotation was not fully representative of the leukemia situation. Backtesting with measured data proved that the unexpected regions were not incorrect predictions of the model. Instead, we truly observed either small, divergent regions inside contrary larger homogeneous annotations or cases, where the transition between a compromised and a persistent region was shifted relative to those of the annotated lamina-association. \autoref{fig:wgbs_gam_diff_chr14} depicts such an unexpected region of the latter type roughly at \SI{10d7}{bp}, where a large persistent region extends far into a lamina-associated cLAD region (marked by a black arrow).
+
+\section{Chromosomal insulation and interaction}
+\label{chap:r:gam:chromatin:hic}
+
+Acknowledging that the ciLAD/cLAD annotation might not fully correspond with \mllafnine leukemia chromatin, we analyzed other third-party data sets for comparison. Since matched methylation/chromatin data had been published for human IMR90 fibroblasts, which were known to exhibit PMDs when senescent\cite{Cruickshanks2013}, we repeated the GAM fitting on this dataset. None the less, a commensurate amount of unexpected regions could be identified \dns. 
+
+The presence of unexpected deviant regions in both datasets suggested either a technical limitation or influences other than the chromatin structure, which challenged a purely passive model. To better resolve the chromatin structure and improve comparability, we abandoned the concept of discrete states / regions in favor of a continuous measure. 
+
+The insulation score, which can be calculated from Hi-C chromatin interaction data\cite{Crane2015}, was such a continuous measure of chromatin interaction. We considered the interactivity measured by Hi-C to be a proxy of the openness of the genomic regions, as heterochromatic areas are condensed and typically do not interact dynamically with other chromosomal regions, however they do aggregate with other heterochromatin. 
+
+A Hi-C dataset, which seemed promising and applicable our \mllafnine \kitpos leukemia model, was that of  the HPC-7 murine blood stem/progenitor cell model\cite{Wilson2016}. The cell line was used to generate comprehensive binding profiles of key transcription factors\cite{Wilson2010,Calero-Nieto2014} and a derivative in-silico model faithfully recapitulates early hematopoiesis as well as its pertubation by leukemogenic TF fusion proteins\cite{Schuette2016}. Thus, the HPC-7 data likely represented the \mllafnine leukemia chromatin much better than the ciLAD/cLAD annotation, which we used before. 
+
+We downloaded the aligned reads from the \emphdatabasename{Array~Express} repository\dissrefpage{chap:ap:thirdpartydata:hic} and proceeded with the software \emphsoftwarename{Homer} for analysis: We built tag directories, ran quality control checks and created models of background noise. Ultimately, interaction matrices containing normalized counts at \SI{10}{\kilo b} resolution were generated, which served as input to \emphsoftwarename{tadtool}\cite{Kruse2016} for calculating the insulation index/score\cite{Crane2015}.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/output/chromatin/tadtool/HiCuniques_insulationdensplot_2d.pdf}
+	\caption{Density plots depicting the 2D density of the insulation score vs. the GAM-modeled methylation probability difference between \dnmtchip and \dnmtwt \kitpos leukemic cells averaged over the \SI{10}{\kilo b} windows of the Hi-C dataset. The lines indicate the respective cut offs used for categorical analysis.}
+	\label{fig:HiCuniques_insulationdensplot}
+\end{figure}
+
+At large, compromised regions were typically also insulating, while such that we found to be interacting were very rare. On the other hand among the persistent regions we observed a wide range of possible insulation scores (from very insulating to very interactive)\reffigure{fig:HiCuniques_insulationdensplot}{}. It was not yet conclusively shown at the time, but in the meanwhile it is well established that housekeeping genes or super-enhancers commonly possess an insulating function\cite{Hug2017,Flyamer2017}. This explains, why we observed many insulating, yet persistent areas. An example of such an insulating housekeeping gene was the highly expressed catalytic subunit of the phosphatidylinositol 3-kinase (\genenamemouse{Pik3c3}), which exhibited a demethylated promoter, but otherwise resided in a methylation persistent region on chromosome 18\reffigure{fig:wgbs_gam_insulation_chr18}{}. A small separate population was formed by CpG-Island rich areas, which exhibited intermediate insulation scores, but were highly persistent \reffigure{fig:HiCuniques_insulationdensplot}{, small separate population}.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_insulation_chr18.pdf}
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_insulation_chr18_legends.pdf} 
+	\caption{GAM-derived methylation probability difference, HPC-7 insulation score and chromatin annotation of a \SI{1d7}{bp} region on chromosome~\num{18}. Colored blocks on top indicate the extent of chromatin or sequence features on the underlying DNA (ciLADs, cLADs and CGIs). The middle curve retraces the difference between \dnmtchip and \dnmtwt \kitpos leukemic methylation probability, which was used to infer the persistent (turquoise) and compromised region (tyrian purple) categories. The lowermost curve shows the insulation score at \SI{10}{\kilo b} resolution, also subdivided into insulating (dark pink) and interacting (light pink) areas. A black arrow indicates a rare persistent, but insulating region surrounding the housekeeping gene \genenamemouse{Pik3c3}.} 
+	\label{fig:wgbs_gam_insulation_chr18}
+\end{figure}
+
+
+\section{Determining factors of methylation persistency}
+\label{chap:r:persistency:nextcgi}
+
+On the grounds of this small subpopulation\reffigure{fig:HiCuniques_insulationdensplot}{}, it was tempting to speculate that CpG-Islands might preferably recruit \proteinnamemouse{Dnmt1} and thus serve as maintenance initiation centers. While we had ruled out an influence of the surrounding sequence on the CpG-Island maintenance, we presumed that \proteinnamemouse{Dnmt1} and its accessory proteins might assemble as functional complex at the CGI and subsequently extent their activity to the vicinity. This notion was further supported by the observation that the number of CGIs in persistent regions by far surpassed those in compromised areas.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.79\textwidth]{figures/output/methylome/wgbs_persistency/spatialmaintenance_backbone.pdf}
+	\caption{Change of the median methylation persistency in \dnmtchip vs. \dnmtwt \kitpos \mllafnine leukemic cells in relation to the distance of the respective CpG to the next CpG-Island. For this analysis we considered only methylated CpGs (Methylscore~>~\num{0.75} in \dnmtwt). The black dots denote the median and the gray strip marks the interquartile range. Vertical gray lines indicate the range from \SIrange{-180}{220}{\kilo b}, which we deemed trustworthy based on the fractions shown in the left panel of \autoref{fig:spatialmaintenance_addennum}.}
+	\label{fig:spatialmaintenance_backbone}
+\end{figure}
+
+To test  the hypothesis, we conducted an analysis of the spatial persistence relative to the next CGI for methylated CpGs (Methylscore~>~\num{0.75} in \dnmtwt \kitpos \mllafnine leukemic cells). Indeed, a larger distance to the nearest CpG-Island was related to a decreased methylation probability in \dnmtchip mice compared to their wild-type counterparts\reffigure{fig:spatialmaintenance_backbone}{}. In comparison to a CpG located directly adjacent to a CGI, the methylation probability of a distant CpG was reduced by up to \SI{10}{\percent}. However, the interquartile range was quite notable and therefore a relevant fraction of CpGs diverted from the general pattern. 
+
+The inverse relationship of distance to the next methylated CpG-Island and methylation persistency\reffigure{fig:spatialmaintenance_backbone}{} supported the hypothesis that \proteinnamemouse{Dnmt1} after a cell division would copy methylation at CpG-Islands first and then extent its activity to the vicinity. 
+
+To scrutinize this result, we resorted once more to the chromatin categories and specifically to the \emph{unexpected} regions. The density of CpG-Islands can be easily computed for a region and should correlate with the observed methylation persistency within a region. Beforehand, we reassured that the observed distant persistency bias was not an artifact grounded in an unequal consideration of CpGs from the respective categories. Given the lower frequency of CpG-Islands in compromised regions \reffigure{fig:wgbs_gam_points_chr18.pdf}{ \ and others}, it seemed plausible that they would harbor the majority of distant CpGs shown in \autoref{fig:spatialmaintenance_backbone}. However, we could reassure that the relative fraction of CpGs from each category was constant in a region spanning almost \SI{200}{\kilo b} in each direction from the closest methylated CGI 	\reffigure{fig:spatialmaintenance_addennum}{, left panel}. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_persistency/spatialmaintenance_addennum.pdf}
+	\caption{The left panel shows the fraction of methylated CpGs in the data used for \autoref{fig:spatialmaintenance_backbone}, which fall into the respective methylation persistency category \dissrefpage{chap:r:gam:chromatin} . As the relative shares remain almost constant for the \SIrange{-180}{220}{\kilo b} range, this scope is considered to be trustworthy and marked by vertical gray lines. The right panel depicts the typical distance to the next CGI for a methylated CpG inside each of those regions. In both plots the persistent areas are colored in turquoise and compromised regions in tyrian purple.}
+	\label{fig:spatialmaintenance_addennum}
+\end{figure}
+
+After having excluded a possible technical bias, we tested whether  the density of CpG-Islands was indeed associated with the observed methylation persistency within a region. The expected compromised regions (ECR) harbored the fewest CGIs and the expected persistent regions (EPR) the most, which was reflected in the average distance of a CpG to the next methylated CGI \reffigure{fig:spatialmaintenance_addennum}{, right panel}. 
+
+This model also suggested that the regions of unexpected persistency could potentially be attributable to a remarkable enrichment (UPR) respectively depletion (UCR) of CpG-Islands. However, we could clearly falsify this assumption based on the greater distance in UCRs than in UPRs \reffigure{fig:spatialmaintenance_addennum}{, right panel}. The gap to the next CGI was the second lowest in UCRs and yet they were compromised with regard to their methylation. The UPRs were almost at par with the compromised flexible regions (CFRs) with regard to the distance. Hence, we could clearly reject a purely passive model of methylation loss based on CpG-Island distance. 
+
+Subsequently, we also tested additional/other factors, such as the underlying DNA sequence, which had been suggested to determine the methylation within PMDs\cite{Gaidatzis2014}. By performing an isochore analysis\cite{Thiery1976}, we could confirm that the GC content was correlated with the degree of demethylation. The more CG-rich a sequence was, the lower was its tendency to demethylate\dns. However, particular flanking sequences or CpG positions were irrelevant for the methylation persistency, such that we could not corroborate the existence of specific sequence motifs beyond the mere CG-content. 
+
+Furthermore, the DNA sequence could also not explain the unexpected regions and neither did replication timing\cite{Aran2011}\dns. It seemed that there was - at least in part - some active regulation involved in shaping the compromised regions in \dnmtchip. 
+
+\section{Summary}
+\label{chap:r:persistency:summary}
+
+In this chapter, we argue that neither CpG-Island density nor chromosomal insulation, the DNA sequence or replication timing can fully explain the methylation pattern of persistent and compromised regions observed in \dnmtchip. All of those factors except CGI density had -  in conjunction with a lack of negative selection - previously been shown to exert some influence on DNA methylation.  
+
+However, it seemed that more factors contributed to the persistency, as none of the aforementioned ones could explain the deviations of chromatin structure and DNA methylation, which we referred to as \emph{unexpected}. At least in those regions, the effect of passive demethylation must have been marginalized by additional factors shaping the methylome. Such additional factors could be the histone marks \histwoarg, \hisninethree, \hiseighteenub or \histwentythreeub, whose importance for the recruitment of DNA-methyltransferases was recently shown\cite{Veland2017,DaRosa2018,Li2018a}. 
+
+Taken together, we could not fully unveil the epigenetic control mechanisms shaping the \dnmtchip methylome. None the less, the unexpected regions might, in conjunction with ChIP-seqs for e.g. \histwoarg point to sites harboring relevant genes for leukemia development and maintenance of the self-renewal program. 

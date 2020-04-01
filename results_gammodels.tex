@@ -1,0 +1,91 @@
+\chapter{Modeling the methylation probability} 
+\minitoc
+
+\section{A GAM to predict the methylation rate}
+\label{chap:r:gam:methylpredict}
+
+To delineate compromised from persistent regions and infer the chromatin structure, we unsuccessfully attempted to use a standard tool\dissrefpage{chap:r:comprom:methylseeker}. Other existing tools mostly focused on CpG-Islands\cite{Fan2008,Zheng2013,Hebestreit2013} or were not applicable for technical reasons\cite{Hansen2012}. Hence, we decided to develop an own solution tailored to our needs and data and opted for a \emph{generalized additive model} (GAM). 
+
+\subsection{Introduction to GAM models}
+\label{chap:r:gam:methylpredict:gamintro}
+
+The basic assumption of any type of model is that the variable $y$ to be modeled (the response) depends on some combination of other observed variables $x_1,x_2,x_3,….x_p $ (the predictors) and may additionally be confounded by random effects $\epsilon$ such as measurement errors. 
+
+In the simplest form, the relationship is linear, so the predictors are scalars, which are multiplied with the parameters $\alpha $ to determine the response \refeq{eq:gam:1}. This implies that a constant change in a predictor leads to a constant change in the response variable. Such a model is called \emph{general linear model} and is quite simple, but also not suitable for many types of data. For example it cannot be used to model probabilities, which are bounded on both ends (they are between 0 and 1). 
+
+\begin{flalign}
+	\label{eq:gam:1} \text{LM:} &&  y_i \ = \ \alpha \ + \alpha x_{i1} \ + \alpha x_{i2} \ + \ldots + \alpha x_{ip} \ + \epsilon_i && \\
+	\label{eq:gam:2} \text{GLM:} && g(E(y_i)) \ = \ \alpha \ + \alpha x_{i1} \ + \alpha x_{i2} \ + \ldots + \alpha x_{ip} \ + \epsilon_i && \\
+	\label{eq:gam:3} \text{GAM:} && g(E(y_i)) \ = \ \alpha \ + s_1(x_{i1}) \ + s_2(x_{i2}) \ + \ldots + s_p(x_{ip}) \ + \epsilon_i && 
+\end{flalign} 
+
+However, many additional cases can be covered by the introduction of a link function $g()$ to the term, which is then referred to as \emph{generalized linear model} \refeq{eq:gam:2}. Depending on this function, the response does not need to be continuous and numeric, but could for example also be a categorical yes/no. In this exemplary case, the linear combination of the predictors determines the odds and the categorical response is derived by the link function (e.g. logit or probit). 
+
+Many types of link functions can be used and often such models have separate names like \emph{logistic model}, but are technically generalized linear models - in the latter case with the logit link function. Also the beta function, which is often used to model methylome data\cite{Kuan2010,Hebestreit2013,Song2013}, can serve as a link function, which then specifies a beta regression model. 
+
+Despite the versatility of GLMs, these models assume that ultimately linear predictors with unknown coefficients exist. However, there might be situations, where the model needs to incorporate categorical input or such that is ordinal. In this case, the predictors themselves need to be connected via linking functions. It could also be, that a predictor needs to be smoothed before it can be used in the model. Both is assured by the introduction of (mostly) nonparametric functions $s_1(\ldots) \ + s_2(\ldots) \ + \ldots + s_p(\ldots)$, which wrap the predictors \refeq{eq:gam:3} - such a model is then called \emph{generalized additive model} (GAM).  A large variety of predictor link functions can be used, which gives GAMs an unprecedented flexibility.
+
+\subsection{Reasons to choose a GAM}
+\label{chap:r:gam:methylpredict:reasons}
+
+The choice to fit a GAM on our methylome data was mainly guided by two reasons:
+
+Firstly, we needed a method that would bring smoothing capabilities as neighboring CpGs often exhibited sudden shifts, which presumably could be explained in part by low coverage: Given a CpG covered by four reads next to one by three reads, the methylscore of the latter was $f_{2} \in 	\{ 0, 0.33, 0.66, 1 \}$, those of the previous one $f_{1} \in \{ 0, 0.25, 0.5, 0.75, 1 \}$. Thus, if both are partially methylated CpGs, they change by $>$\SI{10}{\percent} due to the different coverage alone. We detected such a relevant fraction of CpGs with low coverage that we could not really premise a continuous scale everywhere, but encountered chromosomal regions, where methylscores rather formed an interval scale \reffigure{fig:wgbs_cpgdensplot_LSCdiffoverall_over}{, p.\pageref{fig:wgbs_cpgdensplot_LSCdiffoverall_over}, left panel}. With GAMs, we could nevertheless impose the prior belief that the methylation persistency is inherently smooth in nature and varies only across larger sections of the chromosome. By using a spline $s(\ldots)$, as predictor link function and adjusting the level of smoothness, we could effectively deal with noisy measurement data. 
+
+Secondly, we (and others \cite{Lee2015}) had previously identified CpG-Islands (CGIs) as regions of higher methylation persistency, which may strongly divert from the methylation level of the backbone\dissrefpage{chap:r:wgbs:lad_demethylation_cgi}. Therefore, the model needed to account for situations, where a sharp change in the response variable was observed – so called \enquote{hockey sticks}. It was possible to incorporate those easily, since GAMs can capture common nonlinear patterns that a classic linear parametric regression model would miss. Using a GLM, we would have required binning or extensive use of polynomials to account for such spikes.
+
+Taken together, although the fitting of GAMs demands a high computational cost due to their flexibility, it was a reasonable choice for our complex methylome data. 
+
+\section{Fitting a GAM on methylome data}
+\label{chap:r:gam:fitting}
+
+For fitting the GAM, we considered only CpGs, which were covered with $\geq4$ reads in the respective meta-samples (roughly \num{11d6}). All three meta-samples (\dnmtwt HSC, \dnmtwt \kitpos, \dnmtchip \kitpos) were smoothed separately. We split the chromosomes into equally-sized fragments of \SI{10}{\mega bp} to allow parallelization of the computation. If a fragment contained more than \num{5d4} CpGs, a random subset was drawn, otherwise all available data was used to fit the GAM. 
+
+We relied on the \emph{mgcv}-package \cite{wood2011fast} in R\cite{rproject} to fit the Generalized Additive Model (GAM) and optimized its parameters with the restricted maximum likelihood (REML) approach. The GAM to be fitted was restricted to the beta regression family and we used the logit as link function. The model's formula is given below:
+
+ \begin{algorithm}[H]
+ 	\begin{algorithm2e}[H]
+ library("mgcv") \\
+ gam(y \textasciitilde \, s(xi, factor(isCGI), bs="fs", k=n), family=betar(link="logit"), data=\ldots) 
+ \end{algorithm2e}
+ \end{algorithm} 
+The response $y$, equivalent to the probability of a particular site to be methylated, was modeled based on the measured methylation rate $x$ at a given position $i$, smoothed with a thin plate regression spline\cite{Wood2003}. To take persistent CpG-Islands into account, we classified CpGs into the two categories \emph{CGI} or \emph{nonCGI} prior to fitting and smoothing. However, factor smooth interaction $fs$, which produced a smooth for each level of a single factor variable, ensured the relevant global model parameters were used for both. 
+
+We tested the inclusion of other predictors at randomly chosen chromosomal sections, but did not achieve better models. Better in this regard refers to relevant changes (underpinned by the measurement) at the desired level of considerable smoothness. Hence, our finding that these predictors were irrelevant for us, did not contradict published results that they influence local methylation rate at a higher resolution\cite{Stadler2011,Ziller2013,Iurlaro2017}. Furthermore we did not discriminate between expressed and non-expressed transcripts in the predictors, which may have had an impact. The subsequent predictors were tested in the model term, but ultimately dismissed due to negligible relevance: 
+
+\begin{itemize}
+	\item Inside/outside of the promoter region of an annotated transcript.
+	\item Inside/outside an ENCODE regulatory region.
+	\item Distance in base pairs of the CpG to the next referenced transcription start site (TSS).
+	\item Distance in base pairs of the CpG to the next CpG-Island.
+\end{itemize}
+
+We applied the package's default, the restricted maximum likelihood (REML) optimizer for parameter estimation. To gain computational efficiency, we manually set an upper limit on the degrees of freedom $k$ for the smoother. This limit $n$ was chosen relative to the length of the genomic fragment, increasing by one for every \num{1d5} base pairs from a minimum of \num{4}. The actual effective degrees of freedom were controlled by the degree of penalization selected during fitting REML, but the smoother gained computational efficiency by setting a modest upper limit. We ensured by random sampling from our fitted models that the upper limit permitted enough degrees of freedom to represent the underlying truth reasonably well. 
+
+\begin{figure}[!bht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_points_chr18_v2.pdf} 
+	\caption[Modeled methylation within an annotated sample region on chr18]{Modeled methylation probability (colored lines) and measured methylation rate of single CpGs in a \SI{1d7}{bp} region on chromosome \num{18}. To avoid overplotting, tiling was applied such that dark color indicates a high CpG density. Colored blocks below indicate the extent of chromatin or sequence features on the underlying DNA. Mind the sharp changes in methylation probability at sites of CpG-Islands. When the CGIs are not shown, the drop in backbone methylation probability for \dnmtchip \kitpos at cLAD regions is evident in overlay.}
+	\label{fig:wgbs_gam_points_chr18.pdf}
+\end{figure}
+
+Although we herein refer to the modeled response as methylation probability, it is technically a cytosine methylation probability. Even though the purine bases can also be methylated (adenine in bacterial DNA, guanine by chemical mutagenesis), the likelihood of this incidence cannot be modeled from the predictors we used. Thus, if the methylation probability is given for a non-cytosine site, it is a mere mathematical assumption, how likely a methylation at a cytosine at this site would be if present. 
+
+The modeling permitted to assign a methylation probability to any site of the genome independently of the actual underlying sequence. Overlay of the samples' methylation probabilities showed that \dnmtwt HSC exhibit a constant level of $\approx$ \SI{90}{\percent} methylation in backbone, whereas those of the leukemia was lower\reffigure{fig:wgbs_gam_points_chr18.pdf}{}. As we had seen before \dissrefpage{chap:r:wgbs:lad_demethylation}, methylation persistency was lower in lamina-associated, heterochromatin areas than in open chromatin.
+
+Subsequently, we validated the model and judged the performance of the fitted GAM against a series of comparisons with \SI{500}{bp} sliding windows \supple. We show that the model corresponds well to measurement data. It was generally representative in case the windows comprised \numrange{5}{10} (depending on the sample) or more CpGs\supple.
+
+It outperformed existing tools for this task and provided us with a deeper understanding ob the observed methylation. Because of the model's smoothness, which did not capture local deviations,  it is however not applicable to small genomic areas, such as single cis-regulatory elements, unless they are also incorporated as separate factor (like the CGIs). 
+
+In summary, our custom developed GAM allowed us to derive a quantitative measure of methylation persistency despite challenging data and to account for the difference between CpG-Islands and backbone. By subtracting the backbone response of the \dnmtchip model from that of the \dnmtwt model, we could also clearly distinguish compromised from persistent areas\reffigure{fig:wgbs_gam_diff_chr14}{}. This allowed us to address potential biological implications. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_diff_chr14_arrow.pdf}
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_diff_chr14_legends.pdf} 
+	\caption{Another \SI{4d7}{bp} chromosomal example region. Shown with colored lines is the modeled methylation probability of the backbone (saturated) and CpG-Islands (pastel). Open chromatin ciLAD regions clearly associate with a higher backbone methylation in \dnmtchip \kitpos and thus with persistent regions represented in turquoise. The few areas, where the rule is broken, are considered unexpected and indicated by a separate layer of blocks. A black arrow points at a shifted transition between persistent and compromised regions with regard to the annotated lamina association.}
+	\label{fig:wgbs_gam_diff_chr14}
+\end{figure}
+
+
+

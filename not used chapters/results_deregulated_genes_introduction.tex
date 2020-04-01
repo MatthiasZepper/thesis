@@ -1,0 +1,124 @@
+\chapter{Transcriptional analysis}
+\label{chap:r:transcription}
+\minitoc
+
+DNA methylation was shown to be involved in important functions like transcriptional silencing of genes or endogenous retroviruses, imprinting, X chromosome inactivation and is relevant for genomic stability\cite{Goll2005,Schuebeler2015}. Therefore, we suspected to observe pronounced aberrant transcription in \dnmtchip \mllafnine leukemia as a consequence of the progressive methylation loss.
+
+Widespread aberrant alternative splicing across tumors was documented by other researchers\cite{Kahles2018} at the time of writing this thesis, the cause of which however was still disputed. Loss of methylation in gene bodies seemed to be a plausible mechanism to affect splicing\cite{Mendizabal2017}.
+
+An alternative explanation was provided by the discovery of epigenetically repressed cryptic promoters, which became activated upon hypomethylation and seriously perturbed regular splicing\cite{Brocks2017}. These promoters were referred to as \emph{treatment-induced non-annotated transcription start sites} (TINATs), because they were identified in the context of therapeutic treatment with DNA methyltransferase inhibitors (DNMTi) for cancer therapy. Previously the therapeutic effect of hypomethylating drugs for cancer therapy had been widely attributed to the reversal of focal hypermethylations silencing tumour-suppressor genes\cite{Cai2017}, but the derepression of cryptic promoters represented an appealing different mechanism. \clearpage
+
+
+
+\fyfrank
+
+\herestoyoufrank{
+	\item Quantification of expression in \dnmtwt and \dnmtchip \mllafnine leukemia by microarray as well as poly(A)\-enriched RNA-seq and CAGE-seq. 
+	\item We analyzed reference transcripts, but also de novo reconstructed an experimental transcriptome from CAGE-seq and RNA-seq reads. 
+}
+
+\section{Genotype validation}
+\label{chap:r:transcription:genotypeval}
+
+\herestoyoufrank{
+  \item Correct assignment of the RNA-seq samples to the respective genotypes was assured by detection of the neomycin phosphotransferase II (EC 2.7.1.95) transcript, which originated from the \dnmtcallele. 
+  \item The genotype of the CAGE-seq samples could not be validated, because the CAGE-seq signal only covers he first \SI{35}{bp} of the transcript. Therefore, we could not distinguish transcription of the housekeeping-gene phosphoglycerate kinase 1 (PGK) from that of PGK-NeoR-PGKpoly(A)-cassette of the \dnmtcallele.
+  \item Since  exon~35 is deleted in the \dnmtcallele, we expected a reduced exon signal in CAGE-seq for that particular exon. However, the groups were inconclusive. 
+  \item Remarkably, CAGE-seq proved that active transcription and post-transcriptional splicing is taking place in \dnmtchip at the locus of the \dnmtcallele despite the c-terminal truncation.
+}
+
+\section{Characterization of Dnmt1-hypomorphic transcription}
+\label{chap:r:transcription:intro}\label{chap:r:transcription:expressionoverall}
+
+For the delineation of the \dnmtwt and \dnmtchip transcription, we analyzed the previously generated RNA-seq and CAGE-seq data\dissref{chap:r:transcription:intro}. Briefly, we aligned the \emphsoftwarename{FastQ} quality-trimmed single-end reads to the \mmnine reference genome with \emphsoftwarename{BBmap}\cite{Bushnell2014} and used the \emphsoftwarename{Rsubread}/\emphsoftwarename{edgeR}-pipeline for downstream analysis\dissrefpage{chap:r:degenes:changes}. We updated the transcript reference multiple times over the course of the project, but the data freeze for this thesis was set to release~\num{84} of the \emphdatabasename{NCBI Reference Sequence Database (RefSeq)} published on September 11, 2017. We considered any transcript with less than \SI{2}{CPM} to be not expressed in that particular sample as recommended by the authors of the \emphsoftwarename{edgeR}-pipeline\cite{Chen2016c}. Depending on the level of summarization, we therefore included either \num{11996} (of \num{24588}) annotated genes or \num{9505} (of \num{38006}) transcripts. That the number of genes surpassed that of single transcripts was attributable to genes with multiple transcripts, which only met the inclusion criteria when combined. 
+
+\subsection{Expression changes linked to promoter hypomethylation}
+\label{chap:r:transcription:promhypooverall}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_ecdf_plots/refseqecdfplot_rnaseq_wt_prommethylation.pdf} 
+	\caption{Empirical Cumulative Distribution Functions of the transcript expression measured by RNA-seq plotted relative to the ranked promoter methylation of the respective transcript. For each genotype, seven individual samples are shown, which are divided into \kithi ($n\!= \!5$) and \kitlow ($n\!= \!2$). The populations distinguishable by \kit-expression are split in rows, while the columns depict the separate genotypes. The rightmost column features the overlay of both genotypes for direct comparison.}
+	\label{fig:refseqecdfplot_rnaseq_wt_prommethylation}
+\end{figure}
+
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_ecdf_plots/refseqecdfplot_rnaseq_cchip_prommethylation.pdf} 
+%	\caption{Kernel de.}
+%	\label{fig:refseqecdfplot_rnaseq_cchip_prommethylation}
+% \end{figure}
+
+Since the \dnmtchip mouse exhibited an impaired methylation maintenance in our preceding WGBS analysis\dissrefpage{chap:r:persistency}, we sought to investigate the extent of promoter hypomethylation and its effect on transcription in \dnmtchip. In accordance with the commonly accepted notion that promoter methylation is a repressive mark, more than \SI{90}{\percent} of the total transcripts originated from completely methylation-free promoters (\SIrange{-500}{+100}{bp} around the TSS)\reffigure{fig:refseqecdfplot_rnaseq_wt_prommethylation}{}. The ECDF~plots relative to \dnmtchip promoter methylation as well as those based on CAGE-seq expression data were highly similar to \autoref{fig:refseqecdfplot_rnaseq_wt_prommethylation} and thus corroborated that predominantly unmethylated promoters initiated RNA transcription\dns. Nevertheless promoter-methylation-linked transcriptional changes seemed to be rare at the first glance, given that the ECDF~plots of the cross-controls (\dnmtchip expression combined with \dnmtwt promoter methylation or vice versa) were highly similar to the regular pairs\reffigure{fig:refseqecdfplot_rnaseq_wt_prommethylation}{~\& data not shown}. 
+
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_ecdf_plots/refseqecdfplot_rnaseq_lscdiff_prommethylation.pdf} 
+	\caption{ECDF~plots of the cumulated transcript expression relative to the methylation change observed at the respective promoters. The columns comprise the genotypes, while populations are spread out in rows. The methylation change at some promoters of expressed transcripts could not be determined due to insufficient coverage in WGBS, thus the cumulated expression in the plot is less than \num{1}.}
+	% The samples, divided into \kithi ($n\!= \!5$) and \kitlow ($n\!= \!2$) per genotype, are shown individually.
+	\label{fig:refseqecdfplot_rnaseq_lscdiff_prommethylation}
+\end{figure}
+
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_ecdf_plots/refseqecdfplot_cageseq_wt_prommethylation.pdf} 
+%	\caption{Kernel de.}
+%	\label{fig:refseqecdfplot_cageseq_wt_prommethylation}
+%\end{figure}
+
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_ecdf_plots/refseqecdfplot_cageseq_cchip_prommethylation.pdf} 
+%	\caption{Kernel de.}
+%	\label{fig:refseqecdfplot_cageseq_cchip_prommethylation}
+%\end{figure}
+
+It was tempting to speculate that the \dnmtchip genotype would facilitate spontaneous hypomethylation of promoters and subsequent initiation of transcription. However, the RNA-seq/WGBS data yielded just a few dozen affected reference transcripts\dissrefpage{chap:r:degenes:promhyposingle}, whose contribution to the overall expression was marginal\reffigure{fig:refseqecdfplot_rnaseq_lscdiff_prommethylation}{}. Possibly three effects could explain this finding: 
+
+\begin{enumerate}
+\item Most methylated promoters harbored a CpG-Island, which we have already shown to be particularly persistent in the \dnmtchip \dissrefpage{chap:r:persistency:nextcgi}. 
+\item Assuming demethylation in \dnmtchip was mostly passive and random, then recurrent and consequential promoter demethylation of the same transcripts in biological replicates would be unlikely. Thus, the respective genes would hardly be considered as differentially expressed. 
+\item Pronounced methylation loss occurred in lamina-associated domains, typically packed in dense heterochromatin during G1/G2 phase. Transcripts located there were thus mostly shielded from the transcription machinery even when methylation loss had been inflicted on their promoter. On top of that, active demethylation recruits additional epigenetic marks to ensure transcriptional activation, which are missing in the case of passive demethylation\cite{Chen2013,Fujiki2011,Deplus2013}. 
+\end{enumerate}
+
+\FloatBarrier
+\subsection{Elongation efficiency of reference transcripts} %Initiation and elongation
+\label{chap:r:transcription:elongation}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.65\textwidth]{figures/output/genes/rnaseq_transription/plots_cumCPM_cum_transcribed.pdf} 
+	\caption{Spatial distribution of read counts along the relative length of expressed reference transcripts. Grey dots represent single data points, while color indicates areas with many overlapping points. The general trend is visualized by a blueish polynomial B-spline, whose deviation from the original straight line of fixed points (black) constitutes a bias.}
+	\label{fig:plots_cumCPM_cum_transcribed}
+\end{figure}
+
+While the repressive regulatory function of methylation at promoters is well established, the mechanistic importance of methylated cytosines in gene bodies remains mostly elusive. It was suggested that they may regulate splicing\cite{Mendizabal2017} or increase transcriptional efficiency in active genes\cite{Aran2011}. Although an in-vitro transcription model had challenged those functions and rather pointed towards a solely \histhirtysixthree-mediated mechanism \cite{Nanan2017}, we investigated potential impacts of methylation loss in \dnmtchip on transcription. 
+
+Taking into account that the predominant \proteinnamehuman{MLL} fusion partners function in transcriptional elongation\cite{Slany2009,Mohan2010,Lin2010} and \mllafnine is known to interact with the super elongation complex (SEC)\cite{Slany2016}, we asked if the \dnmtchip genotype would have an impact on elongation. For this purpose we quantified the expression of every exon separately in RNA-seq and assigned the measurements to reference transcripts. Counts for exons shared among transcripts were split according to the RPKM ratios of the full transcripts. For all exons we determined the position within the respective transcript relative to the transcription start site and thus obtained a spatial view of the expression. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/genes/rnaseq_transription/plots_logFC_cum_transcribed.pdf} 
+	\caption{Summarized expression fold change of single exons is shown in dependence to absolute (left panel) and relative (right panel) transcript length. Genes with negative logFC were downregulated in \dnmtchip, while positive items exhibited increased expression. A smoothed representation (blue line) of the data was achieved by fitting a polynomial B-spline with \num{4} knots.}
+	\label{fig:plots_logFC_cum_transcribed}
+\end{figure}
+
+%\begin{figure}[!ht]
+%	\centering
+%	\includegraphics[width=\textwidth]{figures/output/genes/tinat_transcriptome_heterogeneity/cpm_fractions_refseq_cage.pdf} 
+%	\caption{Fractions and total expression of expressed (\textgreater \SI{2}{CPM}) genes as assessed by CAGE-seq.}
+%	\label{fig:expresses_cpm_fractions_refseq_cage}
+%\end{figure}
+
+Ideally, reads should be distributed equally along the whole transcript, unless they are influenced i.e. by the mapability. Despite a relatively high variance, we could observe a significant bias in our expression data. We detected disproportionate read fractions at the distal ends of the transcripts (in particular 3'), whereas the middle sections fell short of the expected representation \reffigure{fig:plots_cumCPM_cum_transcribed}{}, which was probably an artifact from the poly(A)-enrichment performed during sequencing library prep. Separate fits for the genotypes were virtually indifferent \dns, arguing against a specific elongation bias of \dnmtchip. This was corroborated by subsequent fold change calculations for all exons with a sufficient expression (\textgreater \SI{2}{CPM}). We did not observe an increase or decrease in differential expression, neither with regard to absolute nor relative transcript length \reffigure{fig:plots_logFC_cum_transcribed}{}. 
+
+\FloatBarrier
+\subsection{Stray transcription of reference transcripts}
+\label{chap:r:transcription:strayreference}
+
+\herestoyoufrank{
+	\item 	We conjectured that the flexible lamina-associated domains (fLADs) might be a hot spot of stray transcription.
+	\item   Mapping transcript expression either on the GAM-derived methylation persistency score\dissrefpage{chap:r:gam:fitting} or the first principal component\cite{Lieberman-Aiden2009} of Hi-C data from HPC-7 cells clearly indicated the absence of stray transcripts.
+
+}

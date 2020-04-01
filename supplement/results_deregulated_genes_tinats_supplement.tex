@@ -1,0 +1,187 @@
+\chapter{Experimental transcriptome}
+\label{chap:r:tinats}
+
+\section{Assembly of non-reference transcripts}
+\label{chap:r:tinats:stringtie}
+
+In principle, there are two approaches to establish a custom transcriptome from RNA-seq data. One can opt for a true de novo assembly\cite{Haas2013}, which combines overlapping sequencing reads into longer continuous genomic sequences (so called contigs). However, for most bioinformatic approaches to the problem (like \emph{De Bruijn graphs}), there is a trade-off between ambiguity as well as efficiency and computational demands such as memory consumption. Thus, for common model organisms, for which reference genomes exist, it is generally preferable and more precise to align the reads first to the genome and reconstruct the transcriptome from those alignments\cite{Liao2013,Liao2014,Maretty2014}. 
+
+In addition to RNA-seq data for the transcriptome assembly, we could fortunately also utilize CAGE-seq data to determine and validate transcription start sites\dissrefpage{chap:r:transcription:intro}. On the downside, the read specifications of both experiments (single-end, \SI{36}{bp} short, Phred QS $\leq 35$) no longer corresponded to the state of the art, therefore we had to adapt some of the tools' defaults. Briefly, we united the reads per genotype and aligned them to the \mmnine reference genome with \emphsoftwarename{BBmap}\cite{Bushnell2014} using some custom settings\footnote{\texttt{minid=0.9 padding=6 tipsearch=200 maxindel=500000 intronlen=5 ambig=random sssr=0.97}}. Afterwards we employed \emphsoftwarename{StringTie}\cite{Pertea2015} to reconstruct the transcripts and retained only those assemblies, which were supported by a 5'-prime CAGE-seq signal with a custom script. Further own \emphsoftwarename{awk} scripts were applied to finalize the transcriptome reference \verb|gtf|. 
+
+In total, we were able to reconstruct \num{43597} elongated transcripts from CAGE-seq confirmed transcription start sites, but just \num{12850} (\SI{29.47}{\percent}) were ultimately considered for downstream analyses. This was due to the additional requirement to be expressed in at least two samples irrespective of their genotype\dissrefpage{chap:r:transcription:expressionoverall} and most transcripts were either specific to one sample or artificial mergers of reads originating from different samples. 
+
+The remaining transcripts were subjected to differential expression analysis as described before \dissrefpage{chap:r:degenes:changes}, which confirmed the previous findings\reffigure{fig:genes:volcanoplots_rnaseq_genes}{}: Considerably more transcripts were differentially expressed between \kithi and \kitlow cells ($n\,=\,3686$) than between the genotypes \dnmtchip and \dnmtwt ($n\,=\,519$) \reffigure{fig:tinats:refseq_tinats_statuscodes}{, left panel}. 
+
+Subsequently, we ran \emphsoftwarename{gffcompare}\cite{Pertea2016} on all three gene sets to classify and categorize the transcripts. The respective status codes are listed in \autoref{tab:tinats:denovostatuscodes}. Unsurprisingly intron-exon-matched annotated transcripts were the dominating class~(\textbf{\texttt{=}}) in all sets (\SIrange{68}{85}{\percent}). The second most common category was composed of unspliced pre-mRNA fragments~(\textbf{\texttt{e}}), which predominantly bridged introns at the 3'-ends of the transcripts. Usually, the last few or at least the final and penultimate introns exhibited up to \SI{40}{\percent} of the signal strength of the adjacent exons. We considered this to be a technical artifact of the poly(A)-enrichment during library prep and a reason for the 3'-bias in the RNA-seq data. The third largest fraction was unique, intergenic~(\textbf{\texttt{u}}) transcripts with no direct relation to annotated genes. These were mostly short ($<$\SI{2}{\kilo b}), unspliced fragments typically framed by SINEs or LINEs, possibly pseudogenes, sequences of viral origin or transposons. Their expression or number did not increase in \dnmtchip, therefore they were probably not attributable for the impairment of self-renewal, although their exact role remained elusive. 
+
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{cp{12cm}}
+		\textbf{Status code} & \textbf{Status explanation} \\
+		\hline
+= &	 Exact match to reference transcript \\
+c &		Contained within the reference transcript but incomplete \\
+j &		 Potential novel isoform that shares at least one splice junction with a reference transcript \\
+e &		Overlaps a reference exon plus at least 10 bp of a reference intron, indicating a possible pre-mRNA fragment \\
+i &		 Falls entirely within a reference intron \\
+k &	 Falls entirely within a reference intron, reverse containment (antisense) \\
+o &		Exon of predicted transcript overlaps a reference transcript \\
+p &		Lies within 2 kb of a reference transcript (possible polymerase run-on fragment) \\
+r &		 Has >50\% of its bases overlapping a soft-masked (repetitive) reference sequence \\
+u &		Is intergenic in comparison with known reference transcripts \\
+x &		Exon of predicted transcript overlaps reference but lies on the opposite strand \\
+s &		Intron of predicted transcript overlaps a reference intron on the opposite strand \\
+		\hline
+	\end{tabular}
+	\caption{Categories and status codes assigned by \emphsoftwarename{gffcompare} to the de novo reconstructed transcripts.}
+	\label{tab:tinats:denovostatuscodes}
+\end{table}
+
+\begin{figure}[!ht] 
+	\setlength{\unitlength}{\textwidth}
+	\footnotesize
+	\begin{picture}(1,0.45)%
+	\put(0.16,0.08){\includegraphics[width=0.85\textwidth]{figures/output/tinats/refseq_tinats_statuscodes.pdf}}
+	\put(0.16,0){\includegraphics[width=0.85\textwidth]{figures/output/tinats/refseq_tinats_statuscodes_legend.pdf}}
+	\put(-0.085,0.42){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}\raggedright Significantly differential \kithi vs. \kitlow \end{minipage}}}
+	\put(-0.085,0.31){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}\raggedright Significantly differential \dnmtchip vs. \dnmtwtshort \end{minipage}}}%
+	\put(0.02,0.195){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}\raggedright All expressed\end{minipage}}}%
+	\end{picture}%
+	\caption{Absolute counts (left panel) and relative shares (right panel) of the respective status codes 	\dissref{tab:tinats:denovostatuscodes} within the three gene sets under investigation. The largest set comprises the \num{12850} transcripts expressed in at least two samples, the others the significantly differentially expressed items for a particular contrast.}
+	\label{fig:tinats:refseq_tinats_statuscodes}
+\end{figure}
+
+\clearpage
+
+\section{Expression of non-reference transcripts}
+\label{chap:r:tinats:denovoexpression}
+
+While the counts of a transcript class may be informative in terms of gene regulation or the lack thereof, it is certainly the expression, which confers biological relevance. Therefore, we mapped the reads of each sample individually on the assembled transcripts and detected pronounced differences in expression for the classes\reffigure{fig:refseq_tinats_rpkm_expression_expressed}{}. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/tinats/refseq_tinats_rpkm_expression_expressed.pdf} 
+	\caption{Boxplots of the all expressed, unannotated ($n\,=\,4095$) transcripts' measured expression (by RNA-seq). Each biological replicate is shown as separate box and colors indicate the respective genotypes.}
+	\label{fig:refseq_tinats_rpkm_expression_expressed}
+\end{figure}
+
+Unspliced pre-mRNA transcripts (\textbf{\texttt{e}}) constituted the second most common class, but their expression was obviously subject to normal genic regulation by the transcripts' regular promoters and thus comparable to that of the full length references\reffigure{fig:genes:buffer_domains_expression_boxplots}{, p.~\pageref{fig:genes:buffer_domains_expression_boxplots}}. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/tinats/refseq_tinats_rpkm_expression_signfcchipGeno.pdf} 
+	\caption{Expression of unannotated transcripts, which were differentially expressed between \dnmtchip vs. \dnmtwt ($n\,=\,86$). Colors represent the genotypes and each biological replicate is shown individually.}
+	\label{fig:refseq_tinats_rpkm_expression_signfcchipGeno}
+\end{figure}
+
+Comparably lowly expressed and relatively scarce were transcripts of the classes \textbf{\texttt{j}},\textbf{\texttt{k}} as well as \textbf{\texttt{o}}. Although those transcripts with novel splice junctions (\textbf{\texttt{j}}) might have played a role in the leukemogenesis, none of them was differentially expressed and thus of interest for this project. Our data therefore did not corroborate widespread joining of RNAs originating from cryptic promoters to regular reference transcripts during splicing as described before \cite{Brocks2017}.
+However, in our mouse model, we have achieved the DNA hypomethylation by means of genic \genenamemouse{Dnmt1} reduction instead of inhibitor treatment, which may explain the differences.
+
+Despite just having a different directionality, intronic sense transcripts (\textbf{\texttt{i}}) were higher expressed and remarkably much more frequent than intronic antisense transcripts (\textbf{\texttt{k}}). 
+
+In terms of expression, the most eye-catching classes were the \textbf{\texttt{r}} and \textbf{\texttt{u}} transcripts, which we however considered to be functionally and biologically equivalent in general. The reason was that most transcripts classified as unique intergenic (\textbf{\texttt{u}}) were short ($<$\SI{2}{\kilo b}) fragments, sharply demarcated by non-transcribed SINEs, LINEs or other repeats. Therefore, many \textbf{\texttt{u}} items were at least affiliated with repeats, although they did not extend into the repetitive sequence itself. However, this might have been a technical issue, since the short, single-end reads hardly permitted unique or high-confidence secondary alignments in repeats\dissref{chap:r:tinats:stringtie}. Depending on the surrounding sequence, many \textbf{\texttt{u}} transcripts could thus have been incompletely reconstructed and just for this reason failed to meet the \textbf{\texttt{r}}, requirement of >50\% of overlap with a repetitive reference sequence \reftable{tab:tinats:denovostatuscodes}. 
+
+Considering that the importance of long non-coding RNAs for mouse acute myeloid leukemia development has already been described\cite{Delas2017} and we only detected very few long unannotated transcripts, a significant fraction of incomplete assemblies across all RNA categories must be assumed, especially in regions of low mapability. Since we required the presence of 5' CAGE-seq signals supporting transcriptional initiation and otherwise discarded an assembled transcript, the majority of incomplete transcripts should be 3' truncated. 
+
+\section{Methylation of non-reference transcripts}
+\label{chap:r:tinats:denovomethylation} 
+
+In previous chapters the effects of hypomethylation in \dnmtchip leukemic cells on reference transcripts have been addressed in great detail\dissrefpage{chap:r:degenes:genotypecontrast}. Most of these analyses were repeated on the basis of the experimental instead of the reference transcriptome, but without relevant different findings \dns. 
+
+However, published literature had suggested that DNA hypomethylation is capable of reactivating cryptic, dormant promoters, which were referred to as \emph{treatment-induced non-annotated transcription start sites} (TINATs)\cite{Brocks2017}. Therefore, we performed an in-depth follow-up analysis of the promoter region methylation rate by transcripts classes.
+
+Regular promoters of annotated transcripts were either unmethylated or just weakly methylated \reffigure{fig:methylplots_CpGdata_refseq}{, upper left panel}, which was in accordance with the commonly accepted notion that promoter methylation represses transcription. This held true even for the methylation data from hematopoietic stem cells, although the RNA for the de novo assembly originated exclusively from \mllafnine leukemic cells. This suggested that even leukemia-specific transcripts already exhibited an unmethylated or lowly methylated promoter in regular HSCs.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_refseq_ref.pdf}
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_refseq_e.pdf} 
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_refseq_u.pdf}
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_refseq_r.pdf} 
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_refseq_i.pdf} 
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_refseq_o.pdf}
+	\includegraphics[width=\textwidth]{figures/output/tinats/methylation/methylation_legend.pdf} 
+	\caption{Methylation in the CAGE-seq supported \SI{3}{kb} promoter region of de novo transcripts. Colored lines represent the smoothed average methylscore, which is displayed on top of the measured methylation rate of single CpGs (black dots). CpGs without sufficient WGBS coverage (\SI{3}{reads}) or transcripts without (covered) CpGs are not shown.}
+	\label{fig:methylplots_CpGdata_refseq}
+\end{figure}
+
+In theory, unspliced pre-mRNA (\textbf{\texttt{e}}) as a precursor of reference transcripts should fully map to the same promoters, however typically the assemblies just comprised the last few 3'prime exons of a transcript. It remained elusive, whether the detected 5'prime ends corresponded to the true TSS or the transcripts were incompletely assembled and one of the typical exon CAGE-seq signals was mistaken for the initiation site. In terms of methylation however, the presumed TSS of \textbf{\texttt{e}} transcripts were significantly hypomethylated compared to those of transcripts with an true intronic initiation (\textbf{\texttt{i}}) \reffigure{fig:methylplots_CpGdata_refseq}{, center panels}. 
+
+In the latter case, the stable methylation might be explainable by persistent gene body methylation, whereas that \textbf{\texttt{r}}~transcripts may be attributable to the need of silencing of neighboring transposons or viral genes. Lower, intermediate methylation was detected at unique \textbf{\texttt{u}} intergenic transcripts as well as at the genic exon-overlapping assemblies~\textbf{\texttt{o}}\reffigure{fig:methylplots_CpGdata_refseq}{}.
+
+All described patterns were however not sample-specific, the methylation ranking for all transcript classes corresponded to that of global methylation averages. Consequently, we did not detect a transcript class, whose transcripts were predominantly initiated from hypomethylated, reactivated promoters in \dnmtchip. Not even the promoters of the few truly differentially expressed transcripts \reffigure{fig:tinats:refseq_tinats_statuscodes}{} exhibited a pronounced hypomethylation in \dnmtchip. Ultimately, convincing evidence for widespread reactivation of TINATs was lacking in our model and data. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_DEcchipGeno_refseq_ref.pdf}
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_DEcchipGeno_refseq_e.pdf} 
+	\includegraphics[width=0.3\textwidth]{figures/output/tinats/methylation/methylplots_CpGdata_DEcchipGeno_refseq_r.pdf}
+	\includegraphics[width=\textwidth]{figures/output/tinats/methylation/methylation_legend.pdf} 
+	\caption{Measured (dots) and averaged smoothed (curves) promoter methylation of de novo assembled transcripts, which were differentially expressed between \dnmtchip vs. \dnmtwt. Colors represent the WGBS samples. Transcripts without WGBS data have been omitted.}
+	\label{fig:methylplots_CpGdata_DEcchipGeno_refseq_ref}
+\end{figure}
+
+\section{Isolated transcriptional initiation events}
+\label{chap:r:tinats:denovolocalization}
+
+The results presented in the previous sections of this chapter were based on the de novo transcriptome assembly generated from the merger of RNA-seq and CAGE-seq data integrated with WGBS data \dissrefpage{chap:r:transcription:intro}. However, it should not go unnoticed that the datasets were generated years apart and originated from different ex-vivo leukemia samples. Although the state of technology at the time did not permit to generate all data from the same replicates, reducing rather unrelated datasets to a common denominator bore some risk of loosing information, assuming at least some contribution of random demethylating events in shaping the transcriptome and methylome of \dnmtchip cells. The paired-end CAGE-seq generated for the original TINAT publication\cite{Brocks2017} was more purposeful and straightforward in regard to the scientific question addressed. 
+
+Thus, technical limitations may have hindered us to capture the true extent TINAT-like transcriptional events in our mouse model, where DNA hypomethylation was archived by means of genic \genenamemouse{Dnmt1} reduction instead of inhibitor treatment. For example we failed to assemble a particular, truncated transcript of \genenamemouse{Pard6b}, which Irina Savelyeva from our own laboratory had experimentally validated by 5'-RACE-PCR in several \dnmtchip leukemia. Furthermore we also observed a strong CAGE-seq signal (and hypomethylation) right at the site of the cryptic promoter in the \genenamemouse{Dapk1} gene, which had been described in the original TINAT publication\cite{Brocks2017}, but the RNA-seq data did not allow for a successful elongation into a de novo assembled transcript.
+
+In a nutshell, our de novo assembled transcriptome of \mllafnine leukemia comprised mostly recurrent, faithfully reconstructed transcripts at the expense of most random, rare RNAs originating from TINAT-like initiation events. Therefore, we once loosened the criteria and focused solely on the CAGE-seq data to elaborate on aberrant transcriptional initiation, although \mllfp are known to rather affect the elongation of transcripts than their initiation\cite{Mohan2010}.
+
+We applied the software \emphsoftwarename{paraclu}\cite{Frith2008} on the \emphsoftwarename{BBmap}\cite{Bushnell2014} alignments \dissref{chap:r:tinats:stringtie} to identify tag clusters. Such arrays of multiple CAGE signals in close spatial vicinity are representative of strong eukaryotic promoters, since most of them do not have a single transcription start site (TSS) but initiate RNA Polymerase activity in a narrow segment of the chromosome. The raw paraclu output was filtered\footnote{Minimum of \num{15} reads total per cluster and an average of \num{0.5} reads per base to bias large sparse clusters.} and intersected with the \num{652852} mouse promoters released for \mmnine by the \emphcollectionname{Fantom~5} consortium\cite{Carninci2005,Lizio2015}. 
+
+In total we could identify \num{140267} tag clusters, of which \num{45259} overlapped known promoters from the \emphcollectionname{Fantom~5} reference, while \num{95008} were unique. We also filtered such tag clusters, which were rather enhancers than promoters according to our analysis. While the majority of annotated tag clusters were common to both genotypes, two-thirds of the unannotated sites were specific to either leukemia\reftable{tab:tinats:tagclustercounts}. 
+
+\begin{table}[h!]
+	\centering
+	%\setlength\extrarowheight{2pt}
+	\begin{tabular}{lccr}
+ \textbf{Specificity}	& \textbf{Type}	& \textbf{FANTOM~5 annotation}	& \textbf{Counts}\\ 
+		\hline
+Combined & Enhancer candidate	& annotated	& \num{1180}\\ 
+ Common & TSS cluster	& annotated	& \num{34545}\\ 
+ \dnmtchip & TSS cluster	& annotated	& \num{ 6549}\\ 
+ \dnmtwt & TSS cluster	& annotated	& \num{ 2985}\\ 
+Combined & Enhancer candidate	& non-annotated	& \num{2050}\\ 
+ Common & TSS cluster	& non-annotated	& \num{32320}\\ 
+ \dnmtchip & TSS cluster	& non-annotated	& \num{15898}\\ 
+ \dnmtwt & TSS cluster	& non-annotated	& \num{44740}\\ 
+		\hline
+	\end{tabular}
+	\caption{Number of CAGE-seq tag clusters in each category. Since enhancers will be discussed later, the subcategories are not detailed here. Such clusters that have a match with the mouse promoter reference released by the Fantom~5 consortium\cite{Lizio2015} are considered to be annotated.}
+	\label{tab:tinats:tagclustercounts}
+\end{table}
+
+The most remarkable finding was the high number (\num{44740}) of unannotated tag clusters in \dnmtwt \mllafnine leukemia. This result was very unexpected and would rather fit to the proposed changes in a hypomethylated setting. Thus, we double-checked the whole pipeline from barcode deconvolution to mapping and also performed a control alignment with \emphsoftwarename{BBmap}\cite{Bushnell2014} of the single replicates (\ensuremath{n=4} per genotype) on the tag clusters. This alignment confirmed the expression exclusively in \dnmtwt and the near-equal contribution of all replicates. Consequently, if samples were confused, it did already occur in the lab during library preparation and likely affected more than two replicates. Unfortunately a retroactive bioinformatic validation was only feasible for the RNA-seq, but not the CAGE-seq samples \dissrefpage{chap:r:transcription:genotypeval:cage}.
+
+At first, we explored the genomic localization of the tag clusters. For this reason we mapped the first principal component, which distinguishes \emph{active/permissive} from \emph{inactive/inert} chromatin compartments\dissrefpage{chap:r:transcription:strayreference}\cite{Lieberman-Aiden2009} , of Hi-C chromatin interaction data generated in the HPC-7 murine blood stem/progenitor cell model\dissrefpage{chap:r:gam:chromatin:hic}\cite{Wilson2016}. While basically all annotated tag clusters irrespective of their specificity were exclusively located in the open chromatin regions \reffigure{fig:tinatdensplot_LSChicpc1overall.pdf}{, top row}, we noticed an abnormal enrichment of \dnmtwt-specific, unannotated TSS clusters in typically inert heterochromatic regions. Since the decompaction of chromatin is a prerequisite of active transcription, this either pointed towards an increased flexibility of the chromatin structure or a more readily initiated transcription\reffigure{fig:tinatdensplot_LSChicpc1overall.pdf}{, bottom row}. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/chromatin/gam_hic_features/tinatdensplot_LSChicpc1overall.pdf} 
+	\caption{Genomic localization of transcriptional initiation. The tag clusters were assigned the respective first principal component of HPC-7 murine blood stem/progenitor cell Hi-C uniquely mapping interaction data. TSS were separated according to specific occurrence, overlap with Fantom~5 reference as well was classification as enhancer or promoter. Black arrows emphasize the unusual enrichment of robust or facultative heterochromatic localizations in the wild-type specific, unannotated clusters.}
+	\label{fig:tinatdensplot_LSChicpc1overall.pdf}
+\end{figure}
+
+Next, we mapped the modeled methylation probability on the tag clusters to assess their most likely methylation state, since we lacked actual WGBS coverage for many of them. The shift in the samples' maxima reflected the average methylation levels observed by the \SI{100}{kb} sliding window analysis \dissrefpage{chap:r:wgbs:single_sample_clustering}, but in general similar effects were observed. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/chromatin/gam_hic_features/tinatdensplot_gam_CAGEtssoverall.pdf} 
+	\caption{GAM-predicted methylation of CAGE-defined promoter TSS clusters (enhancers not shown in this plot). Kernel density estimates illustrate the frequency of the respective promoter methylation. Mind the non-linear y-axis required to represent the unequivocal methylation of non-annotated promoters in HSCs.}
+	\label{fig:tinatdensplot_gam_CAGEtssoverall}
+\end{figure}
+
+The annotated promoter TSS clusters split between methylated and unmethylated promoters, yet the common ones slightly favored a demethylated state\reffigure{fig:tinatdensplot_gam_CAGEtssoverall}{, left column}. Since the model was deliberately chosen to be very smooth and focused on the background methylation, values in the range of \numrange{0}{0.25} were basically confined to CpG-Islands. Consequently, we could conjecture from this data that a low predicted methylation was associated with CpG-Island promoters, which we corroborated in a separate analysis\dns. Conversely the non-annotated promoters were predominantly devoid of CGIs and thus they were typically methylated according to the model\reffigure{fig:tinatdensplot_gam_CAGEtssoverall}{, right column}. In addition, slight deviances were visible for the \dnmtwt-specific non-annotated clusters: In \dnmtwt, they exhibited the highest and in \dnmtchip the lowest predicted methylation of all three specificity categories. 
+
+The latter was confirmed, when instead of the absolute methylation the relative differences between the two leukemia samples were determined: The \dnmtwt-specific non-annotated TSS exhibited the most significant hypomethylation\reffigure{fig:tinatdensplot_LSCgamdiffoverall.pdf}{, lower right panel}, which was mirrored in the enhancers. Given their prevalent chromosomal localization in heterochromatic domains \reffigure{fig:tinatdensplot_LSChicpc1overall.pdf}{, lower panels}, the profound methylation loss was anticipated. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/chromatin/gam_hic_features/tinatdensplot_LSCgamdiffoverall.pdf} 
+	\caption{Relative GAM-predicted methylation differences for all possible combinations of annotation, cluster category and specificity. Black arrows point to the most relevant differences: The methylation loss of wt-specific non-annotated clusters and the elevated persistency at common, annotated promoters due to the high rate of CpG-Islands.}
+	\label{fig:tinatdensplot_LSCgamdiffoverall.pdf}
+\end{figure}

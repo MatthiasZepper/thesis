@@ -1,0 +1,148 @@
+\chapter{Enhancer calling and classification}
+\label{chap:r:enhancers:calling}
+
+\section{CAGE-seq derived enhancers}
+\label{chap:r:enhancers:cage}
+
+Several methods exist, which can be used to identify putative enhancers in genome-wide datasets\citerev{Shlyueva2014,Whitaker2015}. Because we had already generated cap analysis of gene expression (CAGE-seq) \cite{Carninci1996,Shiraki2003,Takahashi2012} datasets from ex-vivo sorted the \kitpos fractions of four independently established leukemia to characterize TINATs \dissrefpage{chap:r:tinats:denovolocalization}, we ultimately settled for that approach. 
+
+CAGE-seq data versatilely allows for the parallel determination of transcript expression estimates, investigation of alternative promoter usage and the detection of sites with potential enhancer activity based on bidirectional eRNA transcription\dissrefpage{chap:i:enhancers:erna}. A strategy to predict enhancers genome-wide from CAGE data alone has been devised, thoroughly validated and published in the course of the \emphcollectionname{FANTOM}~projects\cite{Andersson2014}. We reproduced this approach as closely as possible, but replaced the aligner with \emphsoftwarename{BBmap}\cite{Bushnell2014}, since it allows for a magnitude more parameters to be set and thus to exert a fine-grained control over the process, which was required due to a higher sequencing noise in our data. Subsequently, we applied the software \emphsoftwarename{paraclu}\cite{Frith2008} to identify tag clusters, which are arrays of multiple CAGE signals in close spatial vicinity. Such patterns emerge, because RNA polymerase activity is often initiated in narrow segments of the chromosome rather than at a specific single transcription start site (TSS). As recommended by the original authors, we excluded clusters found \SI{500}{bp} or less away from known TSS or \SI{100}{bp} from known exons. Source of the annotation used for the final reanalysis was release~\num{84} of the \emphdatabasename{NCBI Reference Sequence Database (RefSeq)} published on September 11, 2017. 
+
+After reshaping the data to meet the input requirements, we executed the Perl script provided by the Andersson lab\footnote{\,\url{https://github.com/anderssonrobin/enhancers}}. Since the programming interface of the \emphsoftwarename{BEDTools} suite\cite{Quinlan2010}, which is used by the script had changed in the meanwhile, slight modifications were required to run it successfully. Initially we obtained \num{8675} and \num{7955} bidirectionally transcribed clusters in \dnmtwt and \dnmtchip respectively. We filtered such sites that were smaller than \SI{80}{bp} or larger than \SI{500}{bp} as well as such items, whose cumulated expression did not exceed \SI{0.5}{TPM} in total and \SI{0.2}{TPM} in at least two replicates. These filters eliminated poorly supported locations with very weak signals, which were more frequent in \dnmtwt and thus corroborated the higher transcriptional noise in these samples\reffigure{fig:enhancers:cageseqtpmean}{, black arrow in left panel}. Apart from the larger number of very weakly transcribed sites in \dnmtwt, the distribution was similar in both genotypes \reffigure{fig:enhancers:cageseqtpmean}{} and well in accordance with previously published data \cite{Andersson2014}. 
+
+\begin{figure}[!htb]
+	{\Large \hfill \dnmtwt \hfill \hspace{2cm} \dnmtchip \hfill} \\
+	\centering
+	\includegraphics[width=0.45\textwidth]{figures/output/enhancer/calling/cageseq_enhancers_tpm_mean_wt.pdf} 
+	\includegraphics[width=0.45\textwidth]{figures/output/enhancer/calling/cageseq_enhancers_tpm_mean_cchip.pdf} 
+	\caption{Histogram of bidirectionally transcribed enhancer candidates relative to the average normalized expression in tags per million (TPM). Shown in gray is the complete set, whereas the colored columns represent the final set that passed all filters. A vertical black arrow highlights the increased counts of weakly expressed, bidirectionally transcribed sites in wild-type prior to filtering.}
+	\label{fig:enhancers:cageseqtpmean}
+\end{figure}
+
+However, it had already been shown in the supplement of the initial publication\cite{Andersson2014} that tightening the TPM cutoff beyond an optimum (which we determined to be \num{0.5} for our experiment) only eliminated many actual candidates without providing a significantly increased specificity. Therefore, we did not apply stricter filtering rules at this stage, deliberately accepting the likely presence of some false positives in the sets.
+ 
+\begin{figure}[!htb]
+	{\Large \hfill \dnmtwt \hfill \hspace{2cm} \dnmtchip \hfill} \\
+	\centering
+	\includegraphics[width=0.45\textwidth]{figures/output/enhancer/calling/cageseq_enhancers_tmp_plot_halffrac_wt.pdf} 
+	\includegraphics[width=0.45\textwidth]{figures/output/enhancer/calling/cageseq_enhancers_tmp_plot_halffrac_cchip.pdf} 
+	\caption{Heterogeneity of enhancer RNA transcription. The y-axis denotes the fraction of the total expression contributed by the two largest measurements. Individual enhancers (gray dots) are ordered from left to right by increasing mean expression and are binned by sequential steps of \num{0.05}. For each bin the median of all enhancers is calculated and marked by a colored dot. The interquartile range (IQR) is shown as colored line.}
+	\label{fig:enhancers:cageseqhalffrac}
+\end{figure}
+
+Next, we assessed, how heterogeneously the putative enhancer sites were transcribed in the biological replicates. For this analysis, we quantified the site's transcription in each replicate separately and ranked the measured values from large to small. Then, we calculated the cumulative sum of the two largest replicates per bidirectionally transcribed region. Assuming four exactly identical measured values, the sum of two would thus be \num{0.5}, whereas the maximum value of \num{1} would indicate expression in just two out of four samples. Unsurprisingly the total expression of weakly transcribed sites was often dominated by one sample, although contribution by secondary samples was certainly present as they would otherwise have been excluded by the previous filtering steps.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/output/enhancer/calling/enhancercanidates_genes_venn_manual.pdf} 
+	\caption{Venn diagram of the enhancer candidates, which passed the initial filtering step.}
+	\label{fig:enhancers:enhancercanidates_venn_manual}
+\end{figure}
+
+Such sites may have either represented false positive calls or enhancers, which preferably resided in a silenced state in most cells \dissrefpage{chap:i:enhancers:states} and thus were of little relevance for leukemia. With increasing total expression, almost all bidirectionally transcribed sites were detectable in all replicates and the cumulative sum of two samples neared \num{0.5}\reffigure{fig:enhancers:cageseqhalffrac}{}.
+
+Ultimately, we retained \num{6386} and \num{6662} putative enhancers in \dnmtwt and \dnmtchip respectively. Surprisingly, the majority of them (\SI{82.45}{\percent}) was specific for either of the genotypes \reffigure{fig:enhancers:enhancercanidates_venn_manual}{}. The large number of unconnected sites suggested a relevant share of false positive sites and called for extra caution in handling the data.
+Eventually, we gave consideration to means of increasing the reliability as well as validating candidate sites.
+
+\section{Enhancer intersection}
+\label{chap:r:enhancers:intersection}
+
+Since we were working with leukemic cells, it seemed plausible that not all detected active enhancers would be involved in pathogenic progresses. Rather we expected to find hundreds of sites, which were inherited from the cell of origin and had no direct relevance for the leukemia. To segregate those two groups, we intersected the identified coordinates with the \num{48415} enhancers contained in a comprehensive reference catalog of murine hematopoietic enhancers \cite{Lara-Astiaso2014}. 
+
+The group of Ido Amit had developed a modified ChIP-seq protocol, which permitted the generation of sequencing libraries from just a few thousand cells. Subsequently, they had called enhancers by means of overlapping ChIP-peaks of \hisfourone and \histwentysevenac. The extensive dataset, which comprised most major cell types spanning the whole hematopoietic hierarchy allowed them to identify clusters of congeneric enhancers. Overall, the group identified nine large clusters by \textsl{k}-means-clustering, which they designated with Roman numerals and which represent groups of functionally related enhancers\cite{Lara-Astiaso2014}. While the enhancer coordinates were published in the supplement of the paper, the cluster assignments were kindly provided by Assaf Weiner and Ido Amit via direct correspondence. This allowed us to intersect the CAGE-defined candidate sites with the regular hematopoietic enhancers and also assign them to the previously defined \hisfourone-based clusters. 
+
+The cluster \amitone comprised enhancers shared throughout hematopoiesis. Lineage-specific enhancers, which are already marked in HSCs and shared with hematopoietic lineage progenitors were grouped in the clusters \amitnum{2}, \amitnum{3} as well as \amitnum{4}. \amitfive was shared mostly among progenitors and signal intensity decreased in the more mature cell types. The clusters \amitnum{6}-\amitnum{9} comprised mostly de novo enhancers that were specific to a particular lineage and were just weakly marked in HSCs 	\footnote{see \autoref{fig:enhancers:amit_centroids},{\color{fbbioblue} p.}\pageref{fig:enhancers:amit_centroids} for a visualization of the clusters' \hisfourone signatures}.
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/output/enhancer/clustering/intersection_amit.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/intersection_amit_legend.pdf} 
+	\caption{Bar graph showing the \hisfourone-cluster assignments of the overlapped hematopoietic enhancers. The top row serves as reference and represents the composition of the complete catalog. Shown below are three sets of regular hematopoietic enhancers, which are putatively also active in \mllafnine \kitpos cells as well as their cluster allocation.}
+	\label{fig:enhancers:intersection_amit_clusters}
+\end{figure}
+
+The result of the intersection gave us a first impression of the enhancer signature of \kitpos cells. We could identify \num{889} CAGE-based enhancer candidates, which had been characterized before by the group of Ido Amit in healthy hematopoiesis. The percentage of normal enhancers in the signature (\SI{8.2}{\percent} of \num{10865}) was surprisingly low. Furthermore we noticed slightly disproportionate rates in the genotype-specific sets (\dnmtwt:~\SI{6.6}{\percent}, \dnmtchip:~\SI{8.8}{\percent}). 
+
+In terms of function, substantial fractions (\SIrange{37}{50}{\percent}) originated from the myeloid clusters \amittwo and \amitsix \reffigure{fig:enhancers:intersection_amit_clusters}{}, thus corroborated the known relatedness of the \mllafnine \lsk cells with granulocyte macrophage progenitors (GMPs), since \tfcebpa -mediated differentiation is required for AML initiation \cite{Ye2015}. Yet, a notable number of enhancers (up to \SI{28}{\percent}) also originated from progenitor clusters of the other lineages (\amitnum{3},\amitnum{4},\amitnum{5}), which indicated that either lineage commitment had not been finalized or that the \kitpos-fraction consisted of a rather heterogenous mixture of various cellular stages. 
+
+\section{Enhancer clustering}
+\label{chap:r:enhancers:cluster}
+
+\subsection{Major cluster assignment by k-means}
+\label{chap:r:enhancers:cluster:kmeans}
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.95\textwidth]{figures/output/enhancer/clustering/amit_centroids.pdf} 
+	\caption{Bar graph showing the initial \hisfourone-signature associated with the cluster centers. For every cell type the mean value of \hisfourone-occupancy for all regular hematopoietic enhancers assigned to the respective cluster is shown. The \amitten cluster is not part of the original publication.}
+	\label{fig:enhancers:amit_centroids}
+\end{figure}
+
+\begin{figure}[!p]
+	\centering
+	\includegraphics[width=1.3\textwidth]{figures/output/enhancer/clustering/amit_h3k4me1_legend.pdf} 
+	\includegraphics[width=0.96\textwidth]{figures/output/enhancer/clustering/amit_h3k4me1.pdf} 
+	\caption{Heatmap showing the \hisfourone-occupancy in healthy hematopoietic cells at the sites of possible enhancers. All \num{10865} candidates in \mllafnine \kitpos leukemia as well as the \num{47526} non-overlapping sites of the hematopoietic enhancer catalog are shown individually as horizontal lines. Roman numerals represent the clusters.}
+	\label{fig:enhancers:amit_h3k4me1}
+\end{figure}
+ 
+\FloatBarrier
+\clearpage
+\section{Additional plots for clades enriched for CAGE-enhancers}
+\label{chap:r:enhancers:cluster:clades:healthy}
+\enlargethispage{\baselineskip}
+\begin{figure}[!b]
+	\includegraphics[width=\textwidth,page=2]{figures/output/enhancer/clustering/clades/H3K27ac_MyeloidProgenitors(II)_clade_9.pdf}
+	\includegraphics[width=\textwidth,page=2]{figures/output/enhancer/clustering/clades/H3K27ac_Common(I)_clade_7.pdf}
+	\captionsetup{labelformat=empty}
+	\caption{}
+\end{figure}
+
+\begin{figure}[!htb]
+	\includegraphics[width=\textwidth,page=2]{figures/output/enhancer/clustering/clades/H3K27ac_ErythroidProgenitors(IV)_clade_4.pdf}
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/legend_specificity.pdf}
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/legend_type.pdf}
+	\caption{Details of three exemplary clades with enrichment for CAGE-defined enhancers (odds ratios \num{5.23}, \num{77.37} and \ensuremath{\infty}) from the clusters \amitone, \amittwo and \amitfour. On the left the hierarchical clustering based on \histwentysevenac is shown as well as the genotype specificity: black marks common putative enhancers, blue \proteinnamemouse{Dnmt1} \dnmtwtregular and red \proteinnamemouse{Dnmt1} \dnmtchipregular enhancers. On the right, note the strong \histwentysevenac signal at CAGE-defined enhancers (rich colored bars) in NK~cells for the second and third clade. Although significantly enriched for CAGE-enhancers , clade \clade{2}{9} (odds ratio \num{5.23}) lacks this prominent pattern. }
+	\label{fig:enhancers:amit_overrepresented_clades}
+\end{figure}
+
+
+% technical mark to close Amit reference in appendix - last entry of chapter. 
+\label{chap:r:enhancers:amitend}
+\section{ATAC-seq for enhancers in \mllafnine leukemia}
+\label{chap:r:enhancers:cluster:clades:clearydata}
+ 
+ATAC-seq data generated by the group of Jennifer Trowbridge\cite{George2016} also challenged the validity of most enhancer calls of the \amitten cluster, as most of them were located in supposedly closed chromatin.\label{chap:r:enhancers:trowbridgestart} 
+
+Apart from cluster \amitnum{10}, the ATAC-seq however supported the notion that the clade enrichment was indicative of relevant enhancers. Typically, clades with a strong enrichment also featured elevated ATAC-seq signals. Furthermore the activity of such enhancers was ubiquitous in the sense that the openness of these chromatin regions did not depend on the cell of origin. Initially, the Trowbridge lab had transformed four distinct populations from the hematopoietic hierarchy by transduction of a \mllafnine fusion gene. The transcription profiles of the resulting leukemia were variable, but had no consistent relationship with the cell of origin, which was thus indistinguishable. However, the leukemia could be traced back to their cell of origin by means of open chromatin profiling\cite{George2016}. Notwithstanding said cell type specificity reflected in the ATAC-seq data, the enhancers contained within the highly enriched clade were uniformly marked by strong signals and thus could be attributed to the core signature of \mllafnine leukemia.
+
+However, the data also showed that the definition of such a core signature of \mllafnine leukemia would not be trivial and perhaps pointless. Even when just comparing the two biological replicates, the ATAC-peaks were quite variable. Therefore, a stringent intersection (reciprocal overlap of the peaks by at least \SI{75}{\percent} of the length) eliminated many sites, including known promoters\dns. Cross-cell-type signatures were further narrowed down, such that the overall confirmation rate for the candidate enhancers by ATAC-seq was rather low \reffigure{fig:enhancers:trowbridge_atac_percent_openness_rel}{}. 
+
+ \begin{figure}[!bht]
+ 	\includegraphics[width=\textwidth]{figures/output/enhancer/atacseq/atac_percent_openness_rel.pdf}
+ 	\caption{Fraction of CAGE-defined putative enhancers located in open chromatin according to ATAC-seq in the respective cell population. Peaks in replicates or mixed populations were required to overlap reciprocally by \SI{75}{\percent} of the length to be considered commonly open. As no replicates were available for the healthy GMP control, the number of ambiguous elements could not be determined.}
+ 	\label{fig:enhancers:trowbridge_atac_percent_openness_rel}
+ \end{figure}
+ 
+ \begin{figure}[!bt]
+ 	\includegraphics[width=\textwidth]{figures/output/enhancer/atacseq/atac_percent_representation_abs.pdf}
+ 	\caption{Absolute number of CAGE-defined candidate enhancers and their respective assignments to clades. Odds ratio ($\leq$ \num{0.25};\, \ensuremath{\interval[open left]{0.25}{0.75}};\, \ensuremath{\interval[open left]{0.75}{1.25}};\, \ensuremath{\interval[open left]{1.25}{4}};\,>\num{4}) as well as test significance (FDR < \num{0.01} determined the five categories ranging from depletion to enrichment. Only those enhancers are shown, which are confirmed by ATAC-seq open chromatin profiling as constitutively open. On the very top, the shares to the respective clade categories in the full set are depicted as control - due to disproportional numbers.}
+ 	\label{fig:enhancers:trowbridge_atac_percent_representation_abs}
+ \end{figure}
+
+Among the candidates transcribed in \dnmtwt as well as \dnmtchip \SI{41}{\percent} of the elements seemed to be constitutively packed in heterochromatin in \mllafnine leukemia according to the ATAC-seq. Half of the candidates were open in at least some leukemic populations and just \SI{9}{\percent} in all. Comparable numbers were obtained for the universal \kithi LSC-enriched L-GMP (\lgmp) signature. Judged on the basis of similarity to derivatives from a particular cell of origin, our \lsk-derived \kithi population predominantly resembled progeny from short-term HSCs, although they also bore some resemblance to the CMP-derived populations\reffigure{fig:enhancers:trowbridge_atac_percent_openness_rel}{, left column}. 
+
+Confirmation rates were even lower for the vast majority of enhancer candidates, namely \SI{82.45}{\percent}\reffigurepage{fig:enhancers:enhancercanidates_venn_manual}{}, which were specific for either genotype. Typically, just \SI{15}{\percent} or less were assigned to open chromatin, a minority of which could be reckoned constitutively open \reffigure{fig:enhancers:trowbridge_atac_percent_openness_rel}{, center and right column}. Surprisingly, the higher rate of heterochromatic transcription initiation events among the \dnmtwt-specific enhancers\reffigurepage{fig:tinatdensplot_LSChicpc1overall.pdf}{} was hardly reflected in the ATAC-seq confirmation rates - only \SIrange{2}{4}{\percent} more open chromatin was detected for the \dnmtchip-specific over the \dnmtwt-specific enhancers.
+ 
+Regardless of the set and the level of confirmation, the majority of confirmed putative CAGE-defined enhancers were assigned to clades exhibiting strong accumulation. Apart of the healthy GMP control, where it was lower, between \SIrange{67}{86}{\percent} of the confirmed enhancers were constituted by strongly enriched clades\reffigure{fig:enhancers:trowbridge_atac_percent_representation_abs}{}.It is important to emphasize that this was not the very same group of enhancers, which affected the results over and over again in various contexts. Instead, we observed a quite heterogeneous mixture of ubiquitous as well as more specific enhancers, yet commonly assigned to accumulated clades, which were apparently involved in the leukemic transformation \reffigure{fig:enhancers:heatmap_openness}{}. Therefore, we hypothesized that we should focus on clades with strong accumulation to investigate possible mechanisms governing enhancer recruitment in \mllafnine leukemia . 
+
+In parallel, we also pursued an alternative approach to the identification of commonalities between those enhancers: We launched a search for distinct cis-regulatory elements, which presumably support the expression of genes that have a known role in \mllafnine leukemogenesis by harnessing chromatin interaction data. 
+
+\begin{figure}[!p]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/atacseq/heatmap_openness.pdf} 
+	\caption{Heatmap showing the clade category and chromatin status of all ATAC-seq confirmed enhancers. Displayed are only such CAGE-defined enhancers, which were marked by an ATAC-seq peak in any sample ($n\,=\,2716$). In the left panel, a black bar indicates the clade category, which is determined by odds ratio and false discovery rate as described before ( 	\autoref{fig:enhancers:trowbridge_atac_percent_representation_abs}). A heatmap to the right details the presence of ATAC-seq peaks at the enhancer sites in the respective set.}
+	\label{fig:enhancers:heatmap_openness}
+\end{figure}
+
+\label{chap:r:enhancers:trowbridgeend} 

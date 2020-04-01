@@ -1,0 +1,50 @@
+
+% ---------He2019
+Furthermore, they assigned genes to different categories based on methylation and CpG count and observed that genes in an intermediate Zone~\amitnum{2}\footnote{Genes with 42 to 83 CpG sites near their TSS (\SIrange{-1.5}{2.0}{\kilo b}) and \SIrange{40}{60}{\percent} methylation} more readily responded to methylation changes than others\cite{He2019}. This rater lenient definition of a promoter in conjunction with a single-CpG based rather than CpG-Island based analysis can hardly discriminate between effects at the TSS and at nearby cis-regulatory elements such as enhancers. 
+
+% ----------------------------------------------------------------------
+For this project we combined methylome, transcriptome and ChIP-seq datasets generated over a period of several years from different leukemia samples and integrated them with numerous third-party datasets. Findings like that there was no significant increase in transcription by hypomethylated promoters\dissrefpage{chap:r:transcription:promhypooverall} contradicted published results\cite{Trowbridge2012} and the well-established epigenetic principle of expression control by promoter methylation\cite{Vire2006}\citerev{Rodriguez-Paredes2011,Bouras2019}. Hence, considering that demethylation in the \dnmtchip strain is variable and somewhat random, a mismatch of methylome and transcriptome data for some gene promoters seemed more likely. 
+
+
+In terms of transcripts, misclassification rate is roughly similar. We counted 21572 unique \emph{Refseq}-promoters in ciLADs and 3161 in cLADs, of which a different assignment is supported for 3228 (14.96\%) and 1014 (32.08\%) respectively. Overall, we assigned 22053 transcripts to iLAD and 3228 to LAD space. A \emph{Gene Ontology} enrichment analysis of the \emph{Refseq}-transcripts , whose promoters are located in contradictory areas provided further insights. In annotated ciLADs, for which our model favors a lamina association, many terms are related to neuronal cell fate or development. This indicates a neuronal bias in the published annotation originating from the cell types chosen to create annotation of constitutive domains (embryonic stem cells, 3T3 fibroblast cells, neuronal precursor cells, astrocytes) \cite{Meuleman2013}. The annotation of the reverse situation (model: iLAD, annotation: cLAD) exhibited strong	accumulation of terms alluding to the olfactory system. Indeed, more than one forth of the respective transcripts are olfactory G protein–coupled receptors. 
+
+These genes reside in areas of the genome, which are commonly condensed to constitutive heterochromatin \cite{Magklara2011,Clowney2012}. Intriguingly, Kdm1a is necessary for desilencing the heterochromatin around olfactory receptors\cite{Lyons2013}, which is also a known key effector of the differentiation block in MLL-AF9 leukemia \cite{Harris2012}. Thus, it is conceivable that clusters of olfactory G protein–coupled receptors become desilenced MLL-AF9 leukemia, but are not expressed because the cell lacks other required factors to sustain their transcription and expression. RNA-seq analysis confirms that none of these olfactory receptors is actually expressed (> 1 RPKM). 
+
+For other genes in the model-contradicted cLADs (model: iLAD, annotation: cLAD), we
+however can detect expression by RNA-seq
+
+Similarly our methylation data also indicates the desilencing of the SSXb cluster, 
+%http://www.ncbi.nlm.nih.gov/pubmed/14611804/
+%http://www.ncbi.nlm.nih.gov/pubmed/20981248/
+
+This led us to the conclusion that the demethylation effect size of \dnmtchip vs. \dnmtwt reflects rather the condensation of the chromatin than necessarily an association with the nuclear lamina (although the latter is the preferred localization of inactive chromatin\cite{Guelen2008}). We sought to further confirm 
+
+correlation for measured demethylation and distance to CGI: 0.06031183, 
+
+%summary(distance_to_CGI)
+%Min. 1st Qu. Median Mean 3rd Qu. Max. NA's
+% 2474 11570 25510 32500 541600 3316
+
+Grasping methylation persistence merely as result of susceptibility to Dnmt1 loss likely falls short of the processes involved. Despite the association with the underlying chromatin structure, also de novo methylation or hydroxymethylation effects are conceivable. To expose the large-scale trends within the data and nevertheless improve the resolution compared to the initial screening, we developed a smoothing strategy based on Generalized Additive Models (GAM). This approach allowed for the high resolution required by detail analyses, but avoided the volatility inherent to small window sizes. 
+
+“predicted interLAD” = “Those areas, where Dnmt1 reduction has only minor consequences” 
+“predicted LAD” = “Those areas of the genome, where Dnmt1 reduction has a greater impact”
+“ciLAD to LAD” = “Those areas, where the impact of Dnmt1 reduction is surprisingly large”
+“cLAD to iLAD” = “We actually expected to see more methylation depletion here”
+
+Nevertheless our data could not preclude a yet unknown reason existed, why those inconsistent regions differed from the general association of DNA structure and methylation maintenance. In the latter case a detailed characterization of these regions would have been desirable for our goal to identify reasons for the senescence and impairment of self-renewal in \dnmtchip leukemia.
+
+
+As anticipated, ciLADs comprised predominantly persistent areas and cLADs were mostly compromised (Fig.6C). Nevertheless notable fractions unexpectedly opposed the trend, which we initially attributed to leukemia-specific deviations from the published constitutive chromatin structure. To complicate matters, H3K9me3, a widely recognized hallmark of condensed chromatin, did not show any enrichment in a ChIP-seq from \dnmtwt cells (Fig.6D). Three-fourths of transcript promoters are situated in persistent areas, of which numerous exhibited strong H3K4me3 marks for the same cells (Fig.6E). Mapping of the differentially expressed genes (for the HSC to LSC transition) on the modelled categories however underscored that the general background has very limited influence on the regulation of individual genes (Fig.6F). 
+
+The methylation persistence only associates with other large-scale generalizations like replication timing (Fig.6G) or composition of the underlying DNA sequence (Suppl.Fig.X). Hence, we focused on the unexpectedly deviating regions (Fig.6C, highlighted in Fig.6B) to aid the understanding of the processes involved. They are characterized by a distinct methylation profile (Fig.6H) as well as chromatin states in ES-cells (Fig.6I) and many genes within are functionally linked: Genes related to neuronal cell fate or development dominate compromised ciLAD areas, whereas more than one fourth of the genes in persistent cLAD domains are olfactory G protein–coupled receptors (Suppl. table X). 
+
+%--------------------------------------
+
+An individual domain was typically between \SIrange{100}{300}{\kilo b} in size\reftable{tab:persistency_region_properties} and thus highly comparable to the published reference sizes of partially methylated domains (PMDs)\cite{Lister2009,Schroeder2013,Gaidatzis2014} as well as lamina-associated domains (LADs)\cite{Guelen2008} . However, for each of the respective domains about a quarter was notably smaller (just \SI{10}{\kilo b}) and often comprised single transcripts or regulatory regions. It was obvious that such small compromised regions bore resemblance to lowly methylated regions (LMRs)\cite{Stadler2011}, although we did not formally test their true equivalence. 
+
+%-----------------------
+
+The histone mark \histwoarg has been characterized to repel \proteinnamemouse{Dnmt1} from DNA\cite{Veland2017}. Since we observed a significant upregulation of \genenamemouse{Prmt6}, which establishes \histwoarg, in \dnmtchip \mllafnine leukemia, it was tempting to speculate that at least some of compromised areas might have been actively marked by \histwoarg deposition as means to prioritize methylation maintenance of other regions.
+
+Contrarily, \genenamemouse{Uhrf1} mediates maintenance of DNA methylation via ubiquitinylation of H3 at lysines K18 and K23\cite{Harrison2016}. If \histwoarg is absent, but \hisninethree present, \genenamemouse{Uhrf1} establishes \hiseighteenub and \histwentythreeub, which promote DNA methylation inheritance by \genenamemouse{Dnmt1}\cite{DaRosa2018, Li2018a}. Further histone marks are likely also implicated \citerev{Rose2014}. Additionally, there might be an PCNA-independent interaction of \proteinnamemouse{Dnmt1} with postreplicative heterochromatin\cite{Schneider2013}, whereby omitted hemimethylated sites could be replenished afterwards.

@@ -1,0 +1,94 @@
+\chapter{Specification of the compromised regions}
+\label{chap:r:comprom:introduction} 
+\supplebox{This text explains how \emphsoftwarename{MethylSeekR} works and why the method reached its limits with our methylome data. We also show what we tried to improve to use the software anyway. }
+\setcounter{section}{2}
+\section{Standard approach failed to discriminate domain borders}
+\label{chap:r:comprom:methylseeker} 
+
+Shortly after the first comprehensive WGBS datasets became available, a feature termed \emph{Partially Methylated Domain} (PMD) was described\cite{Lister2009}: Some methylomes contained large ($>$\SI{150}{\kilo b}) regions of seemingly disordered methylation harboring many heterogeneously methylated CpGs. 
+
+Since PMDs are associated with AT-rich lamina-associated domains\cite{Schroeder2013,Gaidatzis2014}, we presumed the applicability of a published tool for PMD calling named \emphsoftwarename{MethylSeekR}\cite{Burger2013} to precisely determine the domain borders of the compromised regions. However, we could not derive meaningful and verifiable limits for the compromised regions with this approach.
+
+One reason may have been the relatively low coverage of less than the recommended \SI{10}{x} at virtually any genomic region even after pooling the replicates into metasamples. But we also asked, whether the compromised regions in \dnmtchip leukemia are truly equivalent to PMDs in every regard. 
+
+Furthermore also the persistent ciLAD regions comprised a decent amount of partial methylation, which may have resulted in a lack of control regions and thus impeded a proper function of the \emphsoftwarename{MethylSeekR} software.
+
+\subsection{Emulation of the MethylSeekR methodology}
+\label{chap:r:comprom:methylseeker:emulation} 
+ 
+ To address this issue, we faithfully recapitulated the approach used by the software, which is outlined in the accompanying paper\cite{Burger2013}. Briefly, the \emphsoftwarename{MethylSeekR} program models the methylscore as being sampled from a probability density function (PDF) of the beta distribution family \refeq{eq:methylseeker:1}. Usage of the beta distribution family to delineate methylscores is a common proposition in modeling methylome data\cite{Kuan2010,Hebestreit2013,Song2013}. The shape of the curve is determined by two parameters designated $\alpha > 0$ and $\beta >0 $, but the desired upward open parabola will only result when $0 < \alpha < 1$ and $0 < \beta < 1$, which is therefore the most applicable range for methylome data\reffigure{fig:wgbs_IMR90_distributions_beta.pdf}{, left panel}. \emphsoftwarename{MethylSeekR} restricts itself to symmetric beta functions and equalizes $\alpha = \beta$. Hence the probability $f_i$ of a given CpG $i$ to be methylated is modeled by \emphsoftwarename{MethylSeekR} as shown in \autoref{eq:methylseeker:2}\cite{Burger2013}. 
+
+\begin{eqnarray}
+\label{eq:methylseeker:1} f(x) = \frac{1}{\operatorname{B} (\alpha,\beta)} x^{\alpha-1}(1-x)^{\beta-1} \\
+\label{eq:methylseeker:2} \operatorname{P}(f_i|\alpha) = \frac{1}{\operatorname{B} (\alpha,\alpha)} {f_i}^{\alpha-1}(1-f_i)^{\alpha-1}
+\end{eqnarray}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_betadist_plots/parameter_estimates_IMR90_2} 	
+	\caption{Density plots of the parameters $\alpha$ and $\beta$ for beta regression fits on windows of \num{100} adjacent CpGs for IMR90 fibroblast methylomes. PMDs appear mostly as regions with $\alpha < 0.5$ and $\beta > 0.6$. In the right panel the genomic regions were annotated with measured lamina-association data\cite{Guelen2008}. Lamina-associated (LAD) and open inter-lamina regions( iLAD) were treated separately for plotting, highlighting the bimodality of the distribution, which forms the basis for the mixture model of \emphsoftwarename{MethylSeekR}. Mind the long-tailed part of the iLAD density, which is indistinguishable from the LAD values for any modeling approach and will be assigned falsely.}
+	\label{fig:wgbs_IMR90_distributions_beta.pdf}
+\end{figure}
+
+In the subsequent step, \emphsoftwarename{MethylSeekR} fits a mixture model on the resulting density over $\alpha$, which typically assumes a bimodal distribution split between open and lamina-associated chromatin. Usually PMD-like areas exhibit values of $\alpha > 1$ for symmetric fits. The latter is illustrated, when the methodology is applied on published methylome data from IMR90 fibroblasts, which is known to harbor prominent partially methylated domains \reffigure{fig:wgbs_IMR90_distributions_beta.pdf}{, right panel}. The Mixture Model treats a particular $\alpha$-value as being sampled from one of two distributions, which are estimated from the data, but are considered as known ground truth. The algorithm decides, which distribution explains the measured $\alpha$-value better and joins adjacent regions with the same assignment into blocks to call PMDs. 
+
+\subsection{Improvements to the MethylSeekR methodology}
+\label{chap:r:comprom:methylseeker:improvements} 
+
+A caveat with the \emphsoftwarename{MethylSeekR} approach is that methylscores frequently assume the extremes \num{0} and \num{1}, which cannot be simulated in the published way by beta regression models. The density of beta distributions with the parameters $0 < \alpha < 1$ and $0 < \beta < 1$ is infinite at zero and one, so they are generally only defined in the open interval $\interval[open]{0}{1}$. To address this issue, we resorted to a prior transformation of $f_i$.
+
+\begin{eqnarray}
+\label{eq:methylseeker:3} t_{i} = \frac{f_i \cdot (n - 1) + 0.5}{n}
+\end{eqnarray}
+
+The methylscores $f_i$ of $n$ adjacent CpGs within a genomic region were transformed according to \autoref{eq:methylseeker:3} \cite{Smithson2006}. The transformed variable $t_i$ assumed extreme values slightly above zero and below one respectively and thus a beta regression model could be fitted on the values. 
+
+As a second improvement we also fitted the Kumaraswamy distribution, a beta-type distribution with more convenient tractability\cite{Kumaraswamy1980,Jones2009}. As the Kumaraswamy distribution, whose probability density function PDF is given in \autoref{eq:methylseeker:4} is defined within the interval $\interval{0}{1}$, a prior transformation was not necessary. In contrast to the cumulative distribution function (CDF) for a beta distribution, which cannot be reduced to elementary functions unless its parameters $\alpha$ and $\beta$ are integers, the CDF of the Kumaraswamy distribution has a simple form \refeq{eq:methylseeker:5}. This simplicity makes it possible to derive tangible conclusions about the methylscores within a genomic region for known parameters $a$ and $b$. Furthermore, the CDF can easily be compared to the empirical distribution function (ECDF) of the interval with a one-sided Kolmogorov–Smirnov test. Because of these advantages, we advocate the Kumaraswamy distribution to replace the widely used beta distribution\cite{Kuan2010,Burger2013,Hebestreit2013,Song2013} in modeling methylome data.
+
+\begin{eqnarray}
+\label{eq:methylseeker:4} f(x) = a\cdot b \cdot x^{a-1} \cdot { (1-x^a)}^{b-1}\\
+\label{eq:methylseeker:5} F'(x) = 1 - (1 - x^a)^b
+\end{eqnarray}
+
+\subsection{Maloperation of both beta-like models}
+
+Nevertheless, neither the original \emphsoftwarename{MethylSeekR} approach nor the Kumaraswamy fits resulted in a reasonable classification and both failed to correctly resolve the borders of the compromised and persistent regions in \dnmtchip methylation data. Already the first step, the fitting of beta-like functions, turned out to be deficient: Neither for windows of \num{100} adjacent CpGs (like \emphsoftwarename{MethylSeekR} uses them) nor for larger sections the beta-like functions could be reasonably fitted \reffigure{fig:wgbs_betadist_chr3.pdf}{}.
+
+\begin{figure}[!ht]
+	\centering \dnmtwt HSC
+	\includegraphics[width=0.9\textwidth,page=1]{figures/output/methylome/wgbs_betadist_plots/wgbs_betadist_chr5.pdf} 
+	\vspace{0.1em} \\ \dnmtwt \kitpos leukemia	\includegraphics[width=0.9\textwidth,page=2]{figures/output/methylome/wgbs_betadist_plots/wgbs_betadist_chr5.pdf}
+	\vspace{0.1em} \\ \dnmtchip \kitpos leukemia \includegraphics[width=0.9\textwidth,page=3]{figures/output/methylome/wgbs_betadist_plots/wgbs_betadist_chr5.pdf}
+	\caption{Visualization of the best fits for the respective functions (columns) and methylomes (rows). The black lines indicate the real density and the colored lines retrace the fitted functions with the optimized parameters.}
+	\label{fig:wgbs_betadist_chr3.pdf}
+\end{figure}
+\clearpage
+
+In particular the fitted beta-like functions failed to accurately represent the accumulation of methylscores within the range of \numrange{0.6}{0.9}, which was most evident in \dnmtwt \kitpos leukemia, but also occurred in \dnmtchip \reffigure{fig:wgbs_betadist_chr3.pdf}{, middle and bottom row}.
+
+\begin{figure}[!ht]
+	\centering \dnmtwt HSC 	\vspace{0.05em} \\
+	\includegraphics[width=0.9\textwidth,page=1]{figures/output/methylome/wgbs_betadist_plots/parameter_estimates_global.pdf} 	
+	\vspace{0.1em}\\ \dnmtwt \kitpos leukemia \vspace{0.05em} \\
+	\includegraphics[width=0.9\textwidth,page=2]{figures/output/methylome/wgbs_betadist_plots/parameter_estimates_global.pdf} 
+	\vspace{0.1em}\\ \dnmtchip \kitpos leukemia \vspace{0.05em} \\
+	\includegraphics[width=0.9\textwidth,page=3]{figures/output/methylome/wgbs_betadist_plots/parameter_estimates_global.pdf}
+	\caption{Density plots of the parameters $\alpha$ and $\beta$ for beta regression fits on windows of \num{100} adjacent CpGs. The left column depicts the 2D density for a regular two-parameter function, whereas the center and right column show symmetric fits only. The figures in the rightmost column show the densities for $\alpha$-values calculated after prior exclusion of CpG-Islands. The colored arrows highlight $\alpha$/$\beta$ parameter combinations, which are rather distinct for a particular sample. The accompanying graphs are shown in \autoref{fig:wgbs_sample_distributions_beta.pdf}.}
+	\label{fig:wgbs_betadist_parameter_estimates_global.pdf}
+\end{figure}
+\clearpage
+
+While regular beta family fits, which allowed for different $\alpha$ and $\beta$ values still produced somewhat distinct 2D densities, \emphsoftwarename{MethylSeekR}'s self-imposed restriction to symmetric beta functions turned out to be a burden for correct PMD classification. The latter was particularly evident in comparison to the published IMR90 fibroblast methylome \reffigure{fig:wgbs_betadist_parameter_estimates_global.pdf}{~vs. \autoref{fig:wgbs_IMR90_distributions_beta.pdf}}. 
+In the fibroblasts, PMDs appeared mostly as regions with $\alpha < 0.5$ and $\beta > 0.6$ , which were rare (in leukemia) or absent (in HSCs). While the general trend towards smaller $\alpha$ values and larger $\beta$ values from \dnmtwt HSC over \dnmtwt \kitpos to \dnmtchip \kitpos was still intact \reffigure{fig:wgbs_betadist_parameter_estimates_global.pdf}{, left column}, the beta distribution was insufficient to capture the slight increase in partial methylation \reffigure{fig:wgbs_sample_distributions_beta.pdf}{}, as it was less prominent than in fibroblasts. 	 
+
+This at least partial distinctness was fully lost, when only symmetric functions were used. For leukemia, the $\alpha$ density did exhibit a slightly increased skewness to the right, but remained essentially unimodal, even when the more persistent CpG-Islands had been excluded \reffigure{fig:wgbs_betadist_parameter_estimates_global.pdf}{, center and right column}. Thus, the Mixture Model could not be fitted accurately and \emphsoftwarename{MethylSeekR} failed on our methylome data to classify PMDs.
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_betadist_plots/sample_distributions_beta} 	
+	\caption{Graphs of rather distinct beta PDF parameter combinations, which are significantly more common in the respective sample than in others. The arrows in the left column of \autoref{fig:wgbs_betadist_parameter_estimates_global.pdf} point to the particular parameter value pair.}
+	\label{fig:wgbs_sample_distributions_beta.pdf}
+\end{figure}
+
+Therefore, we developed and evaluated other classification approaches for our data. The one which we ultimately used was based on a Generalized Additive Model (GAMs), but we had also unsuccessfully tried to model the persistency as time-discrete Markov process with fixed transition probabilities between persistent and compromised states\dns. 
+

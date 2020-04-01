@@ -1,0 +1,189 @@
+\chapter{Enhancer calling and classification}
+\label{chap:r:enhancers:calling}
+\minitoc
+
+In the previous chapters, the results of our studies regarding the immediate effects of \genenamemouse{Dnmt1} reduction in \mllafnine leukemia on transcription were presented. We addressed several proposed mechanisms, how abnormal DNA methylation can impact cancerogenesis at the site of the transcript: The potential reversal of abnormal promoter DNA hypermethylation and associated gene silencing of key regulatory genes\cite{Cai2017}, the derepression of cryptic promoters and a perturbation of regular splicing\cite{Brocks2017} and an elongation bias due to diminished gene body methylation\cite{Mendizabal2017}; none of which could be singly held responsible for the striking impairment of self-renewal and decrease in LSCs observed in \dnmtchip leukemia. 
+
+In the course of our work, a growing body of papers stressed the importance of cis-regulatory elements as sites of pathogenic mutations  and influential methylation changes\cite{Stadler2011,Hon2013,Kieffer-Kwon2013,Schlesinger2013,Varley2013,Sheaffer2014}, while emerging comprehensive WGBS datasets around the same time suggested that just \SI{20}{\percent} of the CpG methylation changes under physiological conditions at all\cite{Ziller2013}. Taken together, we hypothesized that not the large scale demethylation observed in the lamina-associated domains \dissrefpage{chap:r:wgbs:lad_demethylation}, but possibly small, yet decisive methylation changes in regulatory regions might be the long sought answer explaining our phenotype. Comparable mechanisms had been described in the cancerogenesis of other tumors\cite{Aran2013,Aran2014} and inflammation\cite{Pacis2015}, but data for \mllafnine leukemia was lacking at that point in early 2014.
+
+\section{CAGE-seq derived enhancers}
+\label{chap:r:enhancers:cage}\label{chap:r:enhancers:intersection}
+
+\fyfrank
+
+Several methods exist, which can be used to identify putative enhancers in genome-wide datasets\citerev{Shlyueva2014,Whitaker2015}. Because we had already generated cap analysis of gene expression (CAGE-seq) \cite{Carninci1996,Shiraki2003,Takahashi2012} datasets from ex-vivo sorted the \kitpos fractions of four independently established leukemia to characterize TINATs \dissrefpage{chap:r:tinats:denovolocalization}, we ultimately settled for that approach. 
+
+ We called the enhancers according to a published protocol\cite{Andersson2014}, which detects bidirectional eRNA transcription in CAGE-seq data\supple. Additionally, we filtered such sites, whose cumulated expression did not exceed \SI{0.5}{TPM} in total and \SI{0.2}{TPM} in at least two replicates, which eliminated poorly supported locations with very weak signals, which were more frequent in \dnmtwt and thus corroborated the higher transcriptional noise in these samples \supplefig.
+ 
+Ultimately, we retained \num{6386} and \num{6662} putative enhancers in \dnmtwt and \dnmtchip respectively.
+Surprisingly, the majority of them (\SI{82.45}{\percent}) was specific for either of the genotypes \reffigure{fig:enhancers:enhancercanidates_venn_manual}{}. The large number of unconnected sites suggested a relevant share of false positive sites and called for extra caution in handling the data.
+
+\begin{figure}[!htb]
+	\centering \vspace{-1em}
+	\includegraphics[width=0.6\textwidth]{figures/output/enhancer/calling/enhancercanidates_genes_venn_manual.pdf} 
+	\caption{Venn diagram of the enhancer candidates, which passed the initial filtering step.}
+	\label{fig:enhancers:enhancercanidates_venn_manual}
+\end{figure}
+
+Among the characterized enhancers, we expected to find hundreds of sites, which were inherited from the cell of origin and had no direct relevance for the leukemia. To segregate pathogenic from other enhancers, we intersected the identified coordinates with the \num{48415} enhancers contained in a comprehensive reference catalog of murine hematopoietic enhancers \cite{Lara-Astiaso2014}. We could identify \num{889} CAGE-based enhancer candidates, which had been characterized before by the group of Ido Amit in healthy hematopoiesis. 
+
+Substantial fractions (\SIrange{37}{50}{\percent}) originated from the  \amittwo and \amitsix clusters \reffigure{fig:enhancers:intersection_amit_clusters}{}, thus corroborated the known relatedness of the \mllafnine \lsk cells with granulocyte macrophage progenitors (GMPs). Yet, a notable number of enhancers (up to \SI{28}{\percent}) also originated from progenitor clusters of the other lineages (\amitnum{3},\amitnum{4},\amitnum{5}), which indicated that either lineage commitment had not been finalized or that the \kitpos-fraction consisted of a rather heterogenous mixture of various cellular stages. Lymphoid-priming in AML has been known for some years\cite{Goardon2011,Corces2016} and was very recently characterized in great detail on single-cell level\cite{Granja2019}. 
+
+\begin{figure}[htb]
+	\includegraphics[width=0.8\textwidth]{figures/output/enhancer/clustering/intersection_amit.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/intersection_amit_legend.pdf} 
+	\caption{Bar graph showing the \hisfourone-cluster assignments of the overlapped hematopoietic enhancers.}
+	\label{fig:enhancers:intersection_amit_clusters}
+\end{figure}
+
+The percentage of known hematopoietic enhancers in the set (\SI{8.2}{\percent} of \num{10865}) was surprisingly low. Since the largest part of the putative enhancers was not recorded in the hematopoietic enhancer catalog, it eluded a direct functional characterization or validation. 
+
+However, we presumed that the catalog was incomplete and we would be able to identify more putative enhancers, because no method can claim to have exactly identified all enhancers of a particular cell type as exemplified by a recent comparative study\cite{Benton2019}. All techniques will preferably pick up elements in a specific state or rely on features not exclusive to enhancers. While the CAGE-seq method may have a particular bias towards other cis-regulatory elements\cite{Young2017}, its validation rate of \SI{70}{\percent}\cite{Andersson2014} outperforms \hisfourone / \histwentysevenac based approaches with $\approx$\SI{30}{\percent} conformation\cite{Kheradpour2013,Kwasnieski2014}. None the less, the large number of unconnected sites suggested a relevant share of false positive sites and called for extra caution in handling the data. 
+
+\section{Enhancer clustering}
+\label{chap:r:enhancers:cluster}
+
+\subsection{Major cluster assignment by k-means}
+\label{chap:r:enhancers:cluster:kmeans}
+
+To increase the reliability as well as to validate additional candidate sites, we repeated the clustering performed in the original study\cite{Lara-Astiaso2014}. The rationale behind this approach was, that a direct overlap with the catalog was not imperative. If a candidate site faithfully recapitulated a known enhancer chromatin signature across multiple lineages, then one could assume it to be a valid call.  
+
+Therefore, we downloaded the aligned reads of all samples in the study\dissrefpage{chap:ap:thirdpartydata:chip} and probed the ChIP-seq signal at all \num{10865} candidate sites as well as the reference sites in every cell type. Prior to mapping, we resized the CAGE-seq derived enhancer sites uniformly to \SI{2}{\kilo b} to match the \num{47526} non-overlapping sites of the catalog, which we remapped as background reference. This background data was used to calculate the initial values defining the centers for the subsequent repetition of the \hisfourone \textsl{k}-means-clustering. Since \textsl{k}-means-clustering allocates elements to the most related cluster, even when hardly matching at all, we introduced a tenth cluster \amitten to account for candidate sites, which were not marked by \hisfourone in any cell type. This cluster was supposed to comprise sites with little or no \hisfourone-signal in the healthy hematopoietic system. Subsequently, we repeated the \textsl{k}-means-clustering with the joint datasets using the initial centers precalculated from the hematopoietic enhancer catalog\supplefig. 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/output/enhancer/clustering/majorassign_amit.pdf} 
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/majorassign_amit_legend.pdf} 
+	\caption{Bar graph showing the \hisfourone-cluster assignments as obtained by the repetition of the \textsl{k}-means-clustering. Rows represent the respective enhancer sets and colors the ten major \hisfourone-based functional clusters.}
+	\label{fig:enhancers:majorassign_amit}
+\end{figure}
+
+The reanalysis affirmed our conjecture that the hematopoietic enhancer catalog was incomplete, since \num{4742} bidirectionally transcribed sites were assigned to the clusters \amitnum{1} to \amitnum{9}. Thus, \num{3853} non-recorded candidates exhibited a \hisfourone-signature reminiscent of regular hematopoietic enhancers \reffigure{fig:enhancers:majorassign_amit}{, top three sets}. The proportion of which however varied widely between the three enhancer sets: While \SI{75}{\percent} of the common leukemic candidate sites were assigned to the healthy clusters, the specific sets were dominated by the \amitten cluster (\SI{59}{\percent} and \SI{68}{\percent} respectively)\reffigure{fig:enhancers:majorassign_amit}{}. In total \num{6123} putative \mllafnine leukemic enhancers were attributed to the newly introduced cluster \amitnum{10}, which means that there was little evidence of involvement in regular hematopoiesis. Yet, the heatmap representation \supple showed that at least some members of the \amitten cluster were not entirely devoid of \hisfourone modifications. Frequently, putative enhancers confined to one specific cell type clustered together with the \amitten group, which also explained, why \SI{6}{\percent} of the regular hematopoietic enhancer catalog were correspondingly reassigned\reffigure{fig:enhancers:majorassign_amit}{, bottom row}. 
+
+In contrast to the immediate overlap with the enhancer catalog, consideration of non-overlapping bidirectionally transcribed sites introduced a remarkable shift towards the lymphoid lineage. While myeloid enhancers of the clusters \amittwo and \amitsix had dominated the direct intersections \reffigure{fig:enhancers:intersection_amit_clusters}{}, their share now essentially halved. This was exemplified by the common leukemic set, where the myeloid fraction dropped from \SI{50}{\percent} to \SI{20}{\percent}, which
+would correspond to an actual share of \SI{26}{\percent}, ignoring cluster \amitnum{10} for reasons of comparability. The \amitthree cluster in particular recorded a disproportionate increase at the expense of the myeloid ones \reffigure{fig:enhancers:majorassign_amit}{, top three sets}. This finding was intriguing, since it was suggested that cells with a functional similarity to lymphoid-primed multipotential progenitors (LMPPs) exist in human acute myeloid leukemia (AML) and represent a distinct, less mature subpopulation of leukemic stem cells (LSCs)\cite{Goardon2011}.
+ 
+\FloatBarrier
+\subsection{Minor cluster assignment by hierarchical clustering}
+\label{chap:r:enhancers:cluster:minor}
+
+Even though the division into the ten major clusters was suggestive of which enhancers might be relevant for the development and support of leukemia, it was only a coarse clustering. Importantly, although \hisfourone extensively covers cis-regulatory elements, it is impossible to distinguish between active and poised enhancers based on that mark alone \supple. Therefore, we resorted \histwentysevenac to obtain a detailed picture of our candidate sites. We mapped the \histwentysevenac as described before with the \hisfourone ChIP-seqs and employed hierarchical clustering\footnote{Ward's minimum variance method based on euclidean distance} to delineate the putative enhancers. 
+
+The rationale behind this approach was that sites, which shared similar patterns of activation throughout the hematopoietic hierarchy would likely be targeted by the same set of transcription factors. Thus, if we were able to identify groups of putative enhancers acting in a congeneric manner, the case for a purposeful activation in \mllafnine leukemia would be strengthened.
+
+Ultimately, we obtained \num{151} \histwentysevenac-based subclusters, which will subsequently be referred to as clades, analogous to the branches of phylogenetic trees. Visual inspection of the resulting trees\reffigure{fig:enhancers:amit_trees_full}{} already confirmed preferential enrichment of CAGE-defined enhancer candidates in particular clades. A total of seven clades, one each from clusters
+\amitnum{1}, \amitnum{3}, \amitnum{4},\amitnum{6},\amitnum{7},\amitnum{8} and \amitnum{9} comprised solely actively transcribed sites. The remaining clades harbored some currently not active sites from the hematopoietic enhancer catalog as well as putative enhancers detected in \mllafnine leukemia. Odds ratios of the latter varied greatly from \numrange{0.06}{116.38}, therefore corroborating an uneven distribution likely reflecting functional disparity. Such great variation violated the assumption of homogeneously distributed odds ratios, which is a prerequisite for applying the Cochran-Mantel-Haenszel \ensuremath{\chi}-squared test, therefore we opted for a Woolf test (p\,<\,\num{1d-16}) to formally confirm the clade heterogeneity. Additionally, clades were singly tested by a regular \ensuremath{\chi}-squared test for enrichment\supple.	 
+
+\begin{figure}[p]
+ \includegraphics[width=\textwidth,clip=TRUE,trim= 1.5cm 1cm 0.5cm 1cm]{figures/output/enhancer/clustering/trees/amittreesA.pdf}
+ \includegraphics[width=\textwidth,clip=TRUE,trim= 1.5cm 1cm 0.5cm 1cm]{figures/output/enhancer/clustering/trees/amittreesB.pdf}
+ \includegraphics[width=\textwidth,clip=TRUE,trim= 1.5cm 1cm 0.5cm 1cm]{figures/output/enhancer/clustering/trees/amittreesC.pdf}
+ \captionsetup{labelformat=empty}
+ \caption{}
+\end{figure}
+
+
+\begin{figure}[t]
+	 \includegraphics[width=\textwidth,clip=TRUE,trim= 1.5cm 1cm 0.5cm 1cm]{figures/output/enhancer/clustering/trees/amittreesD.pdf}
+	 %\includegraphics[width=\textwidth,clip=TRUE,trim= 1.5cm 1cm 3.0cm 1cm]{figures/output/enhancer/clustering/trees/amittreesE.pdf}
+	 		\setlength{\unitlength}{\textwidth}
+	 		\footnotesize	
+	 	\begin{picture}(1,0.5)(0,0)
+	 		\put(0.48,-0.01){\includegraphics[width=0.575\textwidth,clip=TRUE,trim= 1cm 1cm 1cm 2cm]{figures/output/enhancer/clustering/trees/amittreeTen.pdf}}
+	 		\put(-0.06,0){\includegraphics[width=0.55\textwidth,clip=TRUE,trim= 0cm 0cm 0cm 1cm]{figures/output/enhancer/clustering/trees/amittreeNine.pdf} }
+	 	\end{picture}%
+	\addtocounter{figure}{-1} % fix numbering, since previous figue goes without caption and ID
+	\caption{Visualization of the ten major \hisfourone clusters as hierarchical trees. Clades highly enriched for sites bidirectionally transcribed in \mllafnine (positive \ensuremath{\chi}-squared test, odds ratio >\,\num{10}) are specifically highlighted. For clarity, genotype specificity is not shown, instead blue color denotes any bidirectionally transcribed putative enhancer, gray items are recorded in the hematopoietic enhancer catalog, but seemingly inactive in leukemia.}
+	\label{fig:enhancers:amit_trees_full}
+\end{figure}
+ 
+
+\section{Clades accumulating CAGE-enhancers}
+\label{chap:r:enhancers:cluster:clades}
+\subsection{Characteristics in terms of healthy hematopoiesis}
+\label{chap:r:enhancers:cluster:clades:healthy}
+
+\begin{figure}[!hb]
+	\includegraphics[width=\textwidth,page=2]{figures/output/enhancer/clustering/clades/H3K27ac_MyeloidProgenitors(II)_clade_9.pdf}
+		\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/legend_specificity.pdf}
+		\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/legend_type.pdf}
+	\caption{Visual representation of the single clade from the \amittwo cluster. The left panel details the composition of the clade: Light gray represents inactive enhancers from the hematopoietic enhancer catalog, black marks putative enhancers active in \mllafnine leukemia of both genotypes, while those specific for \proteinnamemouse{Dnmt1} \dnmtwtregular and \dnmtchipregular are colored distinctively in blue and red. The right panel depicts the average ChIP-seq signal of all enhancers in that clade and its standard error of the mean. The darker bars summarize the average of all CAGE-seq detected sites and the light bars those of other enhancers from the hematopoietic enhancer catalog.}
+	\label{fig:enhancers:amit_regular_clade}
+\end{figure}
+
+By design, enhancers within a clade featured similar patterns of \hisfourone and \histwentysevenac throughout the healthy hematopoietic hierarchy. Furthermore, if they were also detected by CAGE-seq, their bidirectional transcription suggested cis-regulatory function, likely that of an enhancer in \mllafnine \kitpos leukemia. Both shall be exemplified by clade \clade{2}{9}\reffigure{fig:enhancers:amit_regular_clade}{}: It comprised \num{97} CAGE-defined putative and \num{106} further enhancers from the hematopoietic enhancer catalog. An odds ratio of \num{5.24} meant significant but not excessive accumulation of CAGE enhancers, so it was not separately highlighted in \autoref{fig:enhancers:amit_trees_full}. 
+
+Genotype-specific as well as commonly active ones were found among the associated CAGE-defined bidirectionally transcribed cis-regulatory elements\reffigure{fig:enhancers:amit_regular_clade}{, left panel}, a pattern, which was reflected in all other clades. We did not find any clades, which contained entirely or almost exclusively genotype-specific elements \dns. Taking into account that a congeneric activation pattern presumably argued for shared transcription factor motifs, we could conclude that the same set of transcription factors likely governed the transcriptional programs in \dnmtwt as well as \dnmtchip \mllafnine leukemia. 
+
+Consequently, the detection of accumulated CAGE-defined enhancers within a clade likely indicated an ordered, non-random activity in leukemia. This was corroborated by the homogeneous \hisfourone and \histwentysevenac signals within, which were typically akin to that of non-transcribed, cataloged enhancers of a clade\reffigure{fig:enhancers:amit_regular_clade}{, right panel}. However, as exemplified by clade \clade{2}{9}, this did not necessarily apply to the \hisfourtwo and \hisfourthree signals\reffigure{fig:enhancers:amit_nkclade}{, right panel}. 
+
+\begin{figure}[!htb]
+	\includegraphics[width=\textwidth,page=2]{figures/output/enhancer/clustering/clades/H3K27ac_LymphoidProgenitors(III)_clade_2.pdf}
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/legend_specificity.pdf}
+	\includegraphics[width=\textwidth]{figures/output/enhancer/clustering/legend_type.pdf}
+	\caption{Details of an exemplary clade with a very high enrichment for CAGE-defined enhancers (odds ratio \num{76.77}). Note the uniform presence of common (black), \proteinnamemouse{Dnmt1} \dnmtwtregular specific (blue) and \proteinnamemouse{Dnmt1} \dnmtchipregular specific (red) enhancer candidates. The right panel displays the mean ChIP-seq signal of all enhancers within the clade for the CAGE-defined (rich) vs. inactive catalog enhancers (pale). Mind the strong differences in \hisfourtwo and \hisfourthree.}
+	\label{fig:enhancers:amit_nkclade}
+\end{figure}
+
+CAGE-defined enhancers typically exhibited a particularly strong \hisfourthree signal, which often doubled that of the non-detected controls from the catalog \reffigure{fig:enhancers:amit_regular_clade}{, right panel, rich vs. pale colored bars}. Although we did not use the \hisfourthree signal to build the cluster and clade assignments, many clades accumulating bidirectionally transcribed elements were remarkably strongly marked by \hisfourtwo and in particular by \hisfourthree in many healthy hematopoietic lineages	\reffigure{fig:enhancers:amit_nkclade}{}. 
+
+Furthermore, we observed a notably strong \histwentysevenac signal in natural killer cells (NK~cells), which typically marked CAGE-defined enhancers in clades with extraordinary high odds ratios (>$10$)\reffigure{fig:enhancers:amit_nkclade}{, bottom bar graph}. Since these clades also stood out clearly in terms of their absolute values, we subsumed an activation of stretch enhancers (super enhancers) linked to the NK~cell lineage in \mllafnine leukemia. In contrast, clades with a clear yet moderate accumulation of CAGE-defined enhancers ($2$ < odds ratio < $10$) exhibited only an average \histwentysevenac signal in NK~cells\supplefig.
+
+Taken together, two intriguing starting points for further studies could be identified: Firstly, the strong \hisfourthree marks found throughout the hematopoietic hierarchy, which link those enhancers to histone K4 methyltransferases like the \proteinnamehuman{MLL / COMPASS} or \proteinnamehuman{SET1 / COMPASS} complexes. Secondly, the possible activation of super-enhancers (SEs) in \mllafnine leukemia, which under physiological conditions likely impart or contribute to NK~cell lineage identity.
+
+% technical mark to close Amit reference in appendix - last entry of chapter. 
+\label{chap:r:enhancers:amitend}
+\subsection{Characteristics in \mllafnine leukemia}
+\label{chap:r:enhancers:cluster:clades:clearydata}
+
+\begin{figure}[!htb]
+	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/cleary/cleary_lymphpoidprog_clades.pdf}
+	\caption{\hisfourthree, \hiseighteenac and \histwentysevenac ChIP-seqs in \mllafnine \kitlow and \kithi leukemic cells mapped to the CAGE-defined enhancers within the clades of the \amitthree cluster. Counts were normalized to sequence length and number of mapped reads in sample. In the plot, the clades are ordered by accumulation of putative leukemic enhancers.}
+	\label{fig:enhancers:cleary_lymphpoidprog_clades}
+\end{figure}
+
+The clustering strategy based on the histone marks from healthy hematopoiesis \dissref{chap:r:enhancers:cluster} was mainly devised to provide validation and functional categorization, despite a lack of suitable datasets to integrate the CAGE-seq data with. About a year after we performed the initial clustering analysis\footnote{\,at that point just for the \dnmtwt genotype, since we originally promoted this as a separate project.}, the laboratory of Michael Cleary published comprehensive ChIP-seq data from \mllafnine \kithi and \kitlow cells\cite{Wong2015}. This dataset allowed to streamline the clustering results in terms of eliminating false positives and to narrow down candidates for experimental validation.
+
+We downloaded the data from the repository and reanalyzed it with regard to our CAGE-defined enhancer candidates. As exemplified by the \amitthree cluster, the accumulation of said enhancers within a clade typically coincided with higher average signals for \hiseighteenac and \histwentysevenac in leukemia\reffigure{fig:enhancers:cleary_lymphpoidprog_clades}{, center and bottom row}. As both marks are redundantly generated by \proteinnamemouse{CBP/p300}\cite{Jin2011} and tag active genetic elements, we could thus infer an increased activity (and possibly importance) in leukemia of those enhancers and presumed binding of \mllafnine \cite{Li2014}. 
+
+The strength of this effect varied depending to the \hisfourone major clusters, but basically held true for the regular clusters \amitnum{1}\,-\,\amitnum{9}. Enhancers within the \amitone cluster were irrespectively of the clades' enrichment status marked strongly by \hiseighteenac and \histwentysevenac, which was in accordance to their presumed role of housekeeping gene support. Also in the second cluster \amittwo, the average signal of normal and enriched clades was quite indifferent, yet strong \reffigure{fig:enhancers:cleary_cluster_enrichment}{}. 
+ 
+In contrast, most enhancers of the cluster \amitseven and, importantly, also of the \amitten cluster lacked notable activity in leukemia. While the lack of B-cell-related enhancers seemed plausible, surprisingly just a few dozen out of thousands of CAGE-defined enhancers in the \amitten cluster were marked by \histwentysevenac in \mllafnine cells \reffigure{fig:enhancers:cleary_cluster_enrichment}{, \amitten cluster}. Therefore, we conjectured that these represented mostly false positive calls and that the \mllafnine leukemic phenotype was almost exclusively sustained by hijacked physiological enhancers.
+
+ \begin{figure}[!p]
+ 	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/cleary/cleary_cluster_enrichment.pdf}
+ 	\caption{Boxplots of normalized \hisfourthree, \hiseighteenac and \histwentysevenac and \hisseventyninetwo ChIP-seqs generated from sorted \mllafnine \kitlow and \kithi leukemic cells. The data is mapped to the putative leukemic enhancers called from the CAGE data and split according to the \hisfourone-based major clusters. Enhancers that were assigned to clades with depletion are not shown.}
+ 	\label{fig:enhancers:cleary_cluster_enrichment}
+ \end{figure}
+ 
+\begin{figure}[!p]
+	\includegraphics[width=\textwidth]{figures/output/enhancer/chipseq/cleary/cleary_lymphpoidprog_oddsratio.pdf}
+	\caption{Clades within the cluster \amitthree were collapsed into four categories from left to right: strong depletion, mild depletion, no significance and strong enrichment depending on the clade's odds ratio ($\leq$ \num{0.25};\, \ensuremath{\interval[open left]{0.25}{0.75}};\, \ensuremath{\interval[open left]{0.75}{1.25}};\,>\num{4}) and test significance (FDR < \num{0.01}). Genotype specificity with regard to \proteinnamemouse{Dnnm1}~\dnmtwtregular and \dnmtchipregular is shown separately.}
+	\label{fig:enhancers:cleary_lymphpoidprog_oddsratio}
+\end{figure}
+
+\hisfourthree was another histone mark that varied depending on the major cluster. While it was consistently low in insignificant clades \reffigure{fig:enhancers:cleary_cluster_enrichment}{, top tow}, accumulated clades of the clusters \amitthree, \amitfive, \amiteight and \amitnine exhibited a propensity to acquire strong \hisfourthree marks. This finding is discussed later in greater detail\dissrefpage{chap:d:enhancers:mechanism:properties:hisfourthree}. Yet, by absolute numbers, the majority of the \hisfourthree-positive enhancers were contained within clades of cluster \amitnum{3} \reffigure{fig:enhancers:cleary_lymphpoidprog_clades}{, top row}. Given the pronounced \hisfourthree signal recorded at those sites in virtually all healthy hematopoietic cell types\dissref{chap:r:enhancers:cluster:clades:healthy}, we furthermore suspected that the allocation to separate clusters was misleading in that case. Instead, we favored the view that all of these elements were functionally one group that had been split erroneously into the different clusters due to slight individual variations in the \hisfourone signature. 
+
+Contrary to the already mentioned histone marks, the \proteinnamehuman{Dot1l}-mark \hisseventyninetwo\cite{Bernt2011} was not linked to any particular cluster or clade enrichment. Since it had been conclusively shown that \proteinnamehuman{Dot1l} and \hisseventyninetwo are required to protect target genes of \proteinnamehuman{MLL} fusion proteins from a repressive complex composed of \proteinnamemouse{Sirt1} and \proteinnamemouse{Suv39h1}\cite{Chen2015}, we conjectured that the open chromatin state of at least some enhancers from the insignificant clades must nevertheless be maintained to uphold the leukemic differentiation block\cite{Cusan2018}. Remarkably the number of \hisseventyninetwo positive CAGE-enhancer candidates in the \amitten cluster was much higher than the number of \histwentysevenac or \hiseighteenac positive ones. This suggested that cluster \amitnum{10} comprised relevant amounts of KEEs\cite{Godfrey2019} and might have contained less false positives than initially conceived by us based on the \histwentysevenac mapping. It should however not go unnoticed that the normalized signal tended to be stronger in \kitlow than in \kithi cells \reffigure{fig:enhancers:cleary_cluster_enrichment}{, bottom row}, which could imply that said cis-regulatory sites were less relevant for the leukemic stem cells (LSC) than for the bulk leukemia. 
+
+Separate mapping with regard to genotype specificity corroborated previous findings that putative enhancers specific for \dnmtwt and \dnmtchip did not differ with regard to their biological properties: Although the clades were exclusively assigned based on healthy hematopoietic data, specific enhancers within the same clade also exhibited similar histone modification patterns in leukemia \reffigure{fig:enhancers:cleary_lymphpoidprog_oddsratio}{, columnwise comparisons}. Therefore, it seemed likely that a separate consideration of the enhancers in terms of genotype specificity was not required in a functional context. Instead, active \dnmtwt and \dnmtchip specific enhancers seemed to be targeted by the same set of transcription factors. Furthermore, the vast majority of genotype specific putative enhancers had been assigned to the \amitten cluster, whose cis-regulatory elements mostly lacked \hiseighteenac or \histwentysevenac marks in leukemia and only occasionally exhibited \hisseventyninetwo marks. Therefore, the validity of those specific calls was anyway questionable.\label{chap:r:enhancers:clearyend} 
+ 
+ATAC-seq data\dissrefpage{chap:ap:thirdpartydata:atac} generated by the group of Jennifer Trowbridge\cite{George2016} also challenged the validity of most enhancer calls of the \amitten cluster, as most of them were located in supposedly closed chromatin\reffigure{fig:enhancers:trowbridge_atac_oddsratio}{, bottom row}.\label{chap:r:enhancers:trowbridgestart} 
+
+\begin{figure}[!btp]
+	\includegraphics[width=\textwidth]{figures/output/enhancer/atacseq/trowbridge_atac_oddsratio.pdf}
+	\caption{Open chromatin profiling by ATAC-seq at sites of putative enhancers in \mllafnine leukemia. Clades from the clusters \amittwo, \amitthree and \amitten were separated depending on their odds ratio ($\leq$ \num{0.25};\, \ensuremath{\interval[open left]{0.25}{0.75}};\, \ensuremath{\interval[open left]{0.75}{1.25}};\, \ensuremath{\interval[open left]{1.25}{4}};\,>\num{4}) as well as their test significance (FDR < \num{0.01}) into five categories: strong depletion, mild depletion, no significance, mild enrichment and strong enrichment The clusters \amitnum{2} and \amitnum{3} however lack the mild enrichment category. The four initial cell types, which the Trowbridge group transduced with the \mllafnine fusion gene to generate leukemia are shown as distinct columns.}
+	\label{fig:enhancers:trowbridge_atac_oddsratio}
+\end{figure}
+
+Apart from cluster \amitnum{10}, the ATAC-seq however supported the notion that the clade enrichment was indicative of relevant enhancers. Typically, clades with a strong enrichment also featured elevated ATAC-seq signals. Furthermore the activity of such enhancers was ubiquitous in the sense that the openness of these chromatin regions did not depend on the cell of origin\reffigure{fig:enhancers:trowbridge_atac_oddsratio}{, columns}. Notwithstanding a cell type specificity reflected in the ATAC-seq data\cite{George2016}, the enhancers contained within the highly enriched clade were uniformly marked by strong signals and thus could be attributed to the core signature of \mllafnine leukemia\reffigure{fig:enhancers:trowbridge_atac_oddsratio}{, columns}.
+
+When intersecting our candidates with the ATAC-seq defined enhancers, the majority of confirmed putative CAGE-defined enhancers were assigned to clades exhibiting strong accumulation.  Apart of the healthy GMP control, where it was lower, between \SIrange{67}{86}{\percent} of the confirmed enhancers were constituted by strongly enriched clades\reffigure{fig:enhancers:trowbridge_atac_percent_representation_abs}{}. Importantly, it was not the very same group of enhancers, which affected the results over and over again in various contexts. Instead, as illustrated on the heatmap \supplefig, we observed a quite heterogeneous mixture of ubiquitous as well as more specific enhancers, yet commonly assigned to accumulated clades, which were apparently involved in the leukemic transformation. 
+
+ \begin{figure}[!bt]
+ 	\includegraphics[width=\textwidth]{figures/output/enhancer/atacseq/atac_percent_representation_abs.pdf}
+ 	\caption{Absolute number of CAGE-defined candidate enhancers and their respective assignments to clades. Odds ratio ($\leq$ \num{0.25};\, \ensuremath{\interval[open left]{0.25}{0.75}};\, \ensuremath{\interval[open left]{0.75}{1.25}};\, \ensuremath{\interval[open left]{1.25}{4}};\,>\num{4}) as well as test significance (FDR < \num{0.01} determined the five categories ranging from depletion to enrichment.}
+ 	\label{fig:enhancers:trowbridge_atac_percent_representation_abs}
+ \end{figure}
+ 
+\label{chap:r:enhancers:trowbridgeend} 

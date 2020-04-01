@@ -1,0 +1,319 @@
+\chapter{Enhancer target genes}
+\label{chap:r:enhancers:targets}
+\minitoc
+
+Elucidation of the mechanistic commonalities of the recruited enhancers was only one of two strategies, which we followed up in parallel. The basis of a second approach was the identification of target genes, which would permit to single out highly relevant enhancers by their target genes. 
+
+In scientific literature, many genes linked to the development and expansion of AML have been described. Examples include the homeobox cluster (HOX)\cite{Fujino2001,Adamaki2015}, epithelial-mesynchymal-transition-related genes\cite{Stavropoulou2016} or selected \proteinnamemouse{E3 ubiquitin-protein ligases} like \genenamemouse{Xiap}\cite{Carter2003,Carter2005}. We inspected such known proleukemic genes in our \mllafnine mouse model and tried to identify the relevant cis-regulatory elements sustaining their expression. Subsequently, we selected a small set for validation by CRISPR-Cas9 mediated silencing. 
+
+\section{Assignment of enhancer target promoters}
+\label{chap:r:enhancers:targets:assignment}
+
+Establishment of the enhancer-gene connections was the most challenging part of task, since the closest gene respectively promoter is not necessarily the regulated one\cite{Fullard2019}. Furthermore, one transcription start site~(TSS) is typically targeted by several enhancers, while one cis-regulatory element may also be involved in the regulation of different genes\cite{Bertolino2016,Javierre2016,Allahyar2018}. 
+
+For the establishment of reliable enhancer-promoter interactions, we counted on published experimental chromatin interaction data rather than just assigning the closest transcription start site. As mentioned previously, the group of Berthold Göttgens generated Hi-C chromatin interaction data of the HPC-7 murine blood stem/progenitor cell model\cite{Wilson2016}. Part of this dataset, which we deemed to be a suitable proxy for the chromatin conformation of our \mllafnine \kitpos leukemia model\dissrefpage{chap:r:gam:chromatin:hic}, was a promoter-capture Hi-C experiment. A Capture-Hi-C protocol differs from a regular proceeding by an additional probe-based enrichment step to increase the coverage of predefined regions. The Göttgens group used this technique to specifically assay interactions with promoters of known transcripts. 
+
+We utilized this Capture-Hi-C dataset to map potential interaction partners of the CAGE-seq defined putative enhancers. In the course of the experiment, the Göttgens laboratory had fractionated the genome with the restriction enzyme \emph{HindIII}. Thus, we in-silico digested the \mmnine reference genome accordingly to generate a fragment library to map the interactions to. 
+
+Even under optimal conditions, the resulting fragment sizes represented the technical limit in terms of resolution, which was achievable by this type of experiment. If a fragment contained several promoters or cis-regulatory elements, it was impossible to assign the interaction to a particular genetic element. Therefore, we counted the reads connecting two fragments and divided the sum by the number of contained elements. This approach allowed to assign a score to every possible connection, which represented the respective confidence in being a true interaction. 
+
+Additionally, we incorporated the \emphcollectionname{FOCS}\cite{Hait2018} enhancer reference of validated enhancer-promoter pairs by increasing the score by \num{5} in case of a referenced pair. Importantly, we just altered the confidence score of an interaction, but did not introduce pairings from other sources, which were not supported by the HPC-7 Hi-C data.
+%http://acgt.cs.tau.ac.il/focs/tutorial.html
+%http://acgt.cs.tau.ac.il/focs/download.html
+%Enhancer target finder \cite{Whalen2016}
+% in merged interactions 4317 gene (symbols) and 6728 (refseq IDs) are named
+% in the knownTranscriptsDEgenes_RNAseq$cchipGeno 4739 of 9505 RefseqIDs 
+In total, we could derive \num{11534} potential pairs, comprising \num{3103} putative enhancers and \num{4317} genes (\num{6728} transcripts) from release~\num{84} of the \emphdatabasename{NCBI Reference Sequence Database (RefSeq)} published on September 11, 2017. 
+
+Subsequently, we integrated the enhancer-promoter pairs with the RNA-seq expression data, which comprised \num{9505} expressed\footnote{at least \SI{2}{CPM} in two or more single samples} transcripts \dissrefpage{chap:r:transcription:expressionoverall}. 
+
+For the majority of transcripts, which were expressed according to RNA-seq, we could not assign a possible CAGE-defined enhancer from our set ($n\!=\!6856$, \SI{72.13}{\percent}). This, however, was not synonymous with a lack of any enhancers: First and foremost, the Hi-C method only captures interactions of different genomic fragments and the analysis strategy, which we applied, fosters the identification of far-cis interactions at the expense of near-cis interactions. Therefore, short-range enhancer-promoter-contacts, which are generally more frequent\cite{Villar2015,Walter2019}, were underrepresented relative to long-range connections. On top of that, only transcribed enhancers are captured by CAGE-seq and enhancer-RNAs (eRNAs) are quickly degraded compared to mRNA so we possibly missed out on transient enhancer activity. 
+
+Conversely, roughly \SI{40}{\percent} of the transcripts, to which an enhancer could be assigned, were expressed according to RNA-seq ($n\!=\!2849$, \SI{42.34}{\percent}) . While this might seem like an unacceptably high rate of false positives, it should be viewed in the light of enhancer activity preceding transcription\cite{Arner2015} and multiple, alternatively spliced transcripts, which originate from the same or nearby promoters. Therefore, the proportion of expressed genes among those for which an enhancer interaction was predicted was higher ($n\!=\!2750$, \SI{63.7}{\percent}) and would have surpassed \SI{80}{\percent}, if low-confidence interactions had been eliminated beforehand. Confidence scores ranged from \numrange{0.03}{123.70}, but we ultimately refrained from choosing a hard cutoff to eliminate false positive connections because lacking experimental validation any threshold would have been essentially arbitrary. 
+
+Nevertheless, after ordering the connections by score, many renowned hematopoietic regulators appeared in the top ranks, which suggested that the derived pairing scores accurately reflected the biology\dissref{chap:r:enhancers:targets:genes}. Yet, concerns about the applicability of the HPC-7 cell model to \mllafnine leukemia (in particular to the \dnmtchip genotype) as well as the technical resolution limit called for a rigid scrutineering.
+
+\begin{figure}[!bht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/targets/enhancer_targets.pdf} 
+	\caption{Empirical cumulative distribution function of the average expression measured by RNA-seq for transcripts, which are presumably targeted by an enhancer in both genotypes and such, which are not (left panel). To the right, separate categories for genotype-specific enhancers are additionally introduced\reftable{tab:enhancers:targets}. Transcripts, whose promoters are targeted by multiple enhancers are included in all applicable categories, thus the sum of all transcripts shown in the plot ($n\!=\!9705$) exceeds the number of expressed transcripts ($n\!=\!9505$).}
+	\label{fig:enhancers:target_expression}
+	
+\end{figure}
+
+\begin{table}[!thb]
+	\centering
+	\begin{tabular}{lp{12mm}ccc}
+		\textbf{Transcript category} & \multicolumn{4}{l}{\textbf{Median RPKM}}\\
+		\hline
+		No interaction & \num{9.33} & \rdelim\}{4}{18mm}[\parbox{18mm}{$<$\num{1d-4}}] & \rdelim\}{3}{18mm}[\parbox{18mm}{$<$\num{1d-4}}] & \rdelim\}{2}{18mm}[\parbox{18mm}{$<$\num{1d-4}}] \\
+		\dnmtwt \kitpos leukemia specific & \num{13.54} \\
+		\dnmtchip \kitpos leukemia specific & \num{16.20} & \\
+		Common \kitpos leukemia & \num{16.03} & & \\
+		\hline
+	\end{tabular}
+	\caption{Median expression of the data shown in \autoref{fig:enhancers:target_expression}. The brackets to the right indicate the resulting, adjusted p-values for the most relevant contrasts by Tukey's all-pair comparison of linear hypotheses.}
+	\label{tab:enhancers:targets}
+\end{table} 
+
+In theory, an enhancer should increase the transcription of a targeted transcript. Thus, we hypothesized that relevant expression differences between genes, which are presumably targeted by an enhancer and such that are not, should exist. Such transcripts, which were presumably targeted by an enhancer showed a significantly higher expression average across all samples than genes, for which we could not elucidate a potential interaction with a cis-regulatory element (Kruskal-Wallis rank sum test, $p<$\num{2.2d-16}) \reffigure{fig:enhancers:target_expression}{, left panel}. 
+
+Expression differences were smaller for transcripts targeted by common,  \dnmtwt or \dnmtchip-specific putative enhancers\reffigure{fig:enhancers:target_expression}{, right panel}. Although all three categories were significantly higher expressed than the control, \dnmtwt was notably diminished relative to the others \reftable{tab:enhancers:targets}. We also investigated whether expression differences existed between the genotypes, especially for transcripts presumably targeted by genotype-specific enhancers. However, we did not notice any significant differences in overall absolute expression\dns. 
+
+\begin{figure}[!bh]
+	\begin{minipage}{0.55\textwidth}
+		\includegraphics[width=0.9\textwidth]{figures/output/enhancer/targets/enhancer_targets_fc.pdf} 
+	\end{minipage}
+	\begin{minipage}{0.45\textwidth}
+		\begin{tabular}{>{\raggedright}p{3.4cm}c}
+			\textbf{Transcript category} & \textbf{Median logFC}  \\
+			\hline
+			No interaction & \num{0.99} \\
+			\dnmtwt \kitpos leukemia specific & \num{-0.68} \\
+			\dnmtchip \kitpos leukemia specific & \num{-0.65}  \\
+			Common \kitpos leukemia & \num{-0.54} \\
+			\hline
+		\end{tabular}
+		\vspace{2em}
+	\end{minipage}
+	\caption{Visualization and tabular summary of the \num{488} transcripts, which were significantly differentially expressed in \dnmtchip (\SIrange{3.64}{5.60}{\percent} depending on category). The distribution of foldchange relative to \dnmtwt is plotted.}
+	\label{fig:enhancers:target_fc}
+\end{figure}
+
+Next, we focused on the \dnmtchip vs. \dnmtwt differentially expressed transcripts within the categories (\SI{5.34}{\percent}, \SI{3.64}{\percent}, \SI{5.60}{\percent} and \SI{5.11}{\percent} respectively). Since promoter hypomethylation hardly affected expression in \dnmtchip \dissrefpage{chap:r:degenes:promhyposingle}, we investigated whether aberrant enhancer recruitment had an influence. In fact, we found differences, but not as expected. Surprisingly, the majority of enhancer-targeted differentially expressed transcripts was downregulated in \dnmtchip \kithi cells regardless of the enhancer category\reffigure{fig:enhancers:target_fc}{}. Even the differentially expressed transcripts targeted by \dnmtchip-specific enhancers were predominantly downregulated. The reason for this remained enigmatic, but it should be stressed that all assignments were based on HPC-7 cells and this category likely had the highest error rate of all.
+
+Although these findings warrant confirmation and just very few transcripts changed expression at all, the consistent downregulation of all enhancer categories in \dnmtchip suggest that regulatory chromatin contact might have been perturbed in select cases, possibly by differential methylation\dissrefpage{chap:r:enhancers:motifs:methylation}. Such perturbations likely affect long-range interactions more readily than short-range contacts\cite{Wang2012b,Ito2013,Kang2015,Whalen2016}, which was in line with our finding that differentially expressed transcripts presumably devoid of (long-range) enhancer interaction tended to be upregulated in \dnmtchip \reffigure{fig:enhancers:target_fc}{}. 
+
+Admittedly, this interpretation is highly speculative and a simpler explanation relying on fewer assumptions is, that downregulation in these categories was simply favored by the fact that the basal expression was higher in the first place\reffigure{fig:enhancers:target_expression}{}.  
+  
+\section{Targeted genes and biological implications}
+\label{chap:r:enhancers:targets:genes}
+
+Most of the \num{2750} connections between CAGE-defined enhancers and expressed genes in \mllafnine leukemia, which we inferred from the  HPC-7 murine blood stem/progenitor cell model\cite{Wilson2016} linked one gene promoter region\footnote{sometimes comprising several transcripts} to an individual enhancer only. Among the top\num{100} interactions according to the confidence score \dissrefpage{chap:ap:enhancers:tab:interactions}, which reflected the number of connecting reads in Hi-C as well as a possible reference in the \emphcollectionname{FOCS} collection of validated pairings\cite{Hait2018}, we could identify many renowned hematopoietic regulators. On top of that, the majority of involved enhancers originated from strongly accumulated clades (\SI{73}{\percent}).
+
+\subsection{Exemplary single enhancer-promoter connections}
+\label{chap:r:enhancers:targets:genes:single}
+
+\paragraph{Irf2bp2:} The highest ranked gene was Interferon regulatory factor 2-binding protein~2 (\genenamemouse{Irf2bp2}), the upregulation of which diminishes the induction of apoptosis after doxorubicin treatment\cite{Koeppel2009}. Studies in mouse as well as zebrafish suggest an important role in suppressing erythroid genes and steering myeloid development\cite{Stadhouders2015,Wang2019}. In addition,  a \genenamemouse{Irf2bp2} fusion can give rise to a subtype of acute promyelocytic leukemia (APL)\cite{Jovanovic2017}, an involvement in \mllafnine is so far unheard of. 
+
+\paragraph{Pten:} The second placed gene on the list, Phosphatidylinositol 3,4,5-trisphosphate 3-phos\-phatase and dual-specificity protein phosphatase (\genenamemouse{Pten}), was puzzling for a variety of reasons. First, the interacting enhancer was genotype-specific for \dnmtchip, whereas all other top connections referred to common enhancers. Second, the transcript in question was also significantly downregulated for both contrasts: Its expression was lower in leukemic stem cells than blasts (logFC \num{-0.91} for \kitlow vs. \kithi) as well as in \dnmtchip  (logFC \num{-0.49} for \dnmtwt vs \dnmtchipshort). Third, \genenamemouse{Pten} is a dual-specificity phosphatase dephosphorylating proteins as well as lipids. The latter function permits the protein to antagonize the PI3K-AKT/PKB signaling pathway by dephosphorylating phosphoinositides\cite{Sun1999} and confers a tumor suppressor role to \genenamemouse{Pten} in \mllafnine leukemia\cite{Hu2015,Sandhoefer2015}. Therefore, a sustained expression of \genenamemouse{Pten} was counterintuitive. 
+
+However, in-depth data inspection and literature search in part alleviated the contradiction. Although the determined downregulation in LSCs and \dnmtchip was generally confirmed, a closer inspection of the measured RNA-seq values revealed a high degree of variation among the biological replicates. This was in accordance with the notion, that already modest changes in \genenamemouse{Pten} activity affect cancer susceptibility and progression in mouse models\cite{Alimonti2010}. In solid cancers, haploinsufficiency rather than full inactivation is more frequent\cite{Kwabi-Addo2001,Trotman2003}, since complete loss induces replication stress and senescence\cite{Parisotto2018}. Therefore, the remaining copy is typically retained until aggressive metastatic stages have emerged and an intricate transcriptional\cite{Thivierge2018}, post-transcriptional, and post-translational regulation of \genenamemouse{Pten} activity ensures further tumor progression \citerev{Carracedo2011,BermudezBrito2015}. Taken together, \genenamemouse{Pten} was no improbable candidate in the list, although its role in \mllafnine leukemia warrants further investigation. 
+
+\paragraph{Fosl2 / Spred1:} Further down the list, the next candidates were less puzzling. The Fos-related antigen 2 (\genenamemouse{Fosl2}) dimerizes with \genenamemouse{Jun} to activate \proteinnamehuman{LIF} transcription and its upregulation is generally associated with therapy resistance in various leukemia subtypes\cite{Stam2010}. The next gene, \genenamemouse{Spred1}, is highly expressed in interleukin-3 (\proteinnamemouse{IL-3})-dependent hematopoietic cell lines\cite{Nonami2004} and more than \num{70} fold upregulated in \mllaffour leukemia\cite{Marschalek2011}. Additionally, a predisposition to leukemia in children might be associated with the gene\cite{Pasmant2009,Batz2010}. 
+
+\subsection{Selected loci featuring an interplay of multiple enhancers}
+\label{chap:r:enhancers:targets:genes:combined}
+
+Many genes implicated in tumorigenesis or hematopoietic regulation were contained in the list of high-confidence enhancer-promoter interactions\dissrefpage{chap:ap:enhancers:tab:interactions}. None the less, we additionally exploited the characteristic that  key regulatory genes often exhibit enhancer redundancy\cite{Osterwalder2018} to allow for the selection of even better candidates. Therefore, we ascertained which transcripts ($n\!=\!200$) were targeted by multiple enhancers according to the HPC-7 Hi-C data and ordered the list by the cumulative confidence scores\dissrefpage{chap:ap:enhancers:tab:genereg}. Subsequently, we examined the transcription factor motifs and clade assignments of the enhancers involved. 
+
+ \begin{figure}[!t]
+ 	\setlength{\unitlength}{\textwidth}
+ 	\footnotesize
+ 	\begin{picture}(1,0.61)%
+ 	\put(-0.01,0){\includegraphics[width=1.03\textwidth]{figures/output/gviz/enhancerregions/outputregions/regionIrf2bp2.pdf}}
+ 	\put(-0.02,0.52){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Methylation\newline rate}\end{minipage}}}%
+ 	\put(-0.02,0.42){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq +/+}\end{minipage}}}%
+ 	\put(-0.02,0.355){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq  -/chip}\end{minipage}}}%
+ 	\put(-0.02,0.295){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Refseq~84 genes }\end{minipage}}}%   
+ 	\put(-0.02,0.26){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny CAGE-defined\newline enhancers }\end{minipage}}}% 
+ 	\put(-0.02,0.17){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions +/+}\end{minipage}}}%
+ 	\put(-0.02,0.07){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions  -/chip}\end{minipage}}}%
+ 	\end{picture}%
+ 	\caption{Visualization of the genomic region surrounding Irf2bp2. Shown in blue is all data referring to \dnmtwt, while \dnmtchip is represented in red color. RNA-seq data is log-scaled to base 2 and interaction frequency is conveyed by thickness of the arcs. Methylation rate of single CpGs is given as decimal fraction and displayed as dots, the gray area underneath marks the LOESS smoothed methylation rate.  Mind the unusual long 3'-UTR of Irf2bp2 (thin stroke) in contrast to the thickly depicted protein coding sequence (CDS) of the transcript.}
+ 	\label{fig:enhancers:targets:Irf2bp2}
+ \end{figure} 
+
+\paragraph{Irf2bp2:} Aforementioned Interferon regulatory factor 2-binding protein~2 (\genenamemouse{Irf2bp2}), which  already led the individual ranking, also dominated the cumulated score. Residing in an approximately \SI{15}{\kilo b} hypomethlyated region, the gene was expressed in \kithi cells with an average of \SI{89.07}{RPKM} and exhibited no genotype specificity\reffigure{fig:enhancers:targets:Irf2bp2}{}. 
+
+A total of five enhancers presumably regulated the gene, although interaction strength (at least in HPC-7 cells) clearly set one enhancer apart from the others. The enhancer\enhancerid{chr8}{129118460-129118806}, which was assigned to the \amitthree cluster in the strongly accumulated clade~\clade{3}{12}, exhibited many de novo motifs such as the presumable \proteinnamemouse{Mll2}-motif \motifmlltwo in conjunction with recognition sequences of the Early B-cell factor~1 (\genenamemouse{Ebf1})\cite{Treiber2010} and one of the Transcriptional enhancer factors (\genenamemouse{Tead1}-\genenamemouse{Tead4})\reffigure{fig:enhancers:Irf2bp:enh}{, middle row}. 
+
+ \begin{figure}[tbh]
+ 	\begin{minipage}{0.5\textwidth}
+ 		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Irf2bp2-chr8-129108484-129108768.pdf} 
+ 	\end{minipage}
+ 	\begin{minipage}{0.5\textwidth}
+ 		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Irf2bp2-chr8-129120168-129120414.pdf} 
+ 	\end{minipage}
+ 	\begin{minipage}{\textwidth}
+ 		\centering
+ 		\includegraphics[width=0.8\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Irf2bp2-chr8-129118460-129118806.pdf}
+ 	\end{minipage}
+ 	\begin{minipage}{0.5\textwidth}
+ 		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Irf2bp2-chr8-129190283-129190617.pdf} 
+ 	\end{minipage}
+ 	\begin{minipage}{0.5\textwidth}
+ 		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Irf2bp2-chr8-129259826-129260057.pdf} 
+ 	\end{minipage}
+ 	\caption{The five enhancers presumably targeting Irf2bp2 are depicted with the contained transcription factor biding motifs. Colors indicate genotype-specificity: Common enhancers are shown in black, blue and red denote elements specific to \dnmtwt and \dnmtchip respectively.}
+ 	\label{fig:enhancers:Irf2bp:enh}
+ \end{figure}
+ 
+ To a lesser extent, also four other enhancers were supposedly involved in the expression of \genenamemouse{Irf2bp2}. Of those, \enhancerid{chr8}{129108484-129108768} was remarkable, since it was the only genotype-specific enhancer of the gene and only to be detected in \dnmtwt\reffigure{fig:enhancers:Irf2bp:enh}{, top left panel}. Assigned to the strongly accumulated clade~\clade{1}{7}, it featured the motifs \motifmlltwo and \motifmlltwoc, which suggested it can also be recognized by \proteinnamemouse{Mll2}. Its interaction frequency score in HPC-7~cells was just about \SI{10}{\percent} of that of the main enhancer (\num{12.5} vs. \num{123.66}) but still double the score of the third-frequent enhancer.    
+ 
+\enhancerid{chr8}{129120168-129120414}  - like the main enhancer - was a common cis-regulatory element and positioned technically downstream of the transcript to the distal end of the chromosome, but upstream in relation to the promoter. The most relevant motif of the enhancer was clearly \motifpuone\reffigure{fig:enhancers:Irf2bp:enh}{, top right panel}, providing a rationale why the enhancer was regarded as a member of the strongly accumulating clade \clade{1}{9} of the \amitone cluster. The confidence score of the interaction was \num{6.0}, which albeit seemingly weak, was still narrowly above $Q_3$ (above the $75th$ percentile of all confidence scores). 
+
+The forth and fifth enhancer of \genenamemouse{Irf2bp2}, \enhancerid{chr8}{129190283-129190617} and \enhancerid{chr8}{129259826-129260057} are not shown in \autoref{fig:enhancers:targets:Irf2bp2}, as their respective position \SI{72.7}{\kilo b}  and \SI{142.2}{\kilo b} distal of the transcript could not be drawn at scale. Additionally, their confidence scores of \num{1.50} and \num{1.0} made us doubt about a relevant assignment.  Yet, no other possible target genes were located nearby and both shared some properties already familiar to us:  They were common to the genotypes, belonged to mildly accumulating clades and both featured the motif \motifmlltwo\reffigure{fig:enhancers:Irf2bp:enh}{, bottom row}. Taken together, it was tempting to speculate that the intricate regulation observed at the gene's locus implicated \genenamemouse{Irf2bp2} in \mllafnine leukemic transformation or progression.
+
+\paragraph{Rhog/Nup98:} In contrast to \genenamemouse{Irf2bp2}, Ras homolog family member~G (\genenamemouse{Rhog}), the second ranking candidate of the cumulative gene list \dissrefpage{chap:ap:enhancers:tab:genereg}, was an unlikelier contender based on single enhancer-promoter interactions as the most relevant interaction was rated with a confidence score of \num{41.86}, the fifteenth highest in total. Nevertheless, the cumulative score of four strong enhancers justified the overall ranking.
+ 
+\begin{figure}[!t]
+	\setlength{\unitlength}{\textwidth}
+	\footnotesize
+	\begin{picture}(1,0.71)%
+	\put(-0.01,0){\includegraphics[width=1.03\textwidth]{figures/output/gviz/enhancerregions/outputregions/regionNup98RhoG.pdf}}
+	\put(-0.04,0.645){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Methylation\newline rate}\end{minipage}}}%
+	\put(-0.04,0.535){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq +/+}\end{minipage}}}%
+	\put(-0.04,0.47){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq  -/chip}\end{minipage}}}%
+	\put(-0.04,0.37){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Refseq~84 genes }\end{minipage}}}%   
+	\put(-0.04,0.26){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny CAGE-defined\newline enhancers }\end{minipage}}}% 
+	\put(-0.04,0.17){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions +/+}\end{minipage}}}%
+	\put(-0.04,0.07){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions  -/chip}\end{minipage}}}%
+	\end{picture}%
+	\caption{Representation of the  second ranking gene locus comprising the promoters of \genenamemouse{Nup98}, \genenamemouse{Pgap2},  \genenamemouse{Rhog} and \genenamemouse{Stim1} (from left to right). The top track contains a scatterplot representation of single CpG methylation rates as well as a LOESS smooth thereof depicted in gray. RNA-seq data is log-scaled to base 2 and  (like all other relevant items) colored by genotype: Red is used for data referring to \dnmtchip and blue constitutes \dnmtwt items. Thickness of the arcs conveys the frequency of the respective interaction.}
+	\label{fig:enhancers:targets:rhognup98}
+\end{figure} 
+
+The locus was particularly noteworthy due to the complex regulatory circuitry inferred from the HPC-7 Hi-C data. Provided comparability, a total of four enhancers, two of which genotype-specific, targeted three different genes. While \genenamemouse{Rhog} was clearly the main target, all four enhancers had weaker ties to a second fragment comprising the promoters of the Nuclear pore complex protein~98 (\genenamemouse{Nup98}) on the minus strand and a long isoform of the Post-GPI attachment to proteins factor~2 (\genenamemouse{Pgap2}) on the plus strand. 
+
+Lacking strand specific RNA-seq, it could not be determined precisely, which of the two genes was targeted primarily, but both genes were expressed and reads in support of the junction in the long \genenamemouse{Pgap2} isoform could be also identified. However, literature research suggested that \genenamemouse{Pgap2}, which is involved in the lipid remodeling steps of glycosylphosphatidylinositol (GPI) anchors on GPI-anchored proteins, has a negligible importance for acute myeloid leukemia: In AML with myelodysplastic features, glycosylphosphatidylinositol-anchor protein deficiency was associated with genomic instability and leukemic progression\cite{Teye2017}. Moreover, as a byproduct of their research, a working group seeking to improve the CRISPR-Cas9 system\cite{Metzakopian2017} deleted \genenamemouse{Pgap2} in the \mllafnine rearranged AML cell line MOLM-13\cite{Matsuo1997} and obtained viable cells. This led us to the conclusion that rather \genenamemouse{Nup98} or \genenamemouse{Rhog} were the relevant targets at this locus.
+
+In strong support of \genenamemouse{Nup98} was its known involvement in leukemogenesis. Being part of the nucleoporin family, it normally constitutes a subunit of the nuclear pore complex, which is embedded in the nuclear envelope and facilitates transport of proteins between the cytoplasm and the cell nucleus in eukaryotes\cite{Koehler2010}. Some of the nucleoporins are able to detach from the pore complex, move to the inner nucleus and alter transcription\cite{Griffis2004,Hou2010,Kalverda2010}. In 1996, the leukemogenic potential of gene fusions of \genenamemouse{Nup98} with \genenamemouse{Hoxa9} was recognized\cite{Nakamura1996,Borrow1996} and later emulated in mouse models\cite{Kroon2001}.  Since \genenamemouse{Hoxa9} itself has a major role in the development of leukemia, it remained unclear to which degree the pathogenicity could be attributed to \genenamemouse{Nup98}, until further leukemogenic fusions with other genes than \genenamemouse{Hoxa9} were identified\cite{Zutven2006,Wang2007a}. About a decade ago, a study proved the oncogenic potential of \genenamemouse{Nup98} fusions, in which an extrinsic plant homeodomain (PHD) finger targeted the joint protein to \hisfourthree marked regions of the genome\cite{Wang2009}. When mutations in the PHD fingers abrogated \hisfourthree binding, the leukemic transforming capability was lost, since the differentiation-associated polycomb-mediated removal of the mark could no longer be prevented\cite{Wang2009}. Later, it was also shown that \genenamemouse{Nup98} not only blocks removal of \hisfourthree, but can also recruit the Wdr82-Set1A/COMPASS complex to mediate deposition of said histone modification\cite{Franks2017}.  Considering the abnormally strong \hisfourthree signal at genes in \mllafnine leukemic stem cells\cite{Wong2015} as well as the congruent pattern at enhancers in strongly accumulated clades \dissrefpage{chap:r:enhancers:cluster:clades:clearydata}, we were intrigued to proclaim \genenamemouse{Nup98} as the relevant target of those enhancers due to its close ties with \hisfourthree. 
+
+\begin{figure}[!t]
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109392455-109392682.pdf} 
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+      	\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109393827-109394241.pdf} 
+	\end{minipage}
+		\begin{minipage}{0.5\textwidth}
+			\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109397023-109397354.pdf} 
+		\end{minipage}
+		\begin{minipage}{0.5\textwidth}
+			\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109415207-109415438.pdf} 
+		\end{minipage}
+	\caption{Schematic representation of the four enhancers presumably involved in regulating the expression of \genenamemouse{Rhog} and  \genenamemouse{Nup98} in \mllafnine leukemia. Genotype-specificity is indicated by the colors red (\dnmtchipregular), blue (\dnmtwtregular) and black (common). Gray boxes symbolize approximate positions of transcription factor binding motifs.}
+	\label{fig:enhancers:rhognup98:enh}
+\end{figure}
+
+However, the confidence scores linking the  Ras homolog family member~G (\genenamemouse{Rhog}) with the enhancers were clearly higher than those for \genenamemouse{Nup98}. The gene is highly expressed in lymphocytes, yet knock-out mice exhibited only mild phenotypic alterations, possibly due to  a functional redundancy with other Rac proteins\cite{Vigorito2004}. Later studies linked the protein \proteinnamemouse{RhoG} with cytoskeletal reorganization and leukocyte trans-endothelial migration in particular\cite{Buul2007}.  
+
+In terms of signaling, several guanine nucleotide exchange factors of the Vav family are capable to mediate the GDP/GTP exchange at \proteinnamemouse{RhoG}\cite{Tybulewicz2005}. Intriguingly, \proteinnamemouse{RhoG} is, jointly with the  scaffold protein \proteinnamemouse{Elmo2} and the integrin-linked kinase \proteinnamemouse{Ilk}, part of a tripartite complex and can activate \proteinnamemouse{RAC1}\cite{Jackson2015}. \proteinnamemouse{RAC1} activation in turn is known to promote leukemogenesis as well as interactions with the bone marrow microenvironment\cite{Wang2013} and to confer chemotherapy resistance to \mllafnine leukemic cells\cite{Nimmagadda2018} . Therefore, expression of the \genenamemouse{Rhog} gene was perfectly sound\footnote{also \proteinnamemouse{Elmo1}/\proteinnamemouse{Elmo2} and \proteinnamemouse{Ilk} were expressed} and might, possibly via the  phosphorylation of Stathmin\citerev{Marschalek2016} promote leukemic cell survival.
+
+Taken together, both \proteinnamemouse{RhoG} and \genenamemouse{Nup98} probably need to be expressed in \mllafnine leukemia, which is ensured by an intricate interplay of four different, possibly redundant enhancers according to the CAGE-seq in \mllafnine leukemia and Hi-C data from HPC-7 cells\reffigure{fig:enhancers:targets:rhognup98}{}. Three out of the four enhancers were located in the first intron of the \genenamemouse{Rhog} gene, two of which acted in a genotype-specific manner.  
+
+The leftmost enhancer \enhancerid{chr7}{109392455-109392682}(\clade{1}{6})\reffigure{fig:enhancers:rhognup98:enh}{, top left} interacted almost equally frequent with \proteinnamemouse{RhoG} and \genenamemouse{Nup98} (confidence score of \num{17.86} and num{15.67} respectively), whereas the others clearly favored \proteinnamemouse{RhoG} over \genenamemouse{Nup98} (from left to right: $41.86 \,\text{vs.}\,5.17$, $35.86 \,\text{vs.}\,5.25$ and $30.00 \,\text{vs.}\,15.70$). In particular, the two genotype-specific enhancers \enhancerid{chr7}{109393827-109394241}(\clade{1}{6})\reffigure{fig:enhancers:rhognup98:enh}{, top right} and \enhancerid{chr7}{109397023-109397354}(\clade{3}{2})\reffigure{fig:enhancers:rhognup98:enh}{, bottom left} interacted relatively weakly with \genenamemouse{Nup98}, anyhow a confidence score in the range of \num{5} still corresponded to the \num{60}th percentile of all scores.  
+
+With regard to the transcription factor binding sites, the two common enhancers \enhancerid{chr7}{109392455-109392682}(\clade{1}{6}) and 
+\enhancerid{chr7}{109415207-109415438}(\clade{4}{4}) prominently featured motifs for \proteinnamehuman{PU.1} as well as \proteinnamemouse{Klf4}. Interestingly, decreased expression of \proteinnamehuman{PU.1}\cite{Rosenbauer2004,Rosenbauer2006} and \proteinnamemouse{Klf4}\cite{Morris2016}  rather than (over)expression contributes to AML pathogenesis. Indeed, while it is possible to generate induced pluripotent stem (iPS) cells\cite{Takahashi2006} from \mllafnine leukemic stem cells (LSCs) by expressing the \emph{Yamanaka} reprogramming transcription factors\footnote{\proteinnamemouse{Oct4}, \proteinnamemouse{Sox2}, \proteinnamemouse{Klf4} and \proteinnamemouse{c-Myc}} artificially, their expression is generally mutually exclusive with sustained \mllafnine activity\cite{Liu2014}. According to our RNA-seq data, \proteinnamemouse{Klf4} was expressed at low levels in LSCs (avg. RPKM$\,=\,4.89$) and elevated levels in the leukemic bulk (avg. RPKM$\,=\,130.70$) .
+
+Remarkably, the strongest interacting enhancer (at least for \genenamemouse{Rhog}, confidence score \num{41.86}) was \enhancerid{chr7}{109393827-109394241}(\clade{1}{6}), an enhancer specific to the  \dnmtchip genotype. It featured the \motifmlltwo motif, but hardly any other putative transcription factor binding sites and was also not assigned to a strongly accumulated clade\reffigure{fig:enhancers:rhognup98:enh}{, top right}. This finding adumbrated a multi-layered, complex regulation of relevant genes beyond the enhancers in strongly accumulated clades and \proteinnamemouse{Mll2}-binding.   
+
+\paragraph{Ikzf2:} A good example of a gene with relevance for leukemogenesis, which was regulated by a completely different set of motifs and enhancers, was Zinc finger protein Helios (\genenamemouse{Ikzf2})\reffigure{fig:enhancers:targets:ikzf2}{}. The gene was recently identified as crucial mediator of leukemic stem cell self-renewal and differentiation block in AML\cite{Park2019} and was ranked 9th in the combined gene list. 
+
+Remarkably, we could detect an unexplained RNA-seq signal upstream of the reference promoter of \genenamemouse{Ikzf2}, which resembled an additional exon.  While the mouse reference lacked an according exon, cross-species alignments of the human \genenamemouse{Ikzf2} recorded a corresponding feature. Deeming a contamination of the library with human cDNA unlikely, we therefore attributed this signal to a yet unannotated transcript variant with an extended 5'-UTR.   
+
+Its expression was sustained by two enhancers,  the wild-type-specific \enhancerid{chr1}{69729203-69729392} and the common \enhancerid{chr1}{69735657-69735883}, both affiliated with the \amitthree cluster\reffigure{fig:enhancers:ikzf2:enh}{}. The respective clade \clade{3}{11} had not accumulated CAGE-defined enhancers or exhibited a particular epigenetic signature\dns. Nevertheless \genenamemouse{Ikzf2} was consistently expressed in \dnmtwt as well as \dnmtchip leukemic cells (avg. RPKM$\,=\,31.29$). 
+
+Except one instance of \motifpolya, the two enhancers comprised no enriched de novo motifs, which however was to be expected based on the clade assignment. A motif for the Hepatocyte nuclear factor 4$\alpha$ (\genenamemouse{Hnf4a}) was present in the common enhancer, however the corresponding transcription factor was not expressed in \mllafnine. The wild-type specific enhancer \enhancerid{chr1}{69729203-69729392} featured motifs for the POU domain, class~2, transcription factor~2  (\genenamemouse{Pou2f2}) and POU domain, class 5, transcription factor 1 (\genenamemouse{Pou5f1}), more commonly known by their legacy names \proteinnamemouse{Oct2} and \proteinnamemouse{Oct4}.  While  \genenamemouse{Pou5f1}/\proteinnamemouse{Oct4} was not active in \mllafnine leukemia, \genenamemouse{Pou2f2}/\proteinnamemouse{Oct2} was expressed and also reported to have a potential pro-survival function in AML\cite{Advani2010}. Thus, \proteinnamemouse{Oct2} potentially sustained the expression of \genenamemouse{Ikzf2} in \dnmtwt, however how \dnmtchip ensured sufficient levels remained elusive.  \vspace{1cm}
+
+\begin{figure}[!h]
+	\setlength{\unitlength}{\textwidth}
+	\footnotesize
+	\begin{picture}(1,0.61)%
+	\put(-0.01,0){\includegraphics[width=1.03\textwidth]{figures/output/gviz/enhancerregions/outputregions/regionIkzf2.pdf}}
+	\put(-0.04,0.52){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Methylation\newline rate}\end{minipage}}}%
+	\put(-0.04,0.42){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq +/+}\end{minipage}}}%
+	\put(-0.04,0.355){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny RNA-seq  -/chip}\end{minipage}}}%
+	\put(-0.04,0.295){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Refseq~84 genes }\end{minipage}}}%   
+	\put(-0.04,0.26){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny CAGE-defined\newline enhancers }\end{minipage}}}% 
+	\put(-0.04,0.17){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions +/+}\end{minipage}}}%
+	\put(-0.04,0.07){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\begin{minipage}{0.25\unitlength}{\raggedleft \tiny Interactions  -/chip}\end{minipage}}}%
+	\end{picture}%
+	\caption{Visualization of the Ikzf2 genomic region. RNA-seq data is log-scaled to base 2 and interaction frequency is conveyed by thickness of the arcs. Decimal fractions represent the methylation rate of single CpGs as colored dots, a LOESS smooth shown in gray was applied to determine the local methylation trends. Data colored in blue refers to \dnmtwt, while \dnmtchip is presented in red color.}
+	\label{fig:enhancers:targets:ikzf2}
+\end{figure} 
+ \vspace{1cm}
+\begin{figure}[!bh]
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Ikzf2-chr1-69729203-69729392.pdf} 
+	\end{minipage}
+	\begin{minipage}{0.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Ikzf2-chr1-69735657-69735883.pdf} 
+	\end{minipage}
+	\caption{Depiction of the two CAGE-defined enhancers assigned to Ikzf2 by HPC-7 Hi-C. Blue and black represent the genotype specificity (\dnmtwt and common respectively) and transcription factor binding motifs are conveyed as gray boxes.}
+	\label{fig:enhancers:ikzf2:enh}
+\end{figure}
+
+\FloatBarrier\clearpage
+\subsection{Preliminary CRISPR-dCas9 experiments}
+\label{chap:r:enhancers:targets:genes:crisprcasnine}
+
+To test the effects of a particular gene on leukemia progression or self-renewal, we had mostly worked with shRNA-mediated knockdowns or utilized a vector containing the human Ubc-promoter to heterologously express a cDNA copy.
+
+Primarily the candidate genes, which emerged from the integrated methylome and transcriptome analysis \dissrefpage{chap:r:degenes:genotypecontrast} were experimentally tested in this manner. Depending on, whether our bioinformatic analysis suggested a beneficial up- or downregulation of the gene, we chose the respective method and lentivirally transduced leukemic cells in vitro for constitutive expression of the cDNA or shRNA. About ten genes were tested without success and nixed from the list of potential therapeutic candidates\dns.  
+
+To test the effects of a particular enhancer, we however required a different experimental approach and opted for a CRISPR-Cas9-based protocol. Hardly any method developed in recent years experienced such rapid acceptance and development as CRISPR-Cas9 did over the last decade. This extended the field of application of the method, which was initially conceived for genome editing and engineering\citerev{Hsu2014}, to a whole range of scientific endeavors\citerev{Shalem2015,Dominguez2016}.
+
+Repression through CRISPR interference (CRISPRi) was our preferred choice to test single enhancers in vitro and potentially also in vivo. This method harnesses a nuclease-deficient Cas9 enzyme (dCas9), which is still capable of receiving guidance from single guide RNAs (sgRNA) and can be recruited to specific genomic locations in this manner. Without altering the nucleotide sequence, it may block other DNA-binding complexes such as the mediator complex\cite{Mittler2001} and thereby silence genes. To strengthen its repression efficiency, the dCas9 used in our protocol was fused to a Krüppel-associated box (\proteinnamehuman{KRAB}) natively found in a group of repressive zinc-finger proteins\cite{Witzgall1994,Urrutia2003}. The full construct named \emph{pHR-SFFV-KRAB-dCas9-P2A-mCherry} was cloned in the laboratory of Jonathan Weissman and deposited at Addgene with the accession number 60954\cite{Gilbert2014}. We also obtained the corresponding sgRNA vector \emph{pU6-sgRNA EF1Alpha-puro-T2A-BFP} (Addgene 60955).
+
+While the two vectors had initially been used for a genome-wide loss-of-function screen\cite{Gilbert2014}, we sought to utilize it to target a selection of a few hundred enhancers in parallel for validation purposes. To prepare for this experiment, we cloned about a dozen single sgRNAs as a proof of concept. The test set comprised promoters of published crucial regulators of \mllafnine,  their closest enhancers (regardless of clade enrichment) and a few non-targeting controls\dissrefpage{chap:ap:enhancers:tab:sgrnas}. However, while we could successfully transduce all guide RNAs into \mllafnine leukemic cells and establish clones, transduction of \emph{pHR-SFFV-KRAB-dCas9-P2A-mCherry} failed repeatedly. We did not succeed in producing stable dCas9-clones, regardless of whether we had transduced the guides previously or not. 
+
+Eventually, we also tried to switch from the transcriptional modulation to a nuclease-mediated knockout requiring only one plasmid in an alternative approach. Unfortunately, experiments with the completed constructs based on \emph{lentiCRISPR-v2} (Addgene 52961) from Feng Zhang's laboratory\cite{Sanjana2014} were not commenced anymore due to time constraints. 
+
+\section{Assessment of Mll2 target genes}
+\label{chap:r:enhancers:targets:mlltwotargets}
+
+In the previous chapter, it was shown that strongly accumulating clades are characterized by a \proteinnamemouse{Mll2}-signature. Although \proteinnamemouse{Mll2} seemed to be an unlikely candidate, since it had already been subject to some less promising investigations\cite{Bach2009}, a detailed study from the laboratory of Patricia Ernst highlighted the importance of \proteinnamemouse{Mll2} for \mllafnine leukemia\cite{Chen2017a}.
+
+In aforesaid publication, RNA-seq was used to characterize the effects of \proteinnamemouse{Mll1} or \proteinnamemouse{Mll2} deletion in the context of \mllafnine-transduced leukemia derived from \kithi primary bone marrow cells. Analysis of the data provided, amongst others, a list of \num{171} genes, the expression of which was altered as a result of \proteinnamemouse{Mll2} deletion. 
+
+However, the authors did not address, why these genes were affected. Having derived a \proteinnamemouse{Mll2} binding motif from our enhancers, we were intrigued to see, if this motif would be enriched in the promoters or enhancers of said genes.  Therefore, we downloaded the expression data accompanying the study and integrated it with our own data. Since all our data was still aligned to the older reference genome \mmnine instead of \mmten, we had to realign and reanalyze the published data from scratch utilizing our default RNA-seq pipeline\dissrefpage{chap:r:degenes:changes}. 
+
+Oddly enough, although the alignment rates to the reference genome \mmnine were extremely good at \SIrange{95}{98}{\percent}, only less than half of the aligned reads were found within reference transcripts (\SIrange{46}{48}{\percent}). This finding prompted us to test our own experimentally derived transcriptome\dissrefpage{chap:r:tinats:stringtie}, however, just \SIrange{41}{43}{\percent} of the reads mapped to our experimentally derived transcriptome. Thus, the non-reference transcripts identified in our samples also did not explain these results. We did not follow up on this issue, since it was neither our dataset nor relevant to our research, but it was irritating that this discrepancy was not addressed by the authors\cite{Chen2017a}. 
+
+In total, we could identify \num{8366} expressed reference transcripts\footnote{release~\num{84} of the \emphdatabasename{NCBI Reference Sequence Database (RefSeq)} published on September 11, 2017.}, of which \num{1790} (\SI{21.4}{\percent}) were subject to potential \proteinnamemouse{Mll2} regulation. As a proxy for \proteinnamemouse{Mll2} recruitment, which was not directly amenable to us, we used the presence of the motif \motifmlltwo at the promoter (\SIrange{-500}{+100}{bp} around the TSS) or within an assigned enhancer. 
+	
+Obviously, this lenient approach deliberately overestimated the true \proteinnamemouse{Mll2} binding in favor of an inclusive consideration of all possible regulatory action. Despite being useful approximations of transcription factor binding\citerev{Boeva2016}, position weight matrix-based methods, like the one used by us, can not accurately predict experimentally determined binding due to oversimplification\cite{Jayaram2016}. For example, in reality, the relationship between binding affinity and probability is not linear \cite{Ruan2017} and the cell type \cite{Liu2017a} as well as three-dimensional DNA structure \cite{Yang2015} are additional determinants.
+
+Faithful consideration of those factors either by advanced in vitro methods like SMiLE-seq \cite{Isakova2017} or application of sophisticated new deep learning algorithms\cite{Le2018,Rastogi2018}, such as the convolutional-recurrent neural network \emphsoftwarename{FactorNet}\cite{Quang2019}, was beyond the scope of this project. Therefore, we stuck to the traditional position weight matrix approach (PWM) and scanned promoters and enhancers for presence of the motif \motifmlltwo with \emphsoftwarename{Homer}. 
+
+By this method, we could identify \num{1790} transcripts (\num{1670} genes) possibly regulated by \proteinnamemouse{Mll2} binding. Together with \num{1038} transcripts, which were presumably regulated by other identified and assigned enhancers, they formed the group of the \num{2828} apportioned transcripts\reffigure{fig:enhancers:ernst_mll2_targets_reanalyzed_fractionsbars}{, upper bar}. The regulation of the remainder (\num{5538} transcripts) remained elusive (other promoter motifs were not analyzed) and was irrelevant for the subject in question.
+ 
+\begin{figure}[bht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/targets/ernst_mll2_targets_reanalyzed_fractionsbars.pdf} 
+	\caption{Bar graph comparing the regulatory category assignment of transcripts possibly subject to regulation by \proteinnamemouse{Mll2} or other CAGE-defined enhancers in \mllafnine leukemia (upper bar) to the \num{211} transcripts differentially expressed upon \proteinnamemouse{Mll2} deletion (lower bar).}
+	\label{fig:enhancers:ernst_mll2_targets_reanalyzed_fractionsbars}
+\end{figure}
+
+
+Interestingly, despite the oversimplified PWM approach, the \num{211} differentially expressed transcripts (\num{205} genes) reflected the overall assignment quite well \reffigure{fig:enhancers:ernst_mll2_targets_reanalyzed_fractionsbars}{}, which corroborated that \proteinnamemouse{Mll} proteins preferably bind directly to the promoter of target genes\cite{Artinger2013}. Yet, we could also identify \num{34} transcripts (\num{32} genes), which responded presumably due to loss of  \proteinnamemouse{Mll2} binding at regulating enhancers\dissrefpage{chap:ap:enhancers:tab:mll2enh:genes}. Among them was for example Ras homolog family member~G (\genenamemouse{Rhog})\reffigure{fig:enhancers:targets:rhognup98}{}, which was already described above\dissref{chap:r:enhancers:targets:genes:combined}. 
+
+Approximately two-thirds of the differentially expressed transcripts responded to \proteinnamemouse{Mll2} loss by downregulation (\num{151} down, \num{73} up). 
+
+\begin{figure}[p]
+	\vspace{-2em}
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/enhancer/targets/ernst_mll2_targets_reanalyzed_fc_promincl.pdf} 
+	\caption{Dot plot of the expression pattern after knock-out of  \proteinnamemouse{Mll2} in \mllafnine leukemic cells. Only significantly differentially expressed transcripts are shown. Colors indicate the regulatory assignment. On top and to the right, one-dimensional pile-up plots provide visual aids to assess the absolute number of the significantly differentially expressed transcripts and their respective assignment.}
+	\label{fig:enhancers:ernst_mll2_targets_reanalyzed_fc_promincl}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=0.9\textwidth]{figures/output/enhancer/targets/ernst_mll2_targets_reanalyzed_expression_bars.pdf} 
+	\caption{Stacked bar plot indicating the transcriptional effect of \proteinnamemouse{Mll2} loss after Cre::\ensuremath{ER^{T2}}-induction by 4-hydroxytamoxifen (4-OHT). Each significantly differentially expressed transcript is depicted as bar scaled to \SI{100}{\percent} and ordered by increasing absolute expression in the uninduced ethanol (EtHO) control. Transcripts represented by bars with less than  \SI{50}{\percent} blue are downregulated following \proteinnamemouse{Mll2} loss.}
+	\label{fig:enhancers:ernst_mll2_targets_reanalyzed_expression_bars}
+\end{figure}
+
+In terms of effect size, the observed expression change (particularly downregulation) was typically more prominent in the promoter category than in the enhancer category\reffigure{fig:enhancers:ernst_mll2_targets_reanalyzed_fc_promincl}{, pile-up graph to the right}. This finding was likely attributable to potential redundant enhancers and clearly not related to a prior expression bias, since the transcripts could be found in the full range of the spectrum\reffigure{fig:enhancers:ernst_mll2_targets_reanalyzed_expression_bars}.
+
+Despite being small in relation to promoter-mediated regulation, both in terms of magnitude and number of affected transcripts, there was a noticeable effect of \proteinnamemouse{Mll2}-enhancer deficiency. Functionally, some of the respondent genes \dissrefpage{chap:ap:enhancers:tab:mll2enh:genes} were involved in crucial cellular functions such that an effect on self-renewal and leukemogenesis seemed plausible. Nevertheless, none of the candidate genes was experimentally tested anymore. 
+
+Thus, it remained elusive, whether the \proteinnamemouse{Mll2}-signature identified in our CAGE-defined enhancers served a purpose or was a mere passive consequence of  \proteinnamemouse{Mll2} randomly deviating from promoters. Yet, in murine  primordial germ cells, the cis-regulatory binding of \proteinnamemouse{Mll2} was already shown to be purposeful\cite{Hu2017}, which suggested similar mechanisms could apply to \mllafnine leukemia and still warrants investigation.
+
+Special emphasis should be placed on DNA methylation at those sites\reffigurepage{fig:enhancers:motifs:violinplot_meth_motifs}{, bottom row}, since the CG-rich sequence could easily be subject to \proteinnamemouse{EZH2} and \proteinnamemouse{PRC2/3}-mediated recruitment of DNA methyltransferases\cite{Vire2006}.
+
+

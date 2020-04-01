@@ -1,0 +1,107 @@
+\babel@toc {english}{}
+\contentsline {chapter}{Abstract}{1}{chapter*.1}% 
+\addvspace {1em}
+\contentsline {chapter}{\numberline {1}Introduction}{9}{chapter.1}% 
+\contentsline {section}{\numberline {1.1}MLL-AF9\xspace and MLL-rearranged leukemia}{9}{section.1.1}% 
+\contentsline {section}{\numberline {1.2}DNA methylation in acute myeloid leukemia}{10}{section.1.2}% 
+\contentsline {section}{\numberline {1.3}Enhancers}{11}{section.1.3}% 
+\contentsline {subsection}{\numberline {1.3.1}Enhancers in general}{11}{subsection.1.3.1}% 
+\contentsline {subsection}{\numberline {1.3.2}Enhancers contribute to leukemogenesis}{12}{subsection.1.3.2}% 
+\contentsline {section}{\numberline {1.4}Previous findings}{13}{section.1.4}% 
+\contentsline {section}{\numberline {1.5}Aim of this thesis}{14}{section.1.5}% 
+\contentsline {part}{I\hspace {1em}Methylomes of MLL-AF9 c-Kit+ leukemia}{17}{section*.4}% 
+\contentsline {chapter}{\numberline {2}Methylome data of MLL-AF9 leukemia}{19}{chapter.2}% 
+\contentsline {section}{\numberline {2.1}Leukemia-related demethylation}{20}{section.2.1}% 
+\contentsline {section}{\numberline {2.2}Chromatin-state-dependent demethylation}{21}{section.2.2}% 
+\contentsline {subsection}{\numberline {2.2.1}Ramifications of lamina-association on methylation}{22}{subsection.2.2.1}% 
+\contentsline {subsection}{\numberline {2.2.2}Assessment of CpG-Island methylation}{23}{subsection.2.2.2}% 
+\contentsline {chapter}{\numberline {3}Specification of the compromised regions}{27}{chapter.3}% 
+\contentsline {section}{\numberline {3.1}Demethylation at single CpG resolution}{27}{section.3.1}% 
+\contentsline {section}{\numberline {3.2}Increased partial methylation in leukemia}{29}{section.3.2}% 
+\contentsline {section}{\numberline {3.3}Standard approach failed to discriminate domain borders}{31}{section.3.3}% 
+\contentsline {chapter}{\numberline {4}Modeling the methylation probability}{33}{chapter.4}% 
+\contentsline {section}{\numberline {4.1}A GAM to predict the methylation rate}{33}{section.4.1}% 
+\contentsline {subsection}{\numberline {4.1.1}Introduction to GAM models}{33}{subsection.4.1.1}% 
+\contentsline {subsection}{\numberline {4.1.2}Reasons to choose a GAM}{34}{subsection.4.1.2}% 
+\contentsline {section}{\numberline {4.2}Fitting a GAM on methylome data}{35}{section.4.2}% 
+\contentsline {chapter}{\numberline {5}Relationship of chromatin structure and methylation persistency}{39}{chapter.5}% 
+\contentsline {section}{\numberline {5.1}Chromosomal insulation and interaction}{39}{section.5.1}% 
+\contentsline {section}{\numberline {5.2}Determining factors of methylation persistency}{41}{section.5.2}% 
+\contentsline {section}{\numberline {5.3}Summary}{44}{section.5.3}% 
+\contentsline {chapter}{\numberline {6}Methylome analysis of matched non-malignant hematopoietic progenitors}{45}{chapter.6}% 
+\contentsline {section}{\numberline {6.1}WGBS data of the MPP hierarchy}{45}{section.6.1}% 
+\contentsline {section}{\numberline {6.2}Leukemia-related demethylation revisited}{47}{section.6.2}% 
+\contentsline {part}{II\hspace {1em}Deregulated genes and pathways}{49}{section*.26}% 
+\contentsline {chapter}{\numberline {7}Transcriptional analysis}{51}{chapter.7}% 
+\contentsline {section}{\numberline {7.1}Characterization of Dnmt1-hypomorphic transcription}{52}{section.7.1}% 
+\contentsline {subsection}{\numberline {7.1.1}Expression changes linked to promoter hypomethylation}{53}{subsection.7.1.1}% 
+\contentsline {subsection}{\numberline {7.1.2}Elongation efficiency of reference transcripts}{55}{subsection.7.1.2}% 
+\contentsline {section}{\numberline {7.2}Differential gene expression analysis}{56}{section.7.2}% 
+\contentsline {section}{\numberline {7.3}Contrast of Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip -/chip}\xspace vs. Dnmt1\textsuperscript {\slshape \relax \fontsize {9}{11}\selectfont \abovedisplayskip 8\p@ plus2\p@ minus4\p@ \abovedisplayshortskip \z@ plus\p@ \belowdisplayshortskip 4\p@ plus2\p@ minus2\p@ \def \leftmargin \leftmargini \topsep \z@ \parsep \parskip \itemsep \z@ {\leftmargin \leftmargini \topsep 4\p@ plus2\p@ minus2\p@ \parsep 2\p@ plus\p@ minus\p@ \itemsep \parsep }\belowdisplayskip \abovedisplayskip +/+}\xspace }{58}{section.7.3}% 
+\contentsline {subsection}{\numberline {7.3.1}Altered genes}{58}{subsection.7.3.1}% 
+\contentsline {subsection}{\numberline {7.3.2}Altered pathways}{59}{subsection.7.3.2}% 
+\contentsline {section}{\numberline {7.4}H3K4me3 buffer domains}{61}{section.7.4}% 
+\contentsline {chapter}{\numberline {8}Experimental transcriptome}{65}{chapter.8}% 
+\contentsline {section}{\numberline {8.1}Assembly of non-reference transcripts}{65}{section.8.1}% 
+\contentsline {section}{\numberline {8.2}Isolated transcriptional initiation events}{66}{section.8.2}% 
+\contentsline {section}{\numberline {8.3}Summary}{68}{section.8.3}% 
+\contentsline {part}{III\hspace {1em}Enhancer delineation}{69}{section*.35}% 
+\contentsline {chapter}{\numberline {9}Enhancer calling and classification}{71}{chapter.9}% 
+\contentsline {section}{\numberline {9.1}CAGE-seq derived enhancers}{72}{section.9.1}% 
+\contentsline {section}{\numberline {9.2}Enhancer clustering}{73}{section.9.2}% 
+\contentsline {subsection}{\numberline {9.2.1}Major cluster assignment by k-means}{73}{subsection.9.2.1}% 
+\contentsline {subsection}{\numberline {9.2.2}Minor cluster assignment by hierarchical clustering}{75}{subsection.9.2.2}% 
+\contentsline {section}{\numberline {9.3}Clades accumulating CAGE-enhancers}{78}{section.9.3}% 
+\contentsline {subsection}{\numberline {9.3.1}Characteristics in terms of healthy hematopoiesis}{78}{subsection.9.3.1}% 
+\contentsline {subsection}{\numberline {9.3.2}Characteristics in MLL-AF9\xspace leukemia}{80}{subsection.9.3.2}% 
+\contentsline {chapter}{\numberline {10}Enhancer motifs, targets and regulation}{87}{chapter.10}% 
+\contentsline {section}{\numberline {10.1}Motif analysis}{87}{section.10.1}% 
+\contentsline {subsection}{\numberline {10.1.1}Basic procedure}{87}{subsection.10.1.1}% 
+\contentsline {subsection}{\numberline {10.1.2}Motifs enriched in strongly accumulated clades}{88}{subsection.10.1.2}% 
+\contentsline {subsection}{\numberline {10.1.3}Motifs enriched in strongly depleted clades}{90}{subsection.10.1.3}% 
+\contentsline {section}{\numberline {10.2}Methylation of enhancers and their motifs}{91}{section.10.2}% 
+\contentsline {subsection}{\numberline {10.2.1}Methylation mapping at enhancer regions}{92}{subsection.10.2.1}% 
+\contentsline {subsection}{\numberline {10.2.2}Methylation mapping at isolated motifs}{93}{subsection.10.2.2}% 
+\contentsline {section}{\numberline {10.3}MLL2 (Kmt2b) binding at strongly enriched enhancers}{95}{section.10.3}% 
+\contentsline {section}{\numberline {10.4}Enhancer target genes}{98}{section.10.4}% 
+\contentsline {subsection}{\numberline {10.4.1}Assessment of Mll2 target genes}{100}{subsection.10.4.1}% 
+\contentsline {section}{\numberline {10.5}Summary and outlook}{102}{section.10.5}% 
+\contentsline {part}{IV\hspace {1em}Discussion}{105}{section*.60}% 
+\contentsline {chapter}{\numberline {11}Synopsis of results}{107}{chapter.11}% 
+\contentsline {chapter}{\numberline {12}Ramifications of the Dnmt1\textsuperscript { -/chip}\xspace methylome}{109}{chapter.12}% 
+\contentsline {section}{\numberline {12.1}Assumptions regarding the Dnmt1\textsuperscript { -/chip}\xspace methylome}{110}{section.12.1}% 
+\contentsline {subsection}{\numberline {12.1.1}Inverse relationship of division rate and methylation persistency}{110}{subsection.12.1.1}% 
+\contentsline {subsection}{\numberline {12.1.2}Inadvertent reactivation of epigenetically repressed genes}{111}{subsection.12.1.2}% 
+\contentsline {section}{\numberline {12.2}Characteristics of the large-scale compromised regions}{112}{section.12.2}% 
+\contentsline {subsection}{\numberline {12.2.1}Do Dnmt1\textsuperscript { -/chip}\xspace methylomes harbor PMDs?}{113}{subsection.12.2.1}% 
+\contentsline {subsection}{\numberline {12.2.2}Impact of PMD-like compromised regions}{114}{subsection.12.2.2}% 
+\contentsline {paragraph}{In cancer:}{114}{subsection.12.2.2}% 
+\contentsline {paragraph}{In senescence:}{115}{subsection.12.2.2}% 
+\contentsline {section}{\numberline {12.3}Persistent methylation at CpG-Islands and promoters}{117}{section.12.3}% 
+\contentsline {subsection}{\numberline {12.3.1}Persistently unmethylated CpG-Islands}{117}{subsection.12.3.1}% 
+\contentsline {subsection}{\numberline {12.3.2}Methylation transition at CpG-Islands}{118}{subsection.12.3.2}% 
+\contentsline {subsection}{\numberline {12.3.3}Persistently methylated CpG-Islands}{119}{subsection.12.3.3}% 
+\contentsline {section}{\numberline {12.4}Methylation-independent roles of Dnmt1}{119}{section.12.4}% 
+\contentsline {chapter}{\numberline {13}Transcriptional regulation in leukemia}{121}{chapter.13}% 
+\contentsline {section}{\numberline {13.1}Establishment of our MLL-AF9\xspace enhancer catalog}{121}{section.13.1}% 
+\contentsline {section}{\numberline {13.2}Notable characteristics of our enhancer catalog}{122}{section.13.2}% 
+\contentsline {subsection}{\numberline {13.2.1}Rarity of leukemia-specific enhancers}{122}{subsection.13.2.1}% 
+\contentsline {subsection}{\numberline {13.2.2}H3K4me3\xspace as hallmark of particular enhancer clades}{123}{subsection.13.2.2}% 
+\contentsline {section}{\numberline {13.3}H3K4me3\xspace , Mll2, CXXC-domains and leukemia}{125}{section.13.3}% 
+\contentsline {paragraph}{H3K4me3\xspace :}{125}{section.13.3}% 
+\contentsline {paragraph}{Mll2:}{126}{section.13.3}% 
+\contentsline {paragraph}{CXXC-domain:}{126}{section.13.3}% 
+\contentsline {section}{\numberline {13.4}Implications for the Dnmt1\textsuperscript { -/chip}\xspace genotype}{127}{section.13.4}% 
+\contentsline {subsection}{\numberline {13.4.1}Methylation determines enhancer activity}{127}{subsection.13.4.1}% 
+\contentsline {subsection}{\numberline {13.4.2}Methylation affects chromatin organization}{128}{subsection.13.4.2}% 
+\contentsline {section}{\numberline {13.5}Outlook}{129}{section.13.5}% 
+\contentsline {paragraph}{Role of methylation and its relationship to senescence:}{129}{section.13.5}% 
+\contentsline {paragraph}{Methylation in MLL-AF9\xspace leukemia and novel therapeutic targets:}{130}{section.13.5}% 
+\contentsline {part}{Appendices}{131}{section*.63}% 
+\contentsline {chapter}{\numberline {A}Sources of reanalyzed third-party datasets}{133}{appendix.A}% 
+\contentsline {chapter}{\numberline {B}Sample reference}{135}{appendix.B}% 
+\contentsline {chapter}{\numberline {C}Curriculum vitae}{137}{appendix.C}% 
+\contentsline {chapter}{Bibliography}{139}{section*.65}% 
+\vspace \smallskipamount 
+\contentsline {chapter}{Abbreviations}{163}{appendix*.67}% 
+\contentsline {subparagraph}{}{165}{table.C.1}% 

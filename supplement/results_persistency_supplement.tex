@@ -1,0 +1,156 @@
+\chapter{Relationship of chromatin structure and methylation persistency}
+\label{chap:r:gam:chromatin}
+
+\section{Categorical methylation persistency}
+\label{chap:r:gam:chromatin:categories}
+
+To understand the mechanisms, which lead to the impairment of self-renewal in \dnmtchip leukemia and potentially to senescence, we aimed at the accurate determination of methylation persistency, which was achieved with the GAM model. This model permitted to derive a quantifiable methylation persistency at any given chromosomal position, but on top of that we were also interested in a categorization into regions of rather persistent and compromised methylation to e.g. integrate with gene expression data.
+
+To separate the genome into these two categories, we predicted the methylation likelihood from the fitted GAMs at each reference point of a \SI{500}{bp} grid superimposed over the mouse genome. Grid points within CpG-Islands or an additional \SI{2}{\kilo b} transition zone margin (in the literature referred to as shore) were neglected. If the difference between \dnmtwt and \dnmtchip exceeded an absolute of \num{0.158}, the specific point was classified as being compromised. This cutoff corresponded to the median demethylation in fLADs\cite{Meuleman2013}, which we believed to comprise both compromised and persistent regions. Adjacent grid reference points assigned to the same category were united to larger domains, whereas the midpoint of deviant assignments marked a domain border. To account for borderline cases and reduce cluttering, a state switch was only triggered if the transgression lasted for at least 20 subsequent grid points (hence \SI{10}{\kilo b}). Smaller state switches were permitted, in case two or more grid points significantly transgressed ($>0.258$ for compromised regions, $<0.058$ for persistent regions). We retracted resulting assignments in areas of low coverage. Using the \emphsoftwarename{BEDtools}\cite{Quinlan2010} suite, we employed \emph{merge -d 50000} and combined CpG sites covered in our source data, if they were less than 5\myexp{4} base pairs apart. Subsequently, we created the \emph{complement} of the merger and used \emph{substract} to revoke predictions in those areas, which where usually located at the distal ends of the chromosome or at long stretches of repetitive DNA. As result, we obtained an annotation of methylation inferred regions, which comprised almost \SI{97}{\percent} of the genome \reftable{tab:persistency_region_sum}.
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{lcc}
+		\textbf{Type} & \textbf{$\sum$ bp} & \textbf{$\sum$ \%} \\
+		\hline
+		Persistent region &	 1.42\myexp{9} &	53.69 \\
+		Compromised region & 1.14\myexp{9} &	43.16 \\
+		\hline
+	\end{tabular}
+	\caption{Properties of methylation-derived chromatin states. The remaining \SI{3}{\percent} were retracted due to insufficient coverage.}
+	\label{tab:persistency_region_sum}
+\end{table}
+
+An individual domain was typically between \SIrange{100}{300}{\kilo b} in size\reftable{tab:persistency_region_properties} and thus highly comparable to the published reference sizes of partially methylated domains (PMDs)\cite{Lister2009,Schroeder2013,Gaidatzis2014} as well as lamina-associated domains (LADs)\cite{Guelen2008} . However, for each of the respective domains about a quarter was notably smaller (just \SI{10}{\kilo b}) and often comprised single transcripts or regulatory regions. It was obvious that such small compromised regions bore resemblance to lowly methylated regions (LMRs)\cite{Stadler2011}, although we did not formally test their true equivalence. 
+
+
+\begin{table}[h]
+	\centering		
+	\begin{tabular}{lcccccc}
+		\textbf{Type} &	\textbf{Min.} &	\textbf{1st Qu.} &	\textbf{Median} &	\textbf{Mean} &	\textbf{3rd Qu.} &	\textbf{Max.} \\
+		\hline
+		PR &	724 &	97.8\myexp{3} &	1.76\myexp{5} &	3.93\myexp{5}	& 4.81\myexp{5} & 6.1\myexp{6} \\
+		CR & 3\myexp{3} & 78.5\myexp{3} & 1.35\myexp{5} & 3.15\myexp{5} & 3.04\myexp{5} & 9.37\myexp{6} \\
+		\hline
+	\end{tabular}
+	\caption{Summary of persistent region (PR) and compromised region (CR) sizes, which we derived from the modeled methylation probability.}
+	\label{tab:persistency_region_properties}
+\end{table}
+
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_diff_chr8_arrow.pdf}
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_gam/wgbs_gam_diff_chr8_legends.pdf} 
+	\caption{Modeled methylation probability of the backbone (saturated lines) and CpG-Islands (pastel lines) in a \SI{2.5d7}{bp} region on chromosome \num{8}. Colored blocks below indicate the extent of chromatin or sequence features on the underlying DNA (ciLADs, cLADs and CGIs). The lower part of the figure shows the categorical methylation persistency with blocks for persistent and compromised regions colored in turquoise and tyrian purple respectively.The lowermost curve retraces the difference between \dnmtchip and \dnmtwt \kitpos leukemic methylation probability, which was used to infer the categorical regions. A black arrow indicates the three unexpected persistent regions mentioned in the main text.}
+	\label{fig:wgbs_gam_diff_chr8}
+\end{figure}
+
+At large, we could confirm both the association of persistent regions with open inter-lamina chromatin as well as the intensified loss of methylation in lamina-associated heterochromatic sections. However, approximately \SI{20}{\percent} of the genome behaved in an unexpected way and broke the general rule. We detected two classes of these inconsistencies:
+
+\begin{itemize}
+	\item Firstly, we identified small , divergent regions inside contrary larger homogeneous annotations. \autoref{fig:wgbs_gam_diff_chr8} features an example of three unexpected persistent regions (highlighted by a black arrow) inside a large compromised region at position \SI{1.03d8}{bp}.
+	\item Secondly, we recorded cases, where the transition between a compromised and a persistent region was shifted relative to those of the annotated lamina-association. It appeared as if the domain border was moved in leukemia, which was comprehensible due to the annotation not fully representative of the leukemia situation. {\color{fbbioblue} Figure 4.2 in main text} depicts such an unexpected region roughly at \SI{10d7}{bp}, where a large persistent region extends far into a lamina-associated cLAD region (marked by a black arrow). 
+\end{itemize} 
+
+\subsection{Methylation in unexpected regions}
+\label{chap:r:gam:chromatin:unexpected}
+
+Next, we addressed the possibility that the deviances in methylation persistency could have been incorrect predictions of the model. Therefore, we derived the methylation probability for every CpG site covered by the WGBS data from the GAM models, to compare the modeled and measured values. We separated the CpGs according to the categorical classification into either expected or unexpected and either compromised or persistent regions, respectively. Then, we plotted the densities of the modeled \reffigure{fig:wgbs_cpgdensplot_GAMdiff_bluewaterCGI}{} and measured 	\reffigure{fig:wgbs_cpgdensplot_GAMpredLSCdiff_bluewaterCGI.pdf}{} difference.
+
+\begin{figure}[!ht]
+	% SingleCpG densities
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_lscdiff_LADregions_density/wgbs_cpgdensplot_GAMdiff_bluewaterCGI.pdf} 
+	\caption{Kernel density estimates for methylscore differences on modeled on single CpG level, separated by the GAM-derived persistency categories. A gray vertical line symbolizes the cutoff of \num{-0.158} used to discriminate persistent (represented in turquoise) and compromised areas (colored in tyrian purple). The line type indicates the expectancy, since a solid line marks regions in accordance with the previously published lamina-association\cite{Meuleman2013}, whereas the dashed line is chosen for unexpected regions. In the left panel CpGs outside CpG-Islands and their immediate proximity (\SI{2}{\kilo b}, referred to as shore) are shown, in the right panel only CpGs inside the CpG-Islands. A high density implies that many CpGs exhibit a particular modeled probability difference, which is calculated by subtraction of the \dnmtchip \kitpos methylscore from those of \dnmtwt \kitpos leukemia.}
+	\label{fig:wgbs_cpgdensplot_GAMdiff_bluewaterCGI}
+\end{figure}
+
+Because of the considerable smoothing, the GAM model did not account for varying methylation probability of individual CpGs. This low volatility meant that virtually all predictions for individual backbone CpGs located in compromised regions resulted in values below the chosen cutoff of \num{-0.158}. Vice versa, persistent regions were predicted to exclusively harbor CpGs with a methylation probability difference above the cutoff. Both unexpected regions (dashed lines) clearly represented an intermediate population, which were less compromised or persistent than the respective expected regions \reffigure{fig:wgbs_cpgdensplot_GAMdiff_bluewaterCGI}{, left panel}. The density plots for CpG-Islands reflected our previous result that they were globally much more persistent than the backbone. Intriguingly the unexpected compromised regions still comprised the second most persistent CGIs \reffigure{fig:wgbs_cpgdensplot_GAMdiff_bluewaterCGI}{, right panel}.
+
+The measured methylation data confirmed the modeled ranking for the CpG-Islands perfectly, although CGI persistency in the unexpected compromised regions markedly surpassed the models predictions 	\reffigure{fig:wgbs_cpgdensplot_GAMpredLSCdiff_bluewaterCGI.pdf}{, right panel}. It should further be noted that CGIs even in the least persistent region (the expected compromised regions) harbored on average twice as many stably methylated CpGs than the best maintained sections of the backbone\reffigure{fig:wgbs_cpgdensplot_GAMpredLSCdiff_bluewaterCGI.pdf}{, left panel}. This finding was even more remarkable, considering that CpG-Islands in the compromised regions were typically fully methylated and illustrated the extraordinarily high persistence of CGIs. By and large, the four regions differed only in the number of CpGs that remained unchanged, an observation that we had already made for the lamina association plot.
+
+\begin{figure}[!ht]
+	% SingleCpG densities
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_lscdiff_LADregions_density/wgbs_cpgdensplot_GAMpredLSCdiff_bluewaterCGI.pdf} 
+	\caption{Overlay of the density estimates for measured methylscore difference for single CpGs, separated by the GAM-derived persistency categories. Compromised regions are shown in tyrian purple, persistent areas in turquoise. The dashed lines retrace the densities in the unexpected regions in contrast to the solid lines that constitute the expected sections. Mind the different scale (modulus transformed vs. linear), which was needed to display the non-smoothened measurement data, when comparing to \autoref{fig:wgbs_cpgdensplot_GAMdiff_bluewaterCGI} . The vertical line indicates the cutoff of \num{-0.158} to distinguish persistent and compromised areas.}
+	\label{fig:wgbs_cpgdensplot_GAMpredLSCdiff_bluewaterCGI.pdf}
+\end{figure}
+
+\section{Determining factors of methylation persistency} 
+\label{chap:r:persistency}
+
+Given that the \dnmtchip genotype exhibits an impaired methylation maintenance, we assumed a mostly passive demethylation. However, we wanted to break down, whether a preferential recruitment of \proteinnamemouse{Dnmt1} to specific genomic sites, an unequal de novo methylation by other methyltransferases or selective pressure on functionally relevant CpGs was the driving force. Therefore, we searched for further associations. 
+ 
+\subsection{Underlying DNA sequence}
+\label{chap:r:persistency:sequence}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_persistency/gam_diff_strongbonds.pdf}
+	\caption{The GAM-derived methylation probability for \SI{500}{bp} grid points is shown in relation to the DNA sequence properties of the surrounding \SI{10}{bp} window. Shown are the \num{528} distinct flanking sequences on the X-axis ordered from left to right by increasing methylation persistency. The top panel depicts the median persistency in black and the interquartile range (IQR) in gray , while a dot for each sequence in the lower panel indicates the respective percentage of strong bonds. Typically a higher persistency is linked to CG-content.}
+	\label{fig:gam_diff_strongbonds}
+\end{figure}
+
+Already one of the first comprehensive whole-genome bisulfite sequencing studies had suggested that only a fraction of CpG methylation changes occur as part of coordinated regulatory programs\cite{Ziller2013}. This opened up the possibility that not all methylation is constantly subject to tight control and some may be shaped by chance. Along this line Gaidatzis and colleagues had proposed that DNA sequence is a major determinant of methylation states outside regulatory regions and in partially methylated domains (PMDs) in particular \cite{Gaidatzis2014}. Therefore, and due to the similarity of our compromised regions \dissrefpage{chap:r:gam:chromatin:categories} with PMDs, we probed their findings on our data. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/methylome/wgbs_persistency/gam_diff_strongbonds_heat.pdf}
+	\caption{Association of methylation persistency in \dnmtchip leukemia with the sequence directly flanking the respective CpG. On the Y-axes, individual sequences are ordered by decreasing methylation persistency from top to bottom. The left panel is reminiscent of the top panel from the previous \autoref{fig:gam_diff_strongbonds}, showing the sequence's median (black) methylation persistency and IQR (gray) on the x-axis. The right panel uses the same order and items on the Y-axis, but depicts the position and consecutiveness of strong bonds in the respective sequence. The intensified blue shading in the top right corner of the heatmap indicates a slight preference for strong bonds downstream of highly persistent CpGs.}
+	\label{fig:gam_diff_strongbonds_heat}
+\end{figure}
+
+We asked, if the methylation probability would relate to specific sequence features in the vicinity and tested flanking windows of various sizes. A window of \SI{5}{bp} in each direction already comprised $4^{10} =\ $\num{1048576} possible sequences, many of which occurred never or only a few times in the dataset.  To derive meaningful comparisons, we therefore summarized similar windows. For example, we joined sequences with their respective reverse complement as their methylation persistency was highly similar. Furthermore we subsumed the bases as \emph{S} (strong, G or C) and \emph{W} (weak, A or T), based on our finding that sequence similarity assessed by a variety of string distance metrics (Hamming, Levenshtein or restricted Damerau-Levenshtein) did neither predict the modeled nor the measured demethylation more accurately than the number of strong bonds alone\dns. 
+
+By and large, we could corroborate the findings of Gaidatzis and colleagues\cite{Gaidatzis2014} and ascertained that the DNA sequence or more specifically its GC content was correlated with the degree of demethylation (Pearson's$\ r = 0.94$, $p <\ $\num{2d-16} for \SI{10}{bp}). The more CG-rich a sequence was, the lower was its tendency to demethylate \reffigure{fig:gam_diff_strongbonds}{}. 
+
+Furthermore we explored, if the exact position relative to the modeled CpG mattered. A slightly higher persistency was conferred, if the strong bonds were located downstream of the center \reffigure{fig:gam_diff_strongbonds_heat}{, right panel}. On the other hand the consecutiveness of the CG pairs was irrelevant, as longer runs of strong bonds did not facilitate methylation persistency at least within the \SI{10}{bp} range\reffigure{fig:gam_diff_strongbonds_heat}{, right panel \& data not shown}. 
+
+We performed many of the aforementioned analyses also for larger sections in addition to the \SI{10}{bp} range, but the growing number of distinct sequences (up to \num{4.9d6} for \SI{80}{bp} windows) hindered a reasonable analysis. Because many sequences occurred only once and individual aberrant sites had a great impact on the ranks, the correlation between the number of strong bonds and the methylation persistency dropped rapidly for larger windows. For example Pearson's$\ r$ declined to \num{0.17} at a window size of \SI{80}{bp} . 
+
+To circumvent some of the issues with increased windows, we resorted to a more coarse categorization to investigate the influence, which the sequence composition exerts on the methylation persistency at a larger scale. For this purpose, we resorted to the so called isochores\cite{Thiery1976}, DNA segments of roughly \SI{300}{\kilo b} or less, which are distinguished by their GC content. The name still testifies that the isochores were once introduced in the context of a thermodynamic theory for the evolutionary development of genomes\cite{Bernardi1985}, which is nowadays obsolete\cite{Hurst2001,Eyre-Walker2001,Ream2003,Cohen2005,Romiguier2010}. Nevertheless, the isochore assignments relate to more recent units of genomic segmentation like LADs and TADs\cite{Jabbari2017} and proved to be helpful for an approximation, to which extent the methylation persistency in \dnmtchip \kitpos leukemia was influenced by the GC content of the broader vicinity. 
+
+\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.49\textwidth]{figures/output/methylome/wgbs_persistency/gam_diff_isochoresCGI_box.pdf}
+	\includegraphics[width=0.49\textwidth]{figures/output/methylome/wgbs_persistency/gam_diff_isochoresBACK_box.pdf}
+	\caption{Relevance of the broader sequence composition on the modeled methylation persistency. The methylation probability difference between \dnmtchip and \dnmtwt \kitpos leukemia for CpG-Islands (left panel) and backbone (right panel) has been averaged over each individual isochore region and aggregated for the respective isochore categories.}
+	\label{fig:gam_diff_isochores}
+\end{figure}
+
+We used the \emphsoftwarename{IsoFinder}\cite{Oliver2004} tool on the murine reference genome sequence \num{6094} isochores in total. Then, we mapped the measured as well as modeled methylation values for CpG-Islands (CGIs) and backbone CpGs separately and averaged over each respective isochore. This ensured that a biased coverage would not affect the subsequent analysis. 
+
+As described above, CpG-Islands were mostly persistent, although a minority changed their methylation state	\reffigure{fig:gam_diff_isochores}{, left panel}. The altered CGIs typically underwent complete state switches and those within a particular isochore often did so in a congeneric manner. For CGIs, the surrounding sequence composition had no effect on the methylation persistency, which seemed to be shaped by a combination of local factors and negative selection. In summary, these observations substantiated the involvement of a large fraction of CGIs in regulatory processes. 
+
+In contrast to the CpG-Islands, the backbone methylation persistency was largely dependent on the general CG-content of the DNA segment and decreased for AT-rich parts\reffigure{fig:gam_diff_isochores}{, right panel}. This was in concordance with previously published observations that hypomethylated blocks / PMDs in cancer are associated with AT-rich lamina-associated domains (LADs)\cite{Berman2012,Timp2014}.
+
+\FloatBarrier
+\subsection{Chromosomal Insulation and Interaction}
+\label{chap:r:gam:chromatin:hic}
+
+In 2016 the group of Berthold Göttgens published a comprehensive study with transcriptomic and Hi-C chromatin interaction data generated in the HPC-7 murine blood stem/progenitor cell model\cite{Wilson2016}. The cell line was used to generate comprehensive binding profiles of key transcription factors\cite{Wilson2010,Calero-Nieto2014} and a derivative in-silico model faithfully recapitulates early hematopoiesis as well as its pertubation by leukemogenic TF fusion proteins\cite{Schuette2016}. Thus, the Hi-C data of this cell line seemed promising and applicable our \mllafnine \kitpos leukemia model. We considered the interactivity measured by Hi-C to be a proxy of the openness of the genomic regions, as heterochromatic areas are condensed and typically do not interact dynamically with other chromosomal regions, however they do aggregate with other heterochromatin. 
+
+We downloaded the aligned reads from the \emphdatabasename{Array~Express} repository and proceeded with the software \emphsoftwarename{Homer} for analysis: We built tag directories, ran quality control checks and created models of background noise. Ultimately, interaction matrices containing normalized counts at \SI{10}{\kilo b} resolution were generated, which served as input to \emphsoftwarename{tadtool}\cite{Kruse2016} for calculating the insulation index/score\cite{Crane2015}.
+
+The insulation index was computed by \emphsoftwarename{tadtool} using a rectangular sliding window. On the grounds of the dataset quality, \emphsoftwarename{tadtool} determined \SI{102353}{bp} as the ideal window size and used this resolution to sum up contacts within a given region. Like our modeled methylation probability, the resulting insulation score was continuous, but a cutoff could be used to call topologically associating domains (TADs). The \emphsoftwarename{tadtool} authors recommended to determine this cutoff by expert guidance based on random sampling of several regions per chromosome, but given a poor repeatability (repeated random sampling of three regions on the same chromosome yielded quite deviant results) we chose a more methodological approach. We calculated the density estimates of the insulation score per chromosome \reffigure{fig:HiCuniques_insulationdensplot_chr}{} and determined the local extrema of the density estimates. Most distributions comprised two local maxima and one local minimum in their center part and were only slightly shifted relative to each other (with the notable exception of the X chromosome, likely due to X inactivation). Therefore, we decided to calculate the density across all chromosomes and to use the local minimum of that function (\num{-0.0573}) as cutoff for TAD calling. \reffigure{fig:HiCuniques_insulationdensplot}{, left panel}. 
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{figures/output/chromatin/tadtool/HiCuniques_insulationdensplot_chr.pdf}
+	\caption{Density plots for the HPC-7 insulation score calculated for each chromosome separately. Three horizontal lines indicate the position of the local extrema of the global density estimate shown in the left panel of \autoref{fig:HiCuniques_insulationdensplot}.}
+	\label{fig:HiCuniques_insulationdensplot_chr}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=0.49\textwidth]{figures/output/chromatin/tadtool/HiCuniques_insulationdensplot.pdf}
+	\includegraphics[width=0.49\textwidth]{figures/output/chromatin/tadtool/HiCuniques_insulationdensplot_2d.pdf}
+	\caption{Density plots of the insulation score determined in the HPC-7 stem/progenitor cell model. The left panel depicts the global density and vertical lines mark the extrema. Two local maxima (\num{-0.2087}, \num{0.0099}) and one local minimum (\num{-0.0573}) were identified and the latter used as cutoff for TAD calling. The right panel depicts the 2D density of the insulation score vs. the GAM-modeled methylation probability difference between \dnmtchip and \dnmtwt \kitpos leukemic cells averaged over the \SI{10}{\kilo b} windows of the Hi-C dataset. The lines indicate the respective cutoffs used for categorical analysis.}
+	\label{fig:HiCuniques_insulationdensplot}
+\end{figure}
+
+We asked, how well the insulation score and hence the interactivity of the respective genomic regions would explain the methylation persistency. Therefore, we averaged the methylation persistency difference over \SI{10}{\kilo b} windows to match it to the resolution of the Hi-C data and calculated the correlation. Globally the methylation persistency and insulation score correlated weakly, but nevertheless significantly (Pearson's product-moment correlation $cor = 0.242, t = 127.91, df = 263390, p-value < $\num{2.2d-16}). Despite the mathematical significance, the reciprocal predictability was low given the poor correlation. 
+
+At large, compromised regions typically were also insulating, while such that we found to be interacting were very rare. On the other hand among the persistent regions we observed a wide range of possible insulation scores (from very insulating to very interactive) \reffigure{fig:HiCuniques_insulationdensplot}{, right panel}. This was not surprising, as housekeeping genes or super-enhancers are known to possess insulating function, too \dissrefpage{chap:i:enhancers:cisclasses}. An example of such an insulating housekeeping gene was the highly expressed catalytic subunit of the phosphatidylinositol 3-kinase (\genenamemouse{Pik3c3}), which exhibited a demethylated promoter, but otherwise resided in a methylation persistent region on chromosome 18. A small separate population was formed by CpG-Island rich areas, which exhibited intermediate insulation scores, but were highly persistent \reffigure{fig:HiCuniques_insulationdensplot}{, right panel}.
