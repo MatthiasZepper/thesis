@@ -161,8 +161,8 @@ Therefore, we aimed at the identification of the enhancers' presumable target ge
 
 Among the top\num{100} enhancer promoter interactions we could identify many renowned hematopoietic regulators with known involvement in leukemia (e.g. \genenamemouse{Irf2bp2}, \genenamemouse{Pten}, \genenamemouse{Fosl2}, \genenamemouse{Spred1}). Furthermore, the majority of involved enhancers in the top 100 originated from strongly accumulated clades (\SI{73}{\percent}), which corroborated their importance and thus validated our clustering strategy\dissrefpage{chap:r:enhancers:cluster}.
 
-\begin{figure}[!bth]
-	\vspace{4em}
+\begin{figure}[!bh]
+	\vspace{2em}
 	\begin{minipage}{0.5\textwidth}
 		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109392455-109392682.pdf} 
 	\end{minipage}
@@ -175,11 +175,12 @@ Among the top\num{100} enhancer promoter interactions we could identify many ren
 	\begin{minipage}{0.5\textwidth}
 		\includegraphics[width=\textwidth]{figures/output/gviz/enhancerregions/outputenhancers/Rhog-chr7-109415207-109415438.pdf} 
 	\end{minipage}
-	\caption{Schematic representation of the four enhancers presumably involved in regulating the expression of \genenamemouse{Rhog} and  \genenamemouse{Nup98} in \mllafnine leukemia. Genotype-specificity is indicated by the colors red (\dnmtchipregular), blue (\dnmtwtregular) and black (common). Gray boxes symbolize approximate positions of transcription factor binding motifs. Note the \motifmlltwo motif in two of the four enhancers.}
+	\caption{Schematic representation of the four enhancers presumably involved in regulating the expression of \genenamemouse{Rhog} and  \genenamemouse{Nup98} in \mllafnine leukemia. Genotype-specificity is indicated by the colors red (\dnmtchipregular), blue (\dnmtwtregular) and black (common). Gray boxes symbolize approximate positions of transcription factor binding motifs. Note the \motifmlltwo motif in two of the four enhancers.	\vspace{2em}}
 	\label{fig:enhancers:rhognup98:enh}
 \end{figure}
 
 \begin{figure}[!bht]
+	\vspace{3em}
 	\setlength{\unitlength}{\textwidth}
 	\footnotesize
 	\begin{picture}(1,0.71)%
@@ -199,7 +200,7 @@ Among the top\num{100} enhancer promoter interactions we could identify many ren
 Accordingly, two of the four enhancers presumably involved in the regulation of \genenamemouse{Rhog + Nup98} contained a motif for \proteinnamemouse{Mll2} binding\reffigure{fig:enhancers:rhognup98:enh}{}. Only the Hi-C promoter capture data allowed to decipher the complex regulation at this gene locus\reffigure{fig:enhancers:targets:rhognup98}{}, which deserved a particular attention, because both genes are notoriously implicated in leukemic development\cite{Tybulewicz2005,Jackson2015,Wang2013,Nimmagadda2018}\cite{Nakamura1996,Borrow1996,Zutven2006,Wang2007a,Wang2009,Franks2017}.  Although further important hematopoietic regulators like \genenamemouse{Irf2bp2} or \genenamemouse{Ikzf2} were putatively targeted by several enhancers in \mllafnine. 
 
 We corroborated the enhancer assignments with our RNA-seq data. As expected, the expression of transcripts that were assigned to enhancer(s) was significantly higher than that of expressed transcripts without an enhancer assignment\supplefig. Intriguingly, we observed consistent downregulation of enhancer-assigned transcripts in \dnmtchip \supplefig. As it was shown that hemi-methylation flanking \proteinnamehuman{CTCF} motifs is highly relevant for the directionality of the binding\cite{Xu2018b},  the downregulation suggested that regulatory enhancer promoter interactions in \dnmtchip might have been perturbed in select cases by differential methylation. For an in-depth discussion see\dissrefpage{chap:d:enhancers:mechanism:dnmtchipgeno}. 
-\FloatBarrier
+\FloatBarrier \clearpage
 \subsection{Assessment of Mll2 target genes}
 \label{chap:r:enhancers:targets:mlltwotargets}
 

@@ -581,7 +581,10 @@
                 			
                 	    \vspace{20mm}		
                 \Large\textcolor{\colouredtextcolor}{\@thesisPlaceDate\\}
-                 \vfill
+                  \vfill 
+                 \href{https://creativecommons.org/licenses/by-sa/4.0/deed.de}{
+                 	\includegraphics[width=0.2\textwidth]{./figures/output/raster/by-sa2.png}		
+                 }
                 \fi% 
                  \clearpage
                  \new@tpage
@@ -592,7 +595,7 @@
 					Dekanin: & {\textcolor{\colouredtextcolor}{\@deanTitle~\@dean}} \\
                     Erster Gutachter: & {\textcolor{\colouredtextcolor}{\@supervisorTitle~\@supervisor}}  \\
                      Zweiter Gutachter: & {\textcolor{\colouredtextcolor}{ \@firstExaminerTitle~\@firstExaminer}} \\
-                     Tag der mündlichen Prüfung: & \dotfill \\
+                     Tag der mündlichen Prüfung: & 12. März 2020 \\
                      Tag der Promotion: & \dotfill \\
                 \end{tabular}}
                  \setlength{\extrarowheight}{0cm}
